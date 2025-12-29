@@ -1334,7 +1334,13 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
       <div class="container">
-        <a class="navbar-brand" href="#">SNS Events</a>
+        <a class="navbar-brand" href="#">
+          @if(isset($companyProfile) && $companyProfile->logo_path)
+              <img src="{{ asset('storage/' . $companyProfile->logo_path) }}" alt="SNS Events" style="height: 50px;">
+          @else
+              SNS Events
+          @endif
+        </a>
         <button
           class="navbar-toggler"
           type="button"
@@ -1401,24 +1407,57 @@
             />
           </div>
           <div class="about-text" data-aos="fade-left">
-            <h3>Your Vision, Our Expertise</h3>
-            <p>
-              At SNS Events, based in Texas, we believe every celebration is
-              unique and deserves to be treated as such. With over a decade of
-              experience in creating magical moments, we've mastered the art of
-              turning dreams into reality.
-            </p>
-            <p>
-              Our team of dedicated professionals works tirelessly to ensure
-              every detail is perfect, from the initial concept to the final
-              execution. We pride ourselves on our creativity, attention to
-              detail, and unwavering commitment to excellence.
-            </p>
-            <p>
-              Whether it's an intimate birthday celebration or a grand wedding
-              reception, we bring the same level of passion and professionalism
-              to every event we plan.
-            </p>
+            @if(isset($companyProfile))
+                <h3>About the CEO</h3>
+                
+                @if($companyProfile->ceo_name)
+                    <h4 style="color: var(--primary-color); margin-bottom: 10px;">{{ $companyProfile->ceo_name }}</h4>
+                @endif
+
+                @if($companyProfile->ceo_bio)
+                    <p><strong>Bio:</strong> {{ $companyProfile->ceo_bio }}</p>
+                @endif
+
+                @if($companyProfile->ceo_background)
+                    <p><strong>Background:</strong> {{ $companyProfile->ceo_background }}</p>
+                @endif
+
+                @if($companyProfile->ceo_why_business)
+                    <p><strong>Why in this business:</strong> {{ $companyProfile->ceo_why_business }}</p>
+                @endif
+                
+                <hr style="margin: 30px 0; border-color: var(--primary-color);">
+
+                @if($companyProfile->mission)
+                    <h4 style="color: var(--secondary-color);">Our Mission</h4>
+                    <p>{{ $companyProfile->mission }}</p>
+                @endif
+
+                @if($companyProfile->vision)
+                    <h4 style="color: var(--secondary-color);">Our Vision</h4>
+                    <p>{{ $companyProfile->vision }}</p>
+                @endif
+
+                @if($companyProfile->team_description)
+                     <h4 style="color: var(--secondary-color);">Our Team</h4>
+                    <p>{{ $companyProfile->team_description }}</p>
+                @endif
+
+            @else
+                <h3>Your Vision, Our Expertise</h3>
+                <p>
+                  At SNS Events, based in Texas, we believe every celebration is
+                  unique and deserves to be treated as such. With over a decade of
+                  experience in creating magical moments, we've mastered the art of
+                  turning dreams into reality.
+                </p>
+                <p>
+                  Our team of dedicated professionals works tirelessly to ensure
+                  every detail is perfect, from the initial concept to the final
+                  execution. We pride ourselves on our creativity, attention to
+                  detail, and unwavering commitment to excellence.
+                </p>
+            @endif
 
             <div class="stats-container">
               <div class="stat-box" data-aos="zoom-in" data-aos-delay="100">

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CompanyProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,7 +16,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('frontend');
+    $companyProfile = \App\Models\CompanyProfile::first();
+    return view('frontend', compact('companyProfile'));
 });
 
 Route::get('/dashboard', function () {
@@ -26,6 +28,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // Company Profile Routes
+    Route::get('/company-profile/edit', [CompanyProfileController::class, 'edit'])->name('company-profile.edit');
+    Route::post('/company-profile/update', [CompanyProfileController::class, 'update'])->name('company-profile.update');
 });
 
 require __DIR__.'/auth.php';
