@@ -18,7 +18,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     $companyProfile = \App\Models\CompanyProfile::first();
     $aboutUs = \App\Models\AboutUs::first();
-    return view('frontend', compact('companyProfile', 'aboutUs'));
+    $heroSlides = \App\Models\HeroSection::where('is_active', true)->orderBy('sort_order')->get();
+    return view('frontend', compact('companyProfile', 'aboutUs', 'heroSlides'));
 });
 
 Route::get('/dashboard', function () {
@@ -37,6 +38,9 @@ Route::middleware('auth')->group(function () {
     // About Us Routes
     Route::get('/about-us/edit', [\App\Http\Controllers\AboutUsController::class, 'edit'])->name('about-us.edit');
     Route::post('/about-us/update', [\App\Http\Controllers\AboutUsController::class, 'update'])->name('about-us.update');
+
+    // Hero Section Routes
+    Route::resource('hero', \App\Http\Controllers\HeroSectionController::class)->except(['show']);
 });
 
 require __DIR__.'/auth.php';

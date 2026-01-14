@@ -1377,20 +1377,50 @@
     </nav>
 
     <!-- Hero Section -->
-    <section id="home" class="hero-section">
-      <div class="hero-content">
-        <h1 data-aos="fade-down">Creating Unforgettable Moments</h1>
-        <p data-aos="fade-up" data-aos-delay="200">Where Dreams Meet Reality</p>
-        <button
-          class="btn-primary-custom"
-          data-aos="fade-up"
-          data-aos-delay="400"
-          onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})"
-        >
-          Plan Your Event
-        </button>
-      </div>
-    </section>
+    @if(isset($heroSlides) && $heroSlides->count() > 0)
+        <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
+            <div class="carousel-inner">
+                @foreach($heroSlides as $key => $slide)
+                <div class="carousel-item {{ $key == 0 ? 'active' : '' }}" style="height: 100vh; background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{{ Str::startsWith($slide->background_image_path, 'http') ? $slide->background_image_path : ($slide->background_image_path ? asset('storage/' . $slide->background_image_path) : 'https://images.unsplash.com/photo-1519167758481-83f29da8c8f0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') }}'); background-size: cover; background-position: center;">
+                     <div class="d-flex align-items-center justify-content-center h-100">
+                          <div class="hero-content text-center text-white">
+                                <h1 data-aos="fade-down">{{ $slide->heading }}</h1>
+                                <p data-aos="fade-up" data-aos-delay="200">{{ $slide->subheading }}</p>
+                                <button class="btn-primary-custom" data-aos="fade-up" data-aos-delay="400" onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})">
+                                    {{ $slide->button_text }}
+                                </button>
+                          </div>
+                     </div>
+                </div>
+                @endforeach
+            </div>
+            @if($heroSlides->count() > 1)
+            <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+            @endif
+        </div>
+    @else
+        <section id="home" class="hero-section">
+          <div class="hero-content">
+            <h1 data-aos="fade-down">Creating Unforgettable Moments</h1>
+            <p data-aos="fade-up" data-aos-delay="200">Where Dreams Meet Reality</p>
+            <button
+              class="btn-primary-custom"
+              data-aos="fade-up"
+              data-aos-delay="400"
+              onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})"
+            >
+              Plan Your Event
+            </button>
+          </div>
+        </section>
+    @endif
 
     <!-- About Section -->
     <!-- About Section -->
