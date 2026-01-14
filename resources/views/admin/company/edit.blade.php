@@ -55,6 +55,40 @@
                             Leadership Info
                         </h3>
 
+                        <!-- Section Config -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <div>
+                                <label for="ceo_section_title" class="block text-gray-700 text-sm font-bold mb-2 uppercase tracking-wider">Section Title</label>
+                                <input type="text" name="ceo_section_title" id="ceo_section_title" value="{{ old('ceo_section_title', $companyProfile->ceo_section_title ?? 'Leadership & Vision') }}" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary/50 focus:ring-opacity-50 transition duration-150 ease-in-out">
+                            </div>
+                            <div>
+                                <label for="ceo_section_subtitle" class="block text-gray-700 text-sm font-bold mb-2 uppercase tracking-wider">Section Subtitle</label>
+                                <input type="text" name="ceo_section_subtitle" id="ceo_section_subtitle" value="{{ old('ceo_section_subtitle', $companyProfile->ceo_section_subtitle ?? 'The Driving Force Behind SNS Events') }}" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary/50 focus:ring-opacity-50 transition duration-150 ease-in-out">
+                            </div>
+                        </div>
+
+                         <!-- CEO Image -->
+                        <div class="mb-6">
+                            <label for="ceo_image" class="block text-gray-700 text-sm font-bold mb-2 uppercase tracking-wider">CEO Image</label>
+                            <div class="flex items-center space-x-6">
+                                @if($companyProfile->ceo_image_path)
+                                    <div class="p-2 border border-gray-200 rounded-lg bg-gray-50">
+                                        <img src="{{ asset('storage/' . $companyProfile->ceo_image_path) }}" alt="Current CEO Image" class="h-24 object-contain">
+                                    </div>
+                                @endif
+                                <div class="flex-1">
+                                    <input type="file" name="ceo_image" id="ceo_image" class="block w-full text-sm text-gray-500
+                                        file:mr-4 file:py-2 file:px-4
+                                        file:rounded-full file:border-0
+                                        file:text-sm file:font-semibold
+                                        file:bg-primary/10 file:text-primary
+                                        hover:file:bg-primary/20
+                                        cursor-pointer
+                                    ">
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- CEO Name -->
                         <div class="mb-6">
                             <label for="ceo_name" class="block text-gray-700 text-sm font-bold mb-2 uppercase tracking-wider">CEO Name</label>

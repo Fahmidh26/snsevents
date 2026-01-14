@@ -1491,53 +1491,86 @@
 
     <!-- CEO & Vision Section -->
     @if(isset($companyProfile) && ($companyProfile->ceo_name || $companyProfile->mission || $companyProfile->vision))
-    <section id="ceo" class="about-section" style="background-color: #fff;">
-      <div class="container">
+    <section id="ceo" class="about-section" style="background-color: #fff; position: relative;">
+      <!-- Decorative Element -->
+      <div style="position: absolute; top: 0; right: 0; width: 300px; height: 300px; background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, rgba(255,255,255,0) 70%); z-index: 0;"></div>
+
+      <div class="container" style="position: relative; z-index: 1;">
         <div class="section-title" data-aos="fade-up">
-          <h2>Leadership & Vision</h2>
-          <p>The Driving Force Behind SNS Events</p>
+          <h2>{{ $companyProfile->ceo_section_title ?? 'Leadership & Vision' }}</h2>
+          <p>{{ $companyProfile->ceo_section_subtitle ?? 'The Driving Force Behind SNS Events' }}</p>
         </div>
         
-        <div class="about-content" style="flex-direction: row-reverse;">
-             <!-- Optional: Add a CEO image here if available, currently using a placeholder or just text layout -->
-             <div class="about-image" data-aos="fade-left">
-                <img 
-                    src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                    alt="CEO"
-                >
+        <div class="row align-items-center">
+            <!-- CEO Image -->
+             <div class="col-lg-5 mb-5 mb-lg-0" data-aos="fade-right">
+                <div style="position: relative; padding: 20px;">
+                    <div style="position: absolute; top: 0; left: 0; width: 100px; height: 100px; border-top: 5px solid var(--primary-color); border-left: 5px solid var(--primary-color);"></div>
+                    <div style="position: absolute; bottom: 0; right: 0; width: 100px; height: 100px; border-bottom: 5px solid var(--primary-color); border-right: 5px solid var(--primary-color);"></div>
+                    <img 
+                        src="{{ $companyProfile->ceo_image_path ? asset('storage/' . $companyProfile->ceo_image_path) : 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80' }}" 
+                        alt="CEO"
+                        class="img-fluid"
+                        style="width: 100%; box-shadow: 0 20px 50px rgba(0,0,0,0.1); filter: grayscale(20%); transition: all 0.5s ease;"
+                        onmouseover="this.style.filter='grayscale(0%)'; this.style.transform='scale(1.02)'"
+                        onmouseout="this.style.filter='grayscale(20%)'; this.style.transform='scale(1)'"
+                    >
+                </div>
              </div>
 
-             <div class="about-text" data-aos="fade-right">
+             <!-- CEO Content -->
+             <div class="col-lg-7 ps-lg-5" data-aos="fade-left">
                 @if($companyProfile->ceo_name)
-                    <h3>About the CEO</h3>
-                    <h4 style="color: var(--primary-color); margin-bottom: 10px;">{{ $companyProfile->ceo_name }}</h4>
+                    <div class="mb-4">
+                        <h5 style="color: var(--primary-color); letter-spacing: 2px; text-transform: uppercase; font-size: 0.9rem; font-weight: 600; margin-bottom: 10px;">Meet the CEO</h5>
+                        <h3 style="font-size: 2.5rem; font-family: 'Playfair Display', serif; color: var(--secondary-color);">{{ $companyProfile->ceo_name }}</h3>
+                    </div>
                 @endif
 
-                @if($companyProfile->ceo_bio)
-                    <p><strong>Bio:</strong> {{ $companyProfile->ceo_bio }}</p>
-                @endif
+                <div style="background: var(--light-bg); padding: 30px; border-left: 4px solid var(--primary-color); border-radius: 0 10px 10px 0; margin-bottom: 30px;">
+                    @if($companyProfile->ceo_bio)
+                        <p style="font-style: italic; font-size: 1.1rem; color: #555; margin-bottom: 15px;">"{{ $companyProfile->ceo_bio }}"</p>
+                    @endif
+                    
+                    @if($companyProfile->ceo_why_business)
+                         <p style="font-size: 0.95rem; color: #777; margin-bottom: 0;"><strong>Why I started:</strong> {{ $companyProfile->ceo_why_business }}</p>
+                    @endif
+                </div>
 
                 @if($companyProfile->ceo_background)
-                    <p><strong>Background:</strong> {{ $companyProfile->ceo_background }}</p>
-                @endif
-
-                @if($companyProfile->ceo_why_business)
-                    <p><strong>Why in this business:</strong> {{ $companyProfile->ceo_why_business }}</p>
+                    <div class="mb-5">
+                         <h5 style="font-size: 1.1rem; color: var(--secondary-color); font-weight: 600; display: flex; align-items: center; gap: 10px;">
+                            <i class="fas fa-briefcase" style="color: var(--primary-color);"></i> Professional Background
+                         </h5>
+                        <p style="color: var(--text-light); line-height: 1.7;">{{ $companyProfile->ceo_background }}</p>
+                    </div>
                 @endif
                 
-                @if(($companyProfile->mission || $companyProfile->vision) && $companyProfile->ceo_name)
-                    <hr style="margin: 30px 0; border-color: var(--primary-color);">
-                @endif
+                <div class="row g-4">
+                    @if($companyProfile->mission)
+                    <div class="col-md-6">
+                        <div style="background: #fff; padding: 25px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); height: 100%; transition: transform 0.3s ease; border-top: 3px solid var(--secondary-color);" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+                            <div style="width: 50px; height: 50px; background: rgba(26, 26, 26, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; color: var(--secondary-color);">
+                                <i class="fas fa-bullseye text-xl"></i>
+                            </div>
+                            <h4 style="font-size: 1.2rem; margin-bottom: 10px;">Our Mission</h4>
+                            <p style="font-size: 0.9rem; color: #666; margin: 0;">{{ $companyProfile->mission }}</p>
+                        </div>
+                    </div>
+                    @endif
 
-                @if($companyProfile->mission)
-                    <h4 style="color: var(--secondary-color);">Our Mission</h4>
-                    <p>{{ $companyProfile->mission }}</p>
-                @endif
-
-                @if($companyProfile->vision)
-                    <h4 style="color: var(--secondary-color); margin-top: 20px;">Our Vision</h4>
-                    <p>{{ $companyProfile->vision }}</p>
-                @endif
+                    @if($companyProfile->vision)
+                    <div class="col-md-6">
+                        <div style="background: #fff; padding: 25px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); height: 100%; transition: transform 0.3s ease; border-top: 3px solid var(--primary-color);" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+                             <div style="width: 50px; height: 50px; background: rgba(212, 175, 55, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; color: var(--primary-color);">
+                                <i class="fas fa-eye text-xl"></i>
+                            </div>
+                            <h4 style="font-size: 1.2rem; margin-bottom: 10px;">Our Vision</h4>
+                             <p style="font-size: 0.9rem; color: #666; margin: 0;">{{ $companyProfile->vision }}</p>
+                        </div>
+                    </div>
+                    @endif
+                </div>
              </div>
         </div>
       </div>

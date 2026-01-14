@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class CompanyProfile extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'logo_path',
         'ceo_name',
@@ -16,5 +18,8 @@ class CompanyProfile extends Model
         'mission',
         'vision',
         'team_description',
+        'ceo_section_title',
+        'ceo_section_subtitle',
+        'ceo_image_path',
     ];
 }
