@@ -1407,56 +1407,23 @@
             />
           </div>
           <div class="about-text" data-aos="fade-left">
-            @if(isset($companyProfile))
-                <h3>About the CEO</h3>
-                
-                @if($companyProfile->ceo_name)
-                    <h4 style="color: var(--primary-color); margin-bottom: 10px;">{{ $companyProfile->ceo_name }}</h4>
-                @endif
+            <h3>Your Vision, Our Expertise</h3>
+            <p>
+              At SNS Events, based in Texas, we believe every celebration is
+              unique and deserves to be treated as such. With over a decade of
+              experience in creating magical moments, we've mastered the art of
+              turning dreams into reality.
+            </p>
+            <p>
+              Our team of dedicated professionals works tirelessly to ensure
+              every detail is perfect, from the initial concept to the final
+              execution. We pride ourselves on our creativity, attention to
+              detail, and unwavering commitment to excellence.
+            </p>
 
-                @if($companyProfile->ceo_bio)
-                    <p><strong>Bio:</strong> {{ $companyProfile->ceo_bio }}</p>
-                @endif
-
-                @if($companyProfile->ceo_background)
-                    <p><strong>Background:</strong> {{ $companyProfile->ceo_background }}</p>
-                @endif
-
-                @if($companyProfile->ceo_why_business)
-                    <p><strong>Why in this business:</strong> {{ $companyProfile->ceo_why_business }}</p>
-                @endif
-                
-                <hr style="margin: 30px 0; border-color: var(--primary-color);">
-
-                @if($companyProfile->mission)
-                    <h4 style="color: var(--secondary-color);">Our Mission</h4>
-                    <p>{{ $companyProfile->mission }}</p>
-                @endif
-
-                @if($companyProfile->vision)
-                    <h4 style="color: var(--secondary-color);">Our Vision</h4>
-                    <p>{{ $companyProfile->vision }}</p>
-                @endif
-
-                @if($companyProfile->team_description)
-                     <h4 style="color: var(--secondary-color);">Our Team</h4>
-                    <p>{{ $companyProfile->team_description }}</p>
-                @endif
-
-            @else
-                <h3>Your Vision, Our Expertise</h3>
-                <p>
-                  At SNS Events, based in Texas, we believe every celebration is
-                  unique and deserves to be treated as such. With over a decade of
-                  experience in creating magical moments, we've mastered the art of
-                  turning dreams into reality.
-                </p>
-                <p>
-                  Our team of dedicated professionals works tirelessly to ensure
-                  every detail is perfect, from the initial concept to the final
-                  execution. We pride ourselves on our creativity, attention to
-                  detail, and unwavering commitment to excellence.
-                </p>
+            @if(isset($companyProfile) && $companyProfile->team_description)
+                <h4 style="color: var(--secondary-color); margin-top: 20px;">Our Team</h4>
+                <p>{{ $companyProfile->team_description }}</p>
             @endif
 
             <div class="stats-container">
@@ -1477,6 +1444,61 @@
         </div>
       </div>
     </section>
+
+    <!-- CEO & Vision Section -->
+    @if(isset($companyProfile) && ($companyProfile->ceo_name || $companyProfile->mission || $companyProfile->vision))
+    <section id="ceo" class="about-section" style="background-color: #fff;">
+      <div class="container">
+        <div class="section-title" data-aos="fade-up">
+          <h2>Leadership & Vision</h2>
+          <p>The Driving Force Behind SNS Events</p>
+        </div>
+        
+        <div class="about-content" style="flex-direction: row-reverse;">
+             <!-- Optional: Add a CEO image here if available, currently using a placeholder or just text layout -->
+             <div class="about-image" data-aos="fade-left">
+                <img 
+                    src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                    alt="CEO"
+                >
+             </div>
+
+             <div class="about-text" data-aos="fade-right">
+                @if($companyProfile->ceo_name)
+                    <h3>About the CEO</h3>
+                    <h4 style="color: var(--primary-color); margin-bottom: 10px;">{{ $companyProfile->ceo_name }}</h4>
+                @endif
+
+                @if($companyProfile->ceo_bio)
+                    <p><strong>Bio:</strong> {{ $companyProfile->ceo_bio }}</p>
+                @endif
+
+                @if($companyProfile->ceo_background)
+                    <p><strong>Background:</strong> {{ $companyProfile->ceo_background }}</p>
+                @endif
+
+                @if($companyProfile->ceo_why_business)
+                    <p><strong>Why in this business:</strong> {{ $companyProfile->ceo_why_business }}</p>
+                @endif
+                
+                @if(($companyProfile->mission || $companyProfile->vision) && $companyProfile->ceo_name)
+                    <hr style="margin: 30px 0; border-color: var(--primary-color);">
+                @endif
+
+                @if($companyProfile->mission)
+                    <h4 style="color: var(--secondary-color);">Our Mission</h4>
+                    <p>{{ $companyProfile->mission }}</p>
+                @endif
+
+                @if($companyProfile->vision)
+                    <h4 style="color: var(--secondary-color); margin-top: 20px;">Our Vision</h4>
+                    <p>{{ $companyProfile->vision }}</p>
+                @endif
+             </div>
+        </div>
+      </div>
+    </section>
+    @endif
 
     <!-- Services Section -->
     <section id="services" class="services-section">
