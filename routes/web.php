@@ -17,7 +17,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     $companyProfile = \App\Models\CompanyProfile::first();
-    return view('frontend', compact('companyProfile'));
+    $aboutUs = \App\Models\AboutUs::first();
+    return view('frontend', compact('companyProfile', 'aboutUs'));
 });
 
 Route::get('/dashboard', function () {
@@ -32,6 +33,10 @@ Route::middleware('auth')->group(function () {
     // Company Profile Routes
     Route::get('/company-profile/edit', [CompanyProfileController::class, 'edit'])->name('company-profile.edit');
     Route::post('/company-profile/update', [CompanyProfileController::class, 'update'])->name('company-profile.update');
+
+    // About Us Routes
+    Route::get('/about-us/edit', [\App\Http\Controllers\AboutUsController::class, 'edit'])->name('about-us.edit');
+    Route::post('/about-us/update', [\App\Http\Controllers\AboutUsController::class, 'update'])->name('about-us.update');
 });
 
 require __DIR__.'/auth.php';
