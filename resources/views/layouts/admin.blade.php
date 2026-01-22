@@ -37,6 +37,32 @@
     </script>
     <style>
         [x-cloak] { display: none !important; }
+        
+        /* Custom Scrollbar for Sidebar */
+        nav::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        nav::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        
+        nav::-webkit-scrollbar-thumb {
+            background: rgba(212, 175, 55, 0.3);
+            border-radius: 10px;
+            transition: background 0.3s ease;
+        }
+        
+        nav::-webkit-scrollbar-thumb:hover {
+            background: rgba(212, 175, 55, 0.5);
+        }
+        
+        /* Firefox scrollbar */
+        nav {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(212, 175, 55, 0.3) rgba(0, 0, 0, 0.1);
+        }
     </style>
 </head>
 <body class="font-sans antialiased bg-gray-50 text-secondary">
@@ -50,7 +76,7 @@
             </div>
 
             <!-- Nav Links -->
-            <nav class="flex-1 overflow-y-auto py-5 px-3 space-y-1">
+            <nav class="flex-1 overflow-y-auto py-5 px-3 space-y-1 sidebar-scroll">
                 <p class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 mt-2">Main</p>
                 
                 <a href="{{ route('dashboard') }}" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg {{ request()->routeIs('dashboard') ? 'bg-primary/20 text-primary' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }} transition-colors">
