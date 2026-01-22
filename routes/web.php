@@ -33,7 +33,12 @@ Route::get('/', function () {
     $seo = \App\Models\SeoDetail::getByPage('homepage');
     $serviceAreas = \App\Models\ServiceArea::active()->take(6)->get();
 
-    return view('frontend', compact('companyProfile', 'aboutUs', 'heroSlides', 'eventTypes', 'seo', 'serviceAreas'));
+    // Dynamic sections
+    $testimonials = \App\Models\Testimonial::active()->orderBy('display_order')->get();
+    $faqs = \App\Models\FAQ::active()->orderBy('display_order')->get();
+    $contactInfo = \App\Models\ContactInfo::first();
+
+    return view('frontend', compact('companyProfile', 'aboutUs', 'heroSlides', 'eventTypes', 'seo', 'serviceAreas', 'testimonials', 'faqs', 'contactInfo'));
 });
 
 Route::get('/service-areas', function () {
@@ -103,7 +108,17 @@ Route::middleware('auth')->group(function () {
         
         // Service Areas Management
         Route::resource('service-areas', \App\Http\Controllers\Admin\ServiceAreaController::class);
+        
+        // Testimonials Management
+        Route::resource('testimonials', \App\Http\Controllers\Admin\TestimonialController::class);
+        
+        // FAQs Management
+        Route::resource('faqs', \App\Http\Controllers\Admin\FAQController::class);
     });
+
+    // Contact Info Routes
+    Route::get('/contact-info/edit', [\App\Http\Controllers\ContactInfoController::class, 'edit'])->name('contact-info.edit');
+    Route::post('/contact-info/update', [\App\Http\Controllers\ContactInfoController::class, 'update'])->name('contact-info.update');
 });
 
 require __DIR__.'/auth.php';

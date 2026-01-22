@@ -1937,119 +1937,56 @@
         </div>
 
         <div class="testimonial-slider" data-aos="fade-up" data-aos-delay="100">
-          <div class="testimonial-card" id="testimonial-1">
-            <div class="testimonial-image">
-              <img
-                src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
-                alt="Client"
-              />
+          @if($testimonials && $testimonials->count() > 0)
+            @foreach($testimonials as $index => $testimonial)
+              <div
+                class="testimonial-card"
+                id="testimonial-{{ $index + 1 }}"
+                style="{{ $index === 0 ? '' : 'display: none' }}"
+              >
+                <div class="testimonial-image">
+                  @if($testimonial->image_path)
+                    <img src="{{ asset('storage/' . $testimonial->image_path) }}" alt="{{ $testimonial->name }}" />
+                  @else
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Client" />
+                  @endif
+                </div>
+                <div class="testimonial-text">
+                  "{{ $testimonial->text }}"
+                </div>
+                <div class="testimonial-author">{{ $testimonial->name }}</div>
+                @if($testimonial->role)
+                  <div class="testimonial-role">{{ $testimonial->role }}</div>
+                @endif
+                <div class="testimonial-rating">
+                  @for($i = 1; $i <= 5; $i++)
+                    <i class="fas fa-star {{ $i <= $testimonial->rating ? '' : 'text-gray-300' }}"></i>
+                  @endfor
+                </div>
+              </div>
+            @endforeach
+          @else
+            <div class="testimonial-card" id="testimonial-1">
+              <div class="testimonial-image">
+                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Client" />
+              </div>
+              <div class="testimonial-text">
+                "No testimonials available yet."
+              </div>
             </div>
-            <div class="testimonial-text">
-              "SNS Events made our daughter's birthday absolutely magical! From
-              the decoration to the entertainment, every detail was perfect. Our
-              guests are still talking about it!"
-            </div>
-            <div class="testimonial-author">Sarah Johnson</div>
-            <div class="testimonial-role">Birthday Party Client</div>
-            <div class="testimonial-rating">
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-            </div>
-          </div>
-
-          <div
-            class="testimonial-card"
-            id="testimonial-2"
-            style="display: none"
-          >
-            <div class="testimonial-image">
-              <img
-                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
-                alt="Client"
-              />
-            </div>
-            <div class="testimonial-text">
-              "They organized our Holud ceremony with such authenticity and
-              grace. The traditional elements were beautifully incorporated, and
-              our families were thoroughly impressed. Highly recommend!"
-            </div>
-            <div class="testimonial-author">Arif Rahman</div>
-            <div class="testimonial-role">Holud Ceremony Client</div>
-            <div class="testimonial-rating">
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-            </div>
-          </div>
-
-          <div
-            class="testimonial-card"
-            id="testimonial-3"
-            style="display: none"
-          >
-            <div class="testimonial-image">
-              <img
-                src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
-                alt="Client"
-              />
-            </div>
-            <div class="testimonial-text">
-              "My proposal was a dream come true, thanks to SNS Events! They
-              created such a romantic atmosphere, and everything went exactly as
-              planned. She said yes!"
-            </div>
-            <div class="testimonial-author">Michael Chen</div>
-            <div class="testimonial-role">Marriage Proposal Client</div>
-            <div class="testimonial-rating">
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-            </div>
-          </div>
-
-          <div
-            class="testimonial-card"
-            id="testimonial-4"
-            style="display: none"
-          >
-            <div class="testimonial-image">
-              <img
-                src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
-                alt="Client"
-              />
-            </div>
-            <div class="testimonial-text">
-              "Our wedding reception was absolutely stunning! The team handled
-              everything with such professionalism, and we could actually enjoy
-              our special day without worrying about a thing."
-            </div>
-            <div class="testimonial-author">David & Emily Thompson</div>
-            <div class="testimonial-role">Reception Clients</div>
-            <div class="testimonial-rating">
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-            </div>
-          </div>
+          @endif
         </div>
 
-        <div class="slider-controls">
-          <button class="slider-btn" onclick="changeTestimonial(-1)">
-            <i class="fas fa-chevron-left"></i>
-          </button>
-          <button class="slider-btn" onclick="changeTestimonial(1)">
-            <i class="fas fa-chevron-right"></i>
-          </button>
-        </div>
+        @if($testimonials && $testimonials->count() > 1)
+          <div class="slider-controls">
+            <button class="slider-btn" onclick="changeTestimonial(-1)">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="slider-btn" onclick="changeTestimonial(1)">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
+        @endif
       </div>
     </section>
 
@@ -2062,131 +1999,33 @@
         </div>
 
         <div class="faq-container">
-          <div class="faq-item" data-aos="fade-up" data-aos-delay="100">
-            <div class="faq-question" onclick="toggleFaq(this)">
-              <h4>How far in advance should I book your services?</h4>
-              <i class="fas fa-chevron-down faq-icon"></i>
-            </div>
-            <div class="faq-answer">
-              <div class="faq-answer-content">
-                We recommend booking at least 3-6 months in advance for major
-                events like weddings and receptions. For smaller events, 1-2
-                months should be sufficient. However, we always try our best to
-                accommodate last-minute bookings based on availability.
+          @if($faqs && $faqs->count() > 0)
+            @foreach($faqs as $index => $faq)
+              <div class="faq-item" data-aos="fade-up" data-aos-delay="{{ ($index + 1) * 100 }}">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                  <h4>{{ $faq->question }}</h4>
+                  <i class="fas fa-chevron-down faq-icon"></i>
+                </div>
+                <div class="faq-answer">
+                  <div class="faq-answer-content">
+                    {!! nl2br(e($faq->answer)) !!}
+                  </div>
+                </div>
+              </div>
+            @endforeach
+          @else
+            <div class="faq-item" data-aos="fade-up">
+              <div class="faq-question" onclick="toggleFaq(this)">
+                <h4>No FAQs available yet.</h4>
+                <i class="fas fa-chevron-down faq-icon"></i>
+              </div>
+              <div class="faq-answer">
+                <div class="faq-answer-content">
+                  Please check back later for frequently asked questions.
+                </div>
               </div>
             </div>
-          </div>
-
-          <div class="faq-item" data-aos="fade-up" data-aos-delay="200">
-            <div class="faq-question" onclick="toggleFaq(this)">
-              <h4>Do you provide customized packages?</h4>
-              <i class="fas fa-chevron-down faq-icon"></i>
-            </div>
-            <div class="faq-answer">
-              <div class="faq-answer-content">
-                Absolutely! While we offer three standard packages (Basic,
-                Premium, and Pro), we understand that every event is unique.
-                We're happy to create a customized package tailored to your
-                specific needs, preferences, and budget.
-              </div>
-            </div>
-          </div>
-
-          <div class="faq-item" data-aos="fade-up" data-aos-delay="300">
-            <div class="faq-question" onclick="toggleFaq(this)">
-              <h4>What is included in your catering services?</h4>
-              <i class="fas fa-chevron-down faq-icon"></i>
-            </div>
-            <div class="faq-answer">
-              <div class="faq-answer-content">
-                Our catering services vary by package but generally include
-                appetizers, main courses, desserts, and beverages. We offer
-                multiple menu options including vegetarian, vegan, and special
-                dietary requirements. Our Premium and Pro packages include live
-                cooking stations and premium beverage selections.
-              </div>
-            </div>
-          </div>
-
-          <div class="faq-item" data-aos="fade-up" data-aos-delay="400">
-            <div class="faq-question" onclick="toggleFaq(this)">
-              <h4>Can I visit your office for a consultation?</h4>
-              <i class="fas fa-chevron-down faq-icon"></i>
-            </div>
-            <div class="faq-answer">
-              <div class="faq-answer-content">
-                Yes! We encourage in-person consultations where we can discuss
-                your vision in detail, show you our portfolio, and answer all
-                your questions. Please book an appointment in advance to ensure
-                one of our event planners is available to meet with you.
-              </div>
-            </div>
-          </div>
-
-          <div class="faq-item" data-aos="fade-up" data-aos-delay="500">
-            <div class="faq-question" onclick="toggleFaq(this)">
-              <h4>What is your cancellation policy?</h4>
-              <i class="fas fa-chevron-down faq-icon"></i>
-            </div>
-            <div class="faq-answer">
-              <div class="faq-answer-content">
-                Cancellations made 30+ days before the event receive a full
-                refund minus a 10% processing fee. Cancellations made 15-30 days
-                before receive a 50% refund. Cancellations made less than 15
-                days before the event are non-refundable. We recommend event
-                insurance for added protection.
-              </div>
-            </div>
-          </div>
-
-          <div class="faq-item" data-aos="fade-up" data-aos-delay="600">
-            <div class="faq-question" onclick="toggleFaq(this)">
-              <h4>Do you handle venue selection and booking?</h4>
-              <i class="fas fa-chevron-down faq-icon"></i>
-            </div>
-            <div class="faq-answer">
-              <div class="faq-answer-content">
-                Yes! We have partnerships with various venues and can help you
-                find the perfect location for your event. We'll handle all venue
-                communications, contract negotiations, and booking procedures.
-                If you already have a venue, we're happy to work with your
-                choice.
-              </div>
-            </div>
-          </div>
-
-          <div class="faq-item" data-aos="fade-up" data-aos-delay="700">
-            <div class="faq-question" onclick="toggleFaq(this)">
-              <h4>
-                What makes your services different from other event planners?
-              </h4>
-              <i class="fas fa-chevron-down faq-icon"></i>
-            </div>
-            <div class="faq-answer">
-              <div class="faq-answer-content">
-                Our attention to detail, personalized approach, and 10+ years of
-                experience set us apart. We don't just plan events; we create
-                experiences. Our team is dedicated to understanding your vision
-                and bringing it to life, ensuring every moment is memorable.
-                Plus, we offer 24/7 support leading up to your event.
-              </div>
-            </div>
-          </div>
-
-          <div class="faq-item" data-aos="fade-up" data-aos-delay="800">
-            <div class="faq-question" onclick="toggleFaq(this)">
-              <h4>Do you provide services outside your local area?</h4>
-              <i class="fas fa-chevron-down faq-icon"></i>
-            </div>
-            <div class="faq-answer">
-              <div class="faq-answer-content">
-                Yes! While we're based locally, we've successfully planned and
-                executed events in various cities and even internationally.
-                Travel and accommodation costs for our team would be added to
-                the package price for out-of-area events.
-              </div>
-            </div>
-          </div>
+          @endif
         </div>
       </div>
     </section>
@@ -2245,50 +2084,62 @@
         <div class="contact-container">
           <div class="contact-info" data-aos="fade-right">
             <h3>Contact Information</h3>
-            <p>
-              Ready to start planning your dream event? Get in touch with us
-              today, and let's create something extraordinary together!
-            </p>
+            @if($contactInfo && $contactInfo->description)
+              <p>{{ $contactInfo->description }}</p>
+            @else
+              <p>
+                Ready to start planning your dream event? Get in touch with us
+                today, and let's create something extraordinary together!
+              </p>
+            @endif
 
-            <div class="contact-item">
-              <div class="contact-icon">
-                <i class="fas fa-phone"></i>
+            @if($contactInfo && $contactInfo->phone)
+              <div class="contact-item">
+                <div class="contact-icon">
+                  <i class="fas fa-phone"></i>
+                </div>
+                <div class="contact-details">
+                  <h5>Phone</h5>
+                  <p>{{ $contactInfo->phone }}</p>
+                </div>
               </div>
-              <div class="contact-details">
-                <h5>Phone</h5>
-                <p>+1 (555) 123-4567</p>
-              </div>
-            </div>
+            @endif
 
-            <div class="contact-item">
-              <div class="contact-icon">
-                <i class="fas fa-envelope"></i>
+            @if($contactInfo && $contactInfo->email)
+              <div class="contact-item">
+                <div class="contact-icon">
+                  <i class="fas fa-envelope"></i>
+                </div>
+                <div class="contact-details">
+                  <h5>Email</h5>
+                  <p>{{ $contactInfo->email }}</p>
+                </div>
               </div>
-              <div class="contact-details">
-                <h5>Email</h5>
-                <p>info@snsevents.com</p>
-              </div>
-            </div>
+            @endif
 
-            <div class="contact-item">
-              <div class="contact-icon">
-                <i class="fas fa-map-marker-alt"></i>
+            @if($contactInfo && $contactInfo->address)
+              <div class="contact-item">
+                <div class="contact-icon">
+                  <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <div class="contact-details">
+                  <h5>Address</h5>
+                  <p>{!! nl2br(e($contactInfo->address)) !!}</p>
+                </div>
               </div>
-              <div class="contact-details">
-                <h5>Address</h5>
-                <p>123 Event Street, Suite 456<br />Austin, TX 78701</p>
-              </div>
-            </div>
+            @endif
 
-            <div class="contact-item">
-              <div class="contact-icon">
-                <i class="fas fa-clock"></i>
+            @if($contactInfo && $contactInfo->office_hours)
+              <div class="contact-item">
+                <div class="contact-icon">
+                  <i class="fas fa-clock"></i>
+                </div>
+                <div class="contact-details">
+                  <h5>Office Hours</h5>
+                  <p>{!! nl2br(e($contactInfo->office_hours)) !!}</p>
+                </div>
               </div>
-              <div class="contact-details">
-                <h5>Office Hours</h5>
-                <p>Mon - Fri: 9:00 AM - 6:00 PM<br />Sat: 10:00 AM - 4:00 PM</p>
-              </div>
-            </div>
+            @endif
           </div>
 
           <div class="contact-form" data-aos="fade-left">
@@ -2550,13 +2401,16 @@
 
       // Testimonial slider
       let currentTestimonial = 1;
-      const totalTestimonials = 4;
+      const totalTestimonials = {{ $testimonials && $testimonials->count() > 0 ? $testimonials->count() : 1 }};
 
       function changeTestimonial(direction) {
+        if (totalTestimonials <= 1) return;
+        
         // Hide current testimonial
-        document.getElementById(
-          "testimonial-" + currentTestimonial
-        ).style.display = "none";
+        const currentElement = document.getElementById("testimonial-" + currentTestimonial);
+        if (currentElement) {
+          currentElement.style.display = "none";
+        }
 
         // Calculate new testimonial
         currentTestimonial += direction;
@@ -2569,15 +2423,18 @@
         }
 
         // Show new testimonial
-        document.getElementById(
-          "testimonial-" + currentTestimonial
-        ).style.display = "block";
+        const newElement = document.getElementById("testimonial-" + currentTestimonial);
+        if (newElement) {
+          newElement.style.display = "block";
+        }
       }
 
       // Auto-advance testimonials
+      @if($testimonials && $testimonials->count() > 1)
       setInterval(() => {
         changeTestimonial(1);
       }, 6000);
+      @endif
 
       // FAQ toggle
       function toggleFaq(element) {
