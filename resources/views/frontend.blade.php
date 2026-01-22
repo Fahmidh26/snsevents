@@ -77,10 +77,20 @@
         box-sizing: border-box;
       }
 
+      html, body {
+        width: 100%;
+        overflow-x: hidden;
+        position: relative;
+      }
+
       body {
         font-family: "Poppins", sans-serif;
         color: var(--text-dark);
-        overflow-x: hidden;
+      }
+
+      section {
+        overflow: hidden;
+        position: relative;
       }
 
       h1,
@@ -142,6 +152,21 @@
 
       .navbar-nav .nav-link:hover::after {
         width: 100%;
+      }
+
+      /* Mobile Navbar background when toggled */
+      @media (max-width: 991.98px) {
+        .navbar-collapse {
+          background: rgba(26, 26, 26, 0.98);
+          margin-top: 15px;
+          padding: 20px;
+          border-radius: 10px;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .navbar:not(.scrolled) .navbar-toggler {
+          border-color: rgba(255, 255, 255, 0.5);
+        }
       }
 
       /* Hero Section */
@@ -1446,34 +1471,51 @@
       }
 
       /* Responsive */
+      @media (max-width: 991.98px) {
+        .about-content {
+          flex-direction: column;
+          gap: 30px;
+        }
+        
+        .about-image, .about-text {
+          width: 100%;
+        }
+
+        .navbar-brand {
+          font-size: 1.5rem;
+        }
+      }
+
       @media (max-width: 768px) {
+        .about-section, .services-section, .pricing-section, .gallery-section, .testimonials-section, .faq-section, .contact-section {
+          padding: 60px 0;
+        }
+
         .hero-content h1 {
-          font-size: 2.5rem;
+          font-size: 2.2rem;
         }
 
         .hero-content p {
-          font-size: 1.2rem;
-        }
-
-        .about-content {
-          flex-direction: column;
-        }
-
-        .stats-container {
-          flex-direction: column;
-        }
-
-        .contact-container {
-          flex-direction: column;
+          font-size: 1.1rem;
         }
 
         .section-title h2 {
           font-size: 2rem;
         }
 
+        .stats-container {
+          flex-direction: column;
+          gap: 20px;
+        }
+
+        .contact-container {
+          flex-direction: column;
+        }
+
         .pricing-tabs {
           flex-direction: column;
           align-items: center;
+          gap: 10px;
         }
 
         .gallery-grid {
@@ -1481,21 +1523,45 @@
         }
 
         .service-detail-body {
-          padding: 30px 20px;
+          padding: 20px;
         }
 
         .service-detail-header h2 {
-          font-size: 2rem;
+          font-size: 1.8rem;
         }
 
         .package-table {
+          display: block;
           overflow-x: auto;
+          white-space: nowrap;
         }
 
         .package-table th,
         .package-table td {
-          padding: 15px 10px;
-          font-size: 0.9rem;
+          padding: 12px 10px;
+          font-size: 0.85rem;
+        }
+
+        /* Adjusting hero height for very small screens if content overflows */
+        .hero-section, .carousel-item {
+          min-height: 500px;
+          height: auto !important;
+          padding: 100px 0;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .hero-content h1 {
+          font-size: 1.8rem;
+        }
+        
+        .btn-primary-custom {
+          padding: 12px 30px;
+          font-size: 1rem;
+        }
+        
+        .section-title h2 {
+          font-size: 1.8rem;
         }
       }
     </style>

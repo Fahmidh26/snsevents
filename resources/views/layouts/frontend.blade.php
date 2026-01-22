@@ -25,15 +25,43 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: "Poppins", sans-serif; color: var(--text-dark); overflow-x: hidden; }
+        html, body { width: 100%; overflow-x: hidden; position: relative; }
+        body { font-family: "Poppins", sans-serif; color: var(--text-dark); }
         h1, h2, h3, h4, h5, h6 { font-family: "Playfair Display", serif; }
 
-        .navbar { background: rgba(26, 26, 26, 0.95); backdrop-filter: blur(10px); padding: 1rem 0; box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1); transition: all 0.3s ease; }
+        .navbar { 
+            background: transparent; 
+            backdrop-filter: none; 
+            padding: 1.5rem 0; 
+            box-shadow: none; 
+            transition: all 0.3s ease; 
+        }
+
+        .navbar.scrolled { 
+            background: rgba(26, 26, 26, 0.95); 
+            backdrop-filter: blur(10px); 
+            padding: 1rem 0; 
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1); 
+        }
         .navbar-brand { font-family: "Playfair Display", serif; font-size: 1.8rem; font-weight: 700; color: var(--primary-color) !important; text-transform: uppercase; letter-spacing: 2px; }
         .navbar-nav .nav-link { color: #fff !important; margin: 0 15px; font-weight: 500; position: relative; transition: color 0.3s ease; }
         .navbar-nav .nav-link:hover { color: var(--primary-color) !important; }
         .navbar-nav .nav-link::after { content: ""; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: var(--primary-color); transition: width 0.3s ease; }
         .navbar-nav .nav-link:hover::after { width: 100%; }
+
+        /* Mobile Navbar background when toggled */
+        @media (max-width: 991.98px) {
+            .navbar-collapse {
+                background: rgba(26, 26, 26, 0.98);
+                margin-top: 15px;
+                padding: 20px;
+                border-radius: 10px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            }
+            .navbar:not(.scrolled) .navbar-toggler {
+                border-color: rgba(255, 255, 255, 0.5);
+            }
+        }
         .navbar-nav .nav-link.active { color: var(--primary-color) !important; }
 
         .btn-primary-custom { background: var(--primary-color); color: #fff; padding: 12px 35px; border: none; border-radius: 50px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s ease; text-decoration: none; display: inline-block; }
@@ -52,6 +80,24 @@
         .copy-right { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 30px; margin-top: 50px; text-align: center; color: #adb5bd; font-size: 0.9rem; }
 
         .alert-success { background: var(--primary-color); border: none; color: #fff; border-radius: 10px; }
+
+        /* Responsive */
+        @media (max-width: 991.98px) {
+            .navbar-brand { font-size: 1.5rem; }
+            .inner-page-hero h1 { font-size: 2.8rem; }
+        }
+
+        @media (max-width: 768px) {
+            .inner-page-hero { padding: 120px 0 60px; }
+            .inner-page-hero h1 { font-size: 2.2rem; }
+            footer { padding: 60px 0 30px; }
+        }
+
+        @media (max-width: 480px) {
+            .inner-page-hero h1 { font-size: 1.8rem; }
+            .btn-primary-custom { padding: 10px 25px; font-size: 0.9rem; }
+        }
+
         @yield('styles')
     </style>
 </head>
@@ -135,6 +181,16 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init({ duration: 800, once: true });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
     </script>
     @yield('scripts')
 </body>
