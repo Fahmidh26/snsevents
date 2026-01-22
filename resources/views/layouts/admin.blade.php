@@ -85,6 +85,16 @@
                     Event Gallery
                 </a>
 
+                <a href="{{ route('admin.testimonials.index') }}" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg {{ request()->routeIs('admin.testimonials.*') ? 'bg-primary/20 text-primary' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }} transition-colors">
+                    <i class="fas fa-quote-left w-5 h-5 mr-3"></i>
+                    Testimonials
+                </a>
+
+                <a href="{{ route('admin.faqs.index') }}" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg {{ request()->routeIs('admin.faqs.*') ? 'bg-primary/20 text-primary' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }} transition-colors">
+                    <i class="fas fa-question-circle w-5 h-5 mr-3"></i>
+                    FAQs
+                </a>
+
                 <p class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 mt-6">Requests & Inquiries</p>
 
                 <a href="{{ route('admin.inquiries.index') }}" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg {{ request()->routeIs('admin.inquiries.*') ? 'bg-primary/20 text-primary' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }} transition-colors">
@@ -117,6 +127,11 @@
                 <a href="{{ route('admin.service-areas.index') }}" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg {{ request()->routeIs('admin.service-areas.*') ? 'bg-primary/20 text-primary' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }} transition-colors">
                     <i class="fas fa-map-marker-alt w-5 h-5 mr-3"></i>
                     Service Areas
+                </a>
+
+                <a href="{{ route('contact-info.edit') }}" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg {{ request()->routeIs('contact-info.edit') ? 'bg-primary/20 text-primary' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }} transition-colors">
+                    <i class="fas fa-address-book w-5 h-5 mr-3"></i>
+                    Contact Info
                 </a>
 
                 <a href="{{ route('profile.edit') }}" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg {{ request()->routeIs('profile.edit') ? 'bg-primary/20 text-primary' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }} transition-colors">
