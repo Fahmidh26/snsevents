@@ -3,7 +3,42 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SNS Events - Premium Event Planning</title>
+    <title>{{ $seo->title ?? 'SNS Events - Premium Event Planning' }}</title>
+    <meta name="description" content="{{ $seo->meta_description ?? 'SNS Events provides premium event planning and decoration services in Texas.' }}" />
+    <meta name="keywords" content="{{ $seo->meta_keywords ?? 'event planning, decorations, texas' }}" />
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="{{ $seo->og_title ?? ($seo->title ?? 'SNS Events - Premium Event Planning') }}" />
+    <meta property="og:description" content="{{ $seo->og_description ?? ($seo->meta_description ?? 'SNS Events provides premium event planning and decoration services in Texas.') }}" />
+    @if(isset($seo->og_image) && $seo->og_image)
+        <meta property="og:image" content="{{ $seo->og_image }}" />
+    @endif
+    
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "SNS Events",
+      "image": "{{ $companyProfile->logo_path ? asset('storage/'.$companyProfile->logo_path) : '' }}",
+      "description": "{{ $companyProfile->mission ?? 'Premium event decoration services in Texas.' }}",
+      "address": {
+        "@type": "PostalAddress",
+        "addressRegion": "Texas",
+        "addressCountry": "US"
+      },
+      "areaServed": [
+        @foreach($serviceAreas as $index => $area)
+        {
+            "@type": "City",
+            "name": "{{ $area->name }}",
+            "sameAs": "{{ $area->map_url ?? '' }}"
+        }{{ $loop->last ? '' : ',' }}
+        @endforeach
+      ],
+      "url": "{{ url('/') }}"
+    }
+    </script>
 
     <!-- Bootstrap CSS -->
     <link
@@ -786,6 +821,134 @@
         line-height: 1.8;
       }
 
+      /* Service Areas Section */
+      .service-areas-section {
+        padding: 100px 0;
+        background: #fff;
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .service-areas-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle at 10% 20%, rgba(212, 175, 55, 0.05) 0%, transparent 20%),
+                    radial-gradient(circle at 90% 80%, rgba(26, 26, 26, 0.03) 0%, transparent 20%);
+        pointer-events: none;
+      }
+
+      .area-card {
+        background: #fff;
+        border-radius: 10px;
+        padding: 30px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        transition: all 0.3s ease;
+        border-bottom: 3px solid transparent;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+      }
+
+      .area-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        border-bottom: 3px solid var(--primary-color);
+      }
+      
+      .area-card::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 100px;
+        height: 100px;
+        background: linear-gradient(135deg, transparent 50%, rgba(212, 175, 55, 0.05) 50%);
+        border-radius: 0 10px 0 300px;
+        transition: all 0.5s ease;
+      }
+      
+      .area-card:hover::after {
+        width: 150px;
+        height: 150px;
+        background: linear-gradient(135deg, transparent 50%, rgba(212, 175, 55, 0.1) 50%);
+      }
+
+      .area-icon {
+        width: 60px;
+        height: 60px;
+        background: rgba(212, 175, 55, 0.1);
+        color: var(--primary-color);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+        transition: all 0.3s ease;
+      }
+      
+      .area-card:hover .area-icon {
+        background: var(--primary-color);
+        color: #fff;
+        transform: rotateY(180deg);
+      }
+
+      .area-card h3 {
+        font-size: 1.4rem;
+        margin-bottom: 15px;
+        color: var(--secondary-color);
+      }
+
+      .area-card p {
+        color: var(--text-light);
+        font-size: 0.95rem;
+        margin-bottom: 20px;
+        line-height: 1.6;
+      }
+      
+      .area-link {
+        color: var(--primary-color);
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.9rem;
+        transition: gap 0.3s ease;
+      }
+      
+      .area-link:hover {
+        gap: 12px;
+        color: var(--accent-color);
+      }
+
+      .btn-view-all {
+        background: var(--primary-color);
+        color: #fff;
+        padding: 15px 50px;
+        border: none;
+        border-radius: 50px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        transition: all 0.3s ease;
+        display: inline-block;
+        text-decoration: none;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      }
+
+      .btn-view-all:hover {
+        background: var(--accent-color);
+        color: #fff;
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+      }
+
       /* Contact Section */
       .contact-section {
         padding: 100px 0;
@@ -1332,49 +1495,7 @@
   </head>
   <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
-      <div class="container">
-        <a class="navbar-brand" href="#">
-          @if(isset($companyProfile) && $companyProfile->logo_path)
-              <img src="{{ asset('storage/' . $companyProfile->logo_path) }}" alt="SNS Events" style="height: 50px;">
-          @else
-              SNS Events
-          @endif
-        </a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
-            <li class="nav-item">
-              <a class="nav-link" href="#about">About</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ route('events.index') }}">Events</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ route('custom-package') }}">Custom Package</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#gallery">Gallery</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#testimonials">Testimonials</a>
-            </li>
-            <li class="nav-item"><a class="nav-link" href="#faq">FAQ</a></li>
-            <li class="nav-item">
-              <a class="nav-link" href="#contact">Contact</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+    @include('layouts.partials.navbar')
 
     <!-- Hero Section -->
     @if(isset($heroSlides) && $heroSlides->count() > 0)
@@ -1993,6 +2114,49 @@
               </div>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Service Areas Section -->
+    <section id="service-areas" class="service-areas-section">
+      <div class="container">
+        <div class="section-title" data-aos="fade-up">
+          <h2>Areas We Serve</h2>
+          <p>Premier Event Decoration Across Texas</p>
+        </div>
+
+        <div class="row g-4 justify-content-center">
+            @forelse($serviceAreas as $area)
+            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
+                <div class="area-card">
+                    <div class="area-icon">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </div>
+                    <h3>{{ $area->name }}</h3>
+                    <p>{{ $area->description ?? "Expert event decoration services in {$area->name} and surrounding neighborhoods. We bring your vision to life with style and elegance." }}</p>
+                    
+                    <div class="d-flex align-items-center justify-content-between">
+                        <span class="text-muted text-sm"><i class="fas fa-map-pin me-1"></i> {{ $area->city }}, {{ $area->state }} {{ $area->zip_code }}</span>
+                        @if($area->map_url)
+                        <a href="{{ $area->map_url }}" target="_blank" class="area-link">
+                            View Map <i class="fas fa-arrow-right"></i>
+                        </a>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            @empty
+            <div class="col-12 text-center">
+                <p>We serve all major cities in Texas. Contact us for availability in your area.</p>
+            </div>
+            @endforelse
+        </div>
+        
+        <div class="text-center mt-12" data-aos="fade-up" data-aos-delay="200">
+            <a href="{{ route('service-areas') }}" class="btn-view-all">
+                View All Serving Locations <i class="fas fa-arrow-right ml-2"></i>
+            </a>
         </div>
       </div>
     </section>

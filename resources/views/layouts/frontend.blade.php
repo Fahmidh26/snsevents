@@ -28,10 +28,12 @@
         body { font-family: "Poppins", sans-serif; color: var(--text-dark); overflow-x: hidden; }
         h1, h2, h3, h4, h5, h6 { font-family: "Playfair Display", serif; }
 
-        .navbar { background: rgba(26, 26, 26, 0.95); backdrop-filter: blur(10px); padding: 1rem 0; box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1); }
+        .navbar { background: rgba(26, 26, 26, 0.95); backdrop-filter: blur(10px); padding: 1rem 0; box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1); transition: all 0.3s ease; }
         .navbar-brand { font-family: "Playfair Display", serif; font-size: 1.8rem; font-weight: 700; color: var(--primary-color) !important; text-transform: uppercase; letter-spacing: 2px; }
         .navbar-nav .nav-link { color: #fff !important; margin: 0 15px; font-weight: 500; position: relative; transition: color 0.3s ease; }
         .navbar-nav .nav-link:hover { color: var(--primary-color) !important; }
+        .navbar-nav .nav-link::after { content: ""; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: var(--primary-color); transition: width 0.3s ease; }
+        .navbar-nav .nav-link:hover::after { width: 100%; }
         .navbar-nav .nav-link.active { color: var(--primary-color) !important; }
 
         .btn-primary-custom { background: var(--primary-color); color: #fff; padding: 12px 35px; border: none; border-radius: 50px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s ease; text-decoration: none; display: inline-block; }
@@ -55,22 +57,8 @@
 </head>
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="{{ url('/') }}">SNS Events</a>
-            <button class="navbar-toggler text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <i class="fas fa-bars"></i>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="{{ url('/') }}">Home</a></li>
-                    <li class="nav-item"><a class="nav-link {{ request()->routeIs('events.*') ? 'active' : '' }}" href="{{ route('events.index') }}">Events</a></li>
-                    <li class="nav-item"><a class="nav-link {{ request()->routeIs('custom-package') ? 'active' : '' }}" href="{{ route('custom-package') }}">Custom Package</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url('/#contact') }}">Contact</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <!-- Navbar -->
+    @include('layouts.partials.navbar')
 
     <!-- Flash Messages -->
     <div style="position: fixed; top: 100px; right: 20px; z-index: 9999; max-width: 400px;">
