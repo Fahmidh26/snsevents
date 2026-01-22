@@ -109,6 +109,16 @@
                     Company Profile
                 </a>
 
+                <a href="{{ route('admin.seo.index') }}" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg {{ request()->routeIs('admin.seo.*') ? 'bg-primary/20 text-primary' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }} transition-colors">
+                    <i class="fas fa-search w-5 h-5 mr-3"></i>
+                    SEO Settings
+                </a>
+
+                <a href="{{ route('admin.service-areas.index') }}" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg {{ request()->routeIs('admin.service-areas.*') ? 'bg-primary/20 text-primary' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }} transition-colors">
+                    <i class="fas fa-map-marker-alt w-5 h-5 mr-3"></i>
+                    Service Areas
+                </a>
+
                 <a href="{{ route('profile.edit') }}" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg {{ request()->routeIs('profile.edit') ? 'bg-primary/20 text-primary' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }} transition-colors">
                     <i class="fas fa-user-cog w-5 h-5 mr-3"></i>
                     Admin Profile

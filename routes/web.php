@@ -28,8 +28,27 @@ Route::get('/', function () {
         ->orderBy('display_order')
         ->take(6)
         ->get();
-    return view('frontend', compact('companyProfile', 'aboutUs', 'heroSlides', 'eventTypes'));
+
+    // SEO and Service Areas
+    $seo = \App\Models\SeoDetail::getByPage('homepage');
+    $serviceAreas = \App\Models\ServiceArea::active()->take(6)->get();
+
+    return view('frontend', compact('companyProfile', 'aboutUs', 'heroSlides', 'eventTypes', 'seo', 'serviceAreas'));
 });
+
+Route::get('/service-areas', function () {
+    $companyProfile = \App\Models\CompanyProfile::first();
+    $serviceAreas = \App\Models\ServiceArea::active()->get();
+    
+    // Create a dummy SEO object for this page
+    $seo = new \stdClass();
+    $seo->title = 'Areas We Serve - SNS Events';
+    $seo->meta_description = 'Explore the locations we serve across Texas. SNS Events brings premium event decoration to Dallas, Fort Worth, Austin, and beyond.';
+    $seo->meta_keywords = 'service areas, texas event locations, dallas, fort worth, austin, san antonio';
+    $seo->og_image = null;
+    
+    return view('service-areas', compact('companyProfile', 'serviceAreas', 'seo'));
+})->name('service-areas');
 
 // Frontend Event Routes
 Route::get('/events', [\App\Http\Controllers\EventController::class, 'index'])->name('events.index');
@@ -76,6 +95,14 @@ Route::middleware('auth')->group(function () {
         
         Route::get('settings', [\App\Http\Controllers\Admin\SettingController::class, 'index'])->name('settings.index');
         Route::post('settings/update', [\App\Http\Controllers\Admin\SettingController::class, 'update'])->name('settings.update');
+        
+        // SEO Management
+        Route::get('seo', [\App\Http\Controllers\Admin\SeoDetailController::class, 'index'])->name('seo.index');
+        Route::get('seo/{id}/edit', [\App\Http\Controllers\Admin\SeoDetailController::class, 'edit'])->name('seo.edit');
+        Route::post('seo/{id}/update', [\App\Http\Controllers\Admin\SeoDetailController::class, 'update'])->name('seo.update');
+        
+        // Service Areas Management
+        Route::resource('service-areas', \App\Http\Controllers\Admin\ServiceAreaController::class);
     });
 });
 
