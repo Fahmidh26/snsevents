@@ -94,11 +94,18 @@
 
       /* Navbar */
       .navbar {
+        background: transparent;
+        backdrop-filter: none;
+        padding: 1.5rem 0;
+        box-shadow: none;
+        transition: all 0.3s ease;
+      }
+
+      .navbar.scrolled {
         background: rgba(26, 26, 26, 0.95);
         backdrop-filter: blur(10px);
         padding: 1rem 0;
         box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
-        transition: all 0.3s ease;
       }
 
       .navbar-brand {
@@ -2718,6 +2725,17 @@
 
       document.querySelectorAll(".stat-box h4").forEach((stat) => {
         observer.observe(stat);
+      });
+    </script>
+    <script>
+      // Navbar scroll effect
+      window.addEventListener('scroll', function() {
+        const navbar = document.querySelector('.navbar');
+        if (window.scrollY > 50) {
+          navbar.classList.add('scrolled');
+        } else {
+          navbar.classList.remove('scrolled');
+        }
       });
     </script>
   </body>
