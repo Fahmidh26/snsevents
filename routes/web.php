@@ -19,8 +19,26 @@ Route::get('/', function () {
     $companyProfile = \App\Models\CompanyProfile::first();
     $aboutUs = \App\Models\AboutUs::first();
     $heroSlides = \App\Models\HeroSection::where('is_active', true)->orderBy('sort_order')->get();
-    return view('frontend', compact('companyProfile', 'aboutUs', 'heroSlides'));
+    $eventTypes = \App\Models\EventType::where('status', true)
+        ->with(['pricingTiers' => function($q) {
+            $q->where('status', true)->orderBy('display_order');
+        }, 'galleries' => function($q) {
+            $q->orderBy('display_order');
+        }])
+        ->orderBy('display_order')
+        ->take(6)
+        ->get();
+    return view('frontend', compact('companyProfile', 'aboutUs', 'heroSlides', 'eventTypes'));
 });
+
+// Frontend Event Routes
+Route::get('/events', [\App\Http\Controllers\EventController::class, 'index'])->name('events.index');
+Route::get('/events/{slug}', [\App\Http\Controllers\EventController::class, 'show'])->name('events.show');
+Route::post('/inquire', [\App\Http\Controllers\EventController::class, 'inquire'])->name('inquire.store');
+Route::get('/custom-package', function() {
+    return view('events.custom');
+})->name('custom-package');
+Route::post('/custom-package/submit', [\App\Http\Controllers\EventController::class, 'submitCustomRequest'])->name('custom-package.submit');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -41,6 +59,24 @@ Route::middleware('auth')->group(function () {
 
     // Hero Section Routes
     Route::resource('hero', \App\Http\Controllers\HeroSectionController::class)->except(['show']);
+
+    // Admin Event Management Routes
+    Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
+        Route::resource('event-types', \App\Http\Controllers\Admin\EventTypeController::class);
+        Route::resource('pricing-tiers', \App\Http\Controllers\Admin\PricingTierController::class);
+        Route::resource('galleries', \App\Http\Controllers\Admin\EventGalleryController::class);
+        
+        Route::get('inquiries', [\App\Http\Controllers\Admin\PackageInquiryController::class, 'index'])->name('inquiries.index');
+        Route::patch('inquiries/{inquiry}/status', [\App\Http\Controllers\Admin\PackageInquiryController::class, 'updateStatus'])->name('inquiries.update-status');
+        Route::delete('inquiries/{inquiry}', [\App\Http\Controllers\Admin\PackageInquiryController::class, 'destroy'])->name('inquiries.destroy');
+        
+        Route::get('custom-requests', [\App\Http\Controllers\Admin\CustomPackageRequestController::class, 'index'])->name('custom-requests.index');
+        Route::patch('custom-requests/{customRequest}/status', [\App\Http\Controllers\Admin\CustomPackageRequestController::class, 'updateStatus'])->name('custom-requests.update-status');
+        Route::delete('custom-requests/{customRequest}', [\App\Http\Controllers\Admin\CustomPackageRequestController::class, 'destroy'])->name('custom-requests.destroy');
+        
+        Route::get('settings', [\App\Http\Controllers\Admin\SettingController::class, 'index'])->name('settings.index');
+        Route::post('settings/update', [\App\Http\Controllers\Admin\SettingController::class, 'update'])->name('settings.update');
+    });
 });
 
 require __DIR__.'/auth.php';

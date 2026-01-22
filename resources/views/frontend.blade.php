@@ -1356,10 +1356,10 @@
               <a class="nav-link" href="#about">About</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#services">Services</a>
+              <a class="nav-link" href="{{ route('events.index') }}">Events</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#pricing">Packages</a>
+              <a class="nav-link" href="{{ route('custom-package') }}">Custom Package</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#gallery">Gallery</a>
@@ -1586,202 +1586,44 @@
         </div>
 
         <div class="row">
+          @foreach($eventTypes as $type)
           <div
-            class="col-md-6 col-lg-4"
+            class="col-md-6 col-lg-4 mb-4"
             data-aos="fade-up"
-            data-aos-delay="100"
+            data-aos-delay="{{ $loop->index * 100 }}"
           >
-            <div class="service-card" onclick="showServiceDetail('birthday')">
+            <div class="service-card h-100" onclick="showServiceDetail('{{ $type->slug }}')">
               <div class="service-image">
                 <img
-                  src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                  alt="Birthday"
+                  src="{{ $type->featured_image ? asset($type->featured_image) : 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80' }}"
+                  alt="{{ $type->name }}"
                 />
                 <div class="service-overlay">
-                  <h3>Birthdays</h3>
+                  <h3>{{ $type->name }}</h3>
                 </div>
               </div>
               <div class="service-content">
                 <p>
-                  Make your special day truly memorable with our creative
-                  birthday celebration planning.
+                  {{ Str::limit(strip_tags($type->description), 100) }}
                 </p>
                 <ul class="service-features">
-                  <li><i class="fas fa-check"></i> Custom Theme Design</li>
-                  <li>
-                    <i class="fas fa-check"></i> Entertainment & Activities
-                  </li>
-                  <li><i class="fas fa-check"></i> Catering Services</li>
-                  <li>
-                    <i class="fas fa-check"></i> Photography & Videography
-                  </li>
+                  @if($type->pricingTiers->isNotEmpty() && !empty($type->pricingTiers->first()->features))
+                    @foreach(array_slice($type->pricingTiers->first()->features, 0, 4) as $feature)
+                    <li><i class="fas fa-check"></i> {{ $feature }}</li>
+                    @endforeach
+                  @else
+                    <li><i class="fas fa-check"></i> Custom Planning</li>
+                    <li><i class="fas fa-check"></i> Venue Selection</li>
+                    <li><i class="fas fa-check"></i> Decoration</li>
+                    <li><i class="fas fa-check"></i> Coordination</li>
+                  @endif
                 </ul>
                 <button class="btn-pricing mt-3">View Details</button>
               </div>
             </div>
           </div>
-
-          <div
-            class="col-md-6 col-lg-4"
-            data-aos="fade-up"
-            data-aos-delay="200"
-          >
-            <div class="service-card" onclick="showServiceDetail('holud')">
-              <div class="service-image">
-                <img
-                  src="https://images.unsplash.com/photo-1606800052052-a08af7148866?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                  alt="Holud"
-                />
-                <div class="service-overlay">
-                  <h3>Holud</h3>
-                </div>
-              </div>
-              <div class="service-content">
-                <p>
-                  Celebrate this beautiful pre-wedding tradition with authentic
-                  cultural touches.
-                </p>
-                <ul class="service-features">
-                  <li><i class="fas fa-check"></i> Traditional Decor</li>
-                  <li><i class="fas fa-check"></i> Cultural Music & Dance</li>
-                  <li>
-                    <i class="fas fa-check"></i> Professional Makeup Artists
-                  </li>
-                  <li><i class="fas fa-check"></i> Complete Coordination</li>
-                </ul>
-                <button class="btn-pricing mt-3">View Details</button>
-              </div>
-            </div>
-          </div>
-
-          <div
-            class="col-md-6 col-lg-4"
-            data-aos="fade-up"
-            data-aos-delay="300"
-          >
-            <div class="service-card" onclick="showServiceDetail('proposal')">
-              <div class="service-image">
-                <img
-                  src="https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                  alt="Marriage Proposal"
-                />
-                <div class="service-overlay">
-                  <h3>Marriage Proposal</h3>
-                </div>
-              </div>
-              <div class="service-content">
-                <p>
-                  Create an unforgettable moment with our romantic proposal
-                  planning services.
-                </p>
-                <ul class="service-features">
-                  <li><i class="fas fa-check"></i> Romantic Setups</li>
-                  <li><i class="fas fa-check"></i> Surprise Coordination</li>
-                  <li><i class="fas fa-check"></i> Professional Photography</li>
-                  <li><i class="fas fa-check"></i> Personalized Details</li>
-                </ul>
-                <button class="btn-pricing mt-3">View Details</button>
-              </div>
-            </div>
-          </div>
-
-          <div
-            class="col-md-6 col-lg-4"
-            data-aos="fade-up"
-            data-aos-delay="100"
-          >
-            <div class="service-card" onclick="showServiceDetail('reception')">
-              <div class="service-image">
-                <img
-                  src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                  alt="Reception"
-                />
-                <div class="service-overlay">
-                  <h3>Reception</h3>
-                </div>
-              </div>
-              <div class="service-content">
-                <p>
-                  Host an elegant reception that your guests will remember
-                  forever.
-                </p>
-                <ul class="service-features">
-                  <li><i class="fas fa-check"></i> Venue Selection</li>
-                  <li><i class="fas fa-check"></i> Elegant Decorations</li>
-                  <li><i class="fas fa-check"></i> Gourmet Catering</li>
-                  <li><i class="fas fa-check"></i> Entertainment Management</li>
-                </ul>
-                <button class="btn-pricing mt-3">View Details</button>
-              </div>
-            </div>
-          </div>
-
-          <div
-            class="col-md-6 col-lg-4"
-            data-aos="fade-up"
-            data-aos-delay="200"
-          >
-            <div class="service-card" onclick="showServiceDetail('graduation')">
-              <div class="service-image">
-                <img
-                  src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                  alt="Graduation"
-                />
-                <div class="service-overlay">
-                  <h3>Graduation</h3>
-                </div>
-              </div>
-              <div class="service-content">
-                <p>
-                  Celebrate your academic achievements with a memorable
-                  graduation party.
-                </p>
-                <ul class="service-features">
-                  <li><i class="fas fa-check"></i> Themed Decorations</li>
-                  <li><i class="fas fa-check"></i> Photo Booth Setup</li>
-                  <li><i class="fas fa-check"></i> Catering Options</li>
-                  <li><i class="fas fa-check"></i> Award Ceremony Setup</li>
-                </ul>
-                <button class="btn-pricing mt-3">View Details</button>
-              </div>
-            </div>
-          </div>
-
-          <div
-            class="col-md-6 col-lg-4"
-            data-aos="fade-up"
-            data-aos-delay="300"
-          >
-            <div
-              class="service-card"
-              onclick="showServiceDetail('anniversary')"
-            >
-              <div class="service-image">
-                <img
-                  src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                  alt="Anniversaries"
-                />
-                <div class="service-overlay">
-                  <h3>Anniversaries</h3>
-                </div>
-              </div>
-              <div class="service-content">
-                <p>
-                  Renew your vows or celebrate milestones with an intimate
-                  anniversary celebration.
-                </p>
-                <ul class="service-features">
-                  <li><i class="fas fa-check"></i> Intimate Setups</li>
-                  <li><i class="fas fa-check"></i> Romantic Ambiance</li>
-                  <li><i class="fas fa-check"></i> Memory Lane Displays</li>
-                  <li><i class="fas fa-check"></i> Special Surprises</li>
-                </ul>
-                <button class="btn-pricing mt-3">View Details</button>
-              </div>
-            </div>
-          </div>
+          @endforeach
         </div>
-      </div>
     </section>
 
     <!-- Service Detail Modal -->
@@ -1806,387 +1648,41 @@
         </div>
 
         <div class="pricing-tabs" data-aos="fade-up" data-aos-delay="100">
-          <div class="pricing-tab active" onclick="showPricing('birthday')">
-            Birthdays
+          @foreach($eventTypes as $type)
+          <div class="pricing-tab {{ $loop->first ? 'active' : '' }}" onclick="showPricing('{{ $type->slug }}')">
+             {{ $type->name }}
           </div>
-          <div class="pricing-tab" onclick="showPricing('holud')">Holud</div>
-          <div class="pricing-tab" onclick="showPricing('proposal')">
-            Marriage Proposal
-          </div>
-          <div class="pricing-tab" onclick="showPricing('reception')">
-            Reception
-          </div>
-          <div class="pricing-tab" onclick="showPricing('graduation')">
-            Graduation
-          </div>
-          <div class="pricing-tab" onclick="showPricing('anniversary')">
-            Anniversaries
-          </div>
+           @endforeach
         </div>
 
-        <!-- Birthday Packages -->
-        <div class="pricing-content active" id="birthday-pricing">
+        @foreach($eventTypes as $type)
+        <!-- {{ $type->name }} Packages -->
+        <div class="pricing-content {{ $loop->first ? 'active' : '' }}" id="{{ $type->slug }}-pricing">
           <div class="row">
-            <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="100">
-              <div class="pricing-card">
-                <h3>Basic</h3>
-                <div class="pricing-price">$299<span>/event</span></div>
-                <ul class="pricing-features">
-                  <li><i class="fas fa-check"></i> Basic Decoration</li>
-                  <li><i class="fas fa-check"></i> Cake & Snacks</li>
-                  <li><i class="fas fa-check"></i> Music System</li>
-                  <li><i class="fas fa-check"></i> 3 Hours Duration</li>
-                  <li><i class="fas fa-check"></i> Up to 50 Guests</li>
-                  <li class="disabled">
-                    <i class="fas fa-times"></i> Professional Photography
-                  </li>
-                  <li class="disabled">
-                    <i class="fas fa-times"></i> Custom Theme
-                  </li>
-                </ul>
-                <button class="btn-pricing">Choose Plan</button>
-              </div>
-            </div>
-            <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="200">
-              <div class="pricing-card featured">
+            @forelse($type->pricingTiers as $tier)
+            <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
+              <div class="pricing-card {{ $loop->index == 1 ? 'featured' : '' }}">
+                @if($loop->index == 1)
                 <span class="pricing-badge">Most Popular</span>
-                <h3>Premium</h3>
-                <div class="pricing-price">$599<span>/event</span></div>
+                @endif
+                <h3>{{ $tier->tier_name }}</h3>
+                <div class="pricing-price">${{ number_format($tier->price, 0) }}<span>/event</span></div>
                 <ul class="pricing-features">
-                  <li><i class="fas fa-check"></i> Premium Decoration</li>
-                  <li><i class="fas fa-check"></i> Deluxe Cake & Catering</li>
-                  <li><i class="fas fa-check"></i> DJ & Entertainment</li>
-                  <li><i class="fas fa-check"></i> 5 Hours Duration</li>
-                  <li><i class="fas fa-check"></i> Up to 100 Guests</li>
-                  <li><i class="fas fa-check"></i> Professional Photography</li>
-                  <li><i class="fas fa-check"></i> Custom Theme</li>
+                  @foreach($tier->features as $feature)
+                  <li><i class="fas fa-check"></i> {{ $feature }}</li>
+                  @endforeach
                 </ul>
-                <button class="btn-pricing">Choose Plan</button>
+                <button class="btn-pricing" onclick="window.location.href='{{ route('events.show', $type->slug) }}'">Choose Plan</button>
               </div>
             </div>
-            <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="300">
-              <div class="pricing-card">
-                <h3>Pro</h3>
-                <div class="pricing-price">$999<span>/event</span></div>
-                <ul class="pricing-features">
-                  <li><i class="fas fa-check"></i> Luxury Decoration</li>
-                  <li><i class="fas fa-check"></i> Premium Catering Menu</li>
-                  <li><i class="fas fa-check"></i> Live Band & DJ</li>
-                  <li><i class="fas fa-check"></i> Full Day Coverage</li>
-                  <li><i class="fas fa-check"></i> Unlimited Guests</li>
-                  <li><i class="fas fa-check"></i> Photo & Video Coverage</li>
-                  <li><i class="fas fa-check"></i> Custom Everything</li>
-                </ul>
-                <button class="btn-pricing">Choose Plan</button>
-              </div>
+            @empty
+            <div class="col-12 text-center">
+                <p>No packages defined for this event type yet.</p>
             </div>
+            @endforelse
           </div>
         </div>
-
-        <!-- Holud Packages -->
-        <div class="pricing-content" id="holud-pricing">
-          <div class="row">
-            <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="100">
-              <div class="pricing-card">
-                <h3>Basic</h3>
-                <div class="pricing-price">$799<span>/event</span></div>
-                <ul class="pricing-features">
-                  <li><i class="fas fa-check"></i> Traditional Decoration</li>
-                  <li><i class="fas fa-check"></i> Basic Catering</li>
-                  <li><i class="fas fa-check"></i> Cultural Music</li>
-                  <li><i class="fas fa-check"></i> 4 Hours Duration</li>
-                  <li><i class="fas fa-check"></i> Up to 75 Guests</li>
-                  <li class="disabled">
-                    <i class="fas fa-times"></i> Makeup Artist
-                  </li>
-                  <li class="disabled">
-                    <i class="fas fa-times"></i> Professional Video
-                  </li>
-                </ul>
-                <button class="btn-pricing">Choose Plan</button>
-              </div>
-            </div>
-            <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="200">
-              <div class="pricing-card featured">
-                <span class="pricing-badge">Most Popular</span>
-                <h3>Premium</h3>
-                <div class="pricing-price">$1,299<span>/event</span></div>
-                <ul class="pricing-features">
-                  <li>
-                    <i class="fas fa-check"></i> Elegant Traditional Setup
-                  </li>
-                  <li><i class="fas fa-check"></i> Premium Catering</li>
-                  <li>
-                    <i class="fas fa-check"></i> Live Cultural Performance
-                  </li>
-                  <li><i class="fas fa-check"></i> 6 Hours Duration</li>
-                  <li><i class="fas fa-check"></i> Up to 150 Guests</li>
-                  <li><i class="fas fa-check"></i> Professional Makeup</li>
-                  <li><i class="fas fa-check"></i> Photo & Video</li>
-                </ul>
-                <button class="btn-pricing">Choose Plan</button>
-              </div>
-            </div>
-            <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="300">
-              <div class="pricing-card">
-                <h3>Pro</h3>
-                <div class="pricing-price">$1,999<span>/event</span></div>
-                <ul class="pricing-features">
-                  <li><i class="fas fa-check"></i> Luxury Traditional Decor</li>
-                  <li><i class="fas fa-check"></i> Gourmet Menu</li>
-                  <li><i class="fas fa-check"></i> Celebrity Performances</li>
-                  <li><i class="fas fa-check"></i> Full Day Event</li>
-                  <li><i class="fas fa-check"></i> Unlimited Guests</li>
-                  <li><i class="fas fa-check"></i> Complete Beauty Team</li>
-                  <li><i class="fas fa-check"></i> Cinematic Coverage</li>
-                </ul>
-                <button class="btn-pricing">Choose Plan</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Marriage Proposal Packages -->
-        <div class="pricing-content" id="proposal-pricing">
-          <div class="row">
-            <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="100">
-              <div class="pricing-card">
-                <h3>Basic</h3>
-                <div class="pricing-price">$399<span>/event</span></div>
-                <ul class="pricing-features">
-                  <li><i class="fas fa-check"></i> Romantic Setup</li>
-                  <li><i class="fas fa-check"></i> Flower Arrangements</li>
-                  <li><i class="fas fa-check"></i> Candlelight Ambiance</li>
-                  <li><i class="fas fa-check"></i> Music Playlist</li>
-                  <li><i class="fas fa-check"></i> 2 Hours Setup</li>
-                  <li class="disabled">
-                    <i class="fas fa-times"></i> Photographer
-                  </li>
-                  <li class="disabled">
-                    <i class="fas fa-times"></i> Custom Surprise Elements
-                  </li>
-                </ul>
-                <button class="btn-pricing">Choose Plan</button>
-              </div>
-            </div>
-            <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="200">
-              <div class="pricing-card featured">
-                <span class="pricing-badge">Most Popular</span>
-                <h3>Premium</h3>
-                <div class="pricing-price">$799<span>/event</span></div>
-                <ul class="pricing-features">
-                  <li><i class="fas fa-check"></i> Luxury Romantic Setup</li>
-                  <li><i class="fas fa-check"></i> Premium Flowers & Decor</li>
-                  <li><i class="fas fa-check"></i> LED Lights & Effects</li>
-                  <li><i class="fas fa-check"></i> Live Music/Musician</li>
-                  <li><i class="fas fa-check"></i> 3 Hours Coverage</li>
-                  <li>
-                    <i class="fas fa-check"></i> Professional Photographer
-                  </li>
-                  <li><i class="fas fa-check"></i> Custom Surprises</li>
-                </ul>
-                <button class="btn-pricing">Choose Plan</button>
-              </div>
-            </div>
-            <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="300">
-              <div class="pricing-card">
-                <h3>Pro</h3>
-                <div class="pricing-price">$1,499<span>/event</span></div>
-                <ul class="pricing-features">
-                  <li><i class="fas fa-check"></i> Dream Proposal Setup</li>
-                  <li><i class="fas fa-check"></i> Exotic Flower Displays</li>
-                  <li><i class="fas fa-check"></i> Full Lighting Production</li>
-                  <li><i class="fas fa-check"></i> Live Band Performance</li>
-                  <li><i class="fas fa-check"></i> Full Day Planning</li>
-                  <li><i class="fas fa-check"></i> Photo & Video Team</li>
-                  <li><i class="fas fa-check"></i> Elaborate Custom Setup</li>
-                </ul>
-                <button class="btn-pricing">Choose Plan</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Reception Packages -->
-        <div class="pricing-content" id="reception-pricing">
-          <div class="row">
-            <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="100">
-              <div class="pricing-card">
-                <h3>Basic</h3>
-                <div class="pricing-price">$1,999<span>/event</span></div>
-                <ul class="pricing-features">
-                  <li><i class="fas fa-check"></i> Elegant Decoration</li>
-                  <li><i class="fas fa-check"></i> Standard Catering</li>
-                  <li><i class="fas fa-check"></i> DJ Services</li>
-                  <li><i class="fas fa-check"></i> 6 Hours Duration</li>
-                  <li><i class="fas fa-check"></i> Up to 150 Guests</li>
-                  <li class="disabled">
-                    <i class="fas fa-times"></i> Photo Booth
-                  </li>
-                  <li class="disabled">
-                    <i class="fas fa-times"></i> Video Coverage
-                  </li>
-                </ul>
-                <button class="btn-pricing">Choose Plan</button>
-              </div>
-            </div>
-            <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="200">
-              <div class="pricing-card featured">
-                <span class="pricing-badge">Most Popular</span>
-                <h3>Premium</h3>
-                <div class="pricing-price">$3,999<span>/event</span></div>
-                <ul class="pricing-features">
-                  <li><i class="fas fa-check"></i> Premium Venue Decoration</li>
-                  <li><i class="fas fa-check"></i> Gourmet Catering</li>
-                  <li><i class="fas fa-check"></i> Live Band & DJ</li>
-                  <li><i class="fas fa-check"></i> 8 Hours Duration</li>
-                  <li><i class="fas fa-check"></i> Up to 300 Guests</li>
-                  <li><i class="fas fa-check"></i> Photo Booth & Props</li>
-                  <li><i class="fas fa-check"></i> Full Video Coverage</li>
-                </ul>
-                <button class="btn-pricing">Choose Plan</button>
-              </div>
-            </div>
-            <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="300">
-              <div class="pricing-card">
-                <h3>Pro</h3>
-                <div class="pricing-price">$6,999<span>/event</span></div>
-                <ul class="pricing-features">
-                  <li><i class="fas fa-check"></i> Luxury Ballroom Setup</li>
-                  <li><i class="fas fa-check"></i> Five-Star Catering</li>
-                  <li><i class="fas fa-check"></i> Celebrity Entertainment</li>
-                  <li><i class="fas fa-check"></i> Full Day Event</li>
-                  <li><i class="fas fa-check"></i> Unlimited Guests</li>
-                  <li><i class="fas fa-check"></i> Multiple Photo Booths</li>
-                  <li><i class="fas fa-check"></i> Cinematic Production</li>
-                </ul>
-                <button class="btn-pricing">Choose Plan</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Graduation Packages -->
-        <div class="pricing-content" id="graduation-pricing">
-          <div class="row">
-            <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="100">
-              <div class="pricing-card">
-                <h3>Basic</h3>
-                <div class="pricing-price">$399<span>/event</span></div>
-                <ul class="pricing-features">
-                  <li><i class="fas fa-check"></i> Themed Decoration</li>
-                  <li><i class="fas fa-check"></i> Snacks & Refreshments</li>
-                  <li><i class="fas fa-check"></i> Background Music</li>
-                  <li><i class="fas fa-check"></i> 3 Hours Duration</li>
-                  <li><i class="fas fa-check"></i> Up to 50 Guests</li>
-                  <li class="disabled">
-                    <i class="fas fa-times"></i> Photo Booth
-                  </li>
-                  <li class="disabled">
-                    <i class="fas fa-times"></i> Professional Photography
-                  </li>
-                </ul>
-                <button class="btn-pricing">Choose Plan</button>
-              </div>
-            </div>
-            <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="200">
-              <div class="pricing-card featured">
-                <span class="pricing-badge">Most Popular</span>
-                <h3>Premium</h3>
-                <div class="pricing-price">$699<span>/event</span></div>
-                <ul class="pricing-features">
-                  <li><i class="fas fa-check"></i> Custom Theme Setup</li>
-                  <li><i class="fas fa-check"></i> Full Catering Service</li>
-                  <li><i class="fas fa-check"></i> DJ & Entertainment</li>
-                  <li><i class="fas fa-check"></i> 5 Hours Duration</li>
-                  <li><i class="fas fa-check"></i> Up to 100 Guests</li>
-                  <li><i class="fas fa-check"></i> Photo Booth Setup</li>
-                  <li><i class="fas fa-check"></i> Professional Photography</li>
-                </ul>
-                <button class="btn-pricing">Choose Plan</button>
-              </div>
-            </div>
-            <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="300">
-              <div class="pricing-card">
-                <h3>Pro</h3>
-                <div class="pricing-price">$1,199<span>/event</span></div>
-                <ul class="pricing-features">
-                  <li><i class="fas fa-check"></i> Premium Venue Decor</li>
-                  <li><i class="fas fa-check"></i> Gourmet Food Stations</li>
-                  <li><i class="fas fa-check"></i> Live Entertainment</li>
-                  <li><i class="fas fa-check"></i> Full Day Coverage</li>
-                  <li><i class="fas fa-check"></i> Unlimited Guests</li>
-                  <li><i class="fas fa-check"></i> Multiple Photo Booths</li>
-                  <li><i class="fas fa-check"></i> Full Video Production</li>
-                </ul>
-                <button class="btn-pricing">Choose Plan</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Anniversary Packages -->
-        <div class="pricing-content" id="anniversary-pricing">
-          <div class="row">
-            <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="100">
-              <div class="pricing-card">
-                <h3>Basic</h3>
-                <div class="pricing-price">$499<span>/event</span></div>
-                <ul class="pricing-features">
-                  <li><i class="fas fa-check"></i> Romantic Setup</li>
-                  <li><i class="fas fa-check"></i> Intimate Dinner</li>
-                  <li><i class="fas fa-check"></i> Soft Music</li>
-                  <li><i class="fas fa-check"></i> 3 Hours Duration</li>
-                  <li><i class="fas fa-check"></i> Up to 20 Guests</li>
-                  <li class="disabled">
-                    <i class="fas fa-times"></i> Memory Lane Display
-                  </li>
-                  <li class="disabled">
-                    <i class="fas fa-times"></i> Professional Photography
-                  </li>
-                </ul>
-                <button class="btn-pricing">Choose Plan</button>
-              </div>
-            </div>
-            <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="200">
-              <div class="pricing-card featured">
-                <span class="pricing-badge">Most Popular</span>
-                <h3>Premium</h3>
-                <div class="pricing-price">$899<span>/event</span></div>
-                <ul class="pricing-features">
-                  <li><i class="fas fa-check"></i> Elegant Romantic Decor</li>
-                  <li><i class="fas fa-check"></i> Premium Catering</li>
-                  <li><i class="fas fa-check"></i> Live Music Performance</li>
-                  <li><i class="fas fa-check"></i> 5 Hours Duration</li>
-                  <li><i class="fas fa-check"></i> Up to 50 Guests</li>
-                  <li><i class="fas fa-check"></i> Memory Lane Display</li>
-                  <li><i class="fas fa-check"></i> Professional Photography</li>
-                </ul>
-                <button class="btn-pricing">Choose Plan</button>
-              </div>
-            </div>
-            <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="300">
-              <div class="pricing-card">
-                <h3>Pro</h3>
-                <div class="pricing-price">$1,599<span>/event</span></div>
-                <ul class="pricing-features">
-                  <li><i class="fas fa-check"></i> Luxury Venue Setup</li>
-                  <li>
-                    <i class="fas fa-check"></i> Gourmet Dining Experience
-                  </li>
-                  <li>
-                    <i class="fas fa-check"></i> Live Band & Entertainment
-                  </li>
-                  <li><i class="fas fa-check"></i> Full Day Event</li>
-                  <li><i class="fas fa-check"></i> Up to 100 Guests</li>
-                  <li><i class="fas fa-check"></i> Custom Memory Displays</li>
-                  <li><i class="fas fa-check"></i> Photo & Video Coverage</li>
-                </ul>
-                <button class="btn-pricing">Choose Plan</button>
-              </div>
-            </div>
-          </div>
-        </div>
+        @endforeach
       </div>
     </section>
 
@@ -2202,111 +1698,35 @@
           <div class="gallery-filter active" onclick="filterGallery('all')">
             All
           </div>
-          <div class="gallery-filter" onclick="filterGallery('birthday')">
-            Birthdays
+          @foreach($eventTypes as $type)
+          <div class="gallery-filter" onclick="filterGallery('{{ $type->slug }}')">
+             {{ $type->name }}
           </div>
-          <div class="gallery-filter" onclick="filterGallery('holud')">
-            Holud
-          </div>
-          <div class="gallery-filter" onclick="filterGallery('proposal')">
-            Proposals
-          </div>
-          <div class="gallery-filter" onclick="filterGallery('reception')">
-            Receptions
-          </div>
-          <div class="gallery-filter" onclick="filterGallery('graduation')">
-            Graduations
-          </div>
-          <div class="gallery-filter" onclick="filterGallery('anniversary')">
-            Anniversaries
-          </div>
+          @endforeach
         </div>
 
         <div class="gallery-grid" data-aos="fade-up" data-aos-delay="200">
-          <div class="gallery-item" data-category="birthday">
-            <img
-              src="https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-              alt="Birthday Event"
-            />
-            <div class="gallery-overlay">
-              <i class="fas fa-search-plus"></i>
-            </div>
-          </div>
-          <div class="gallery-item" data-category="holud">
-            <img
-              src="https://images.unsplash.com/photo-1591604021695-0c69b7c05981?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-              alt="Holud Ceremony"
-            />
-            <div class="gallery-overlay">
-              <i class="fas fa-search-plus"></i>
-            </div>
-          </div>
-          <div class="gallery-item" data-category="proposal">
-            <img
-              src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-              alt="Marriage Proposal"
-            />
-            <div class="gallery-overlay">
-              <i class="fas fa-search-plus"></i>
-            </div>
-          </div>
-          <div class="gallery-item" data-category="reception">
-            <img
-              src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-              alt="Reception"
-            />
-            <div class="gallery-overlay">
-              <i class="fas fa-search-plus"></i>
-            </div>
-          </div>
-          <div class="gallery-item" data-category="graduation">
-            <img
-              src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-              alt="Graduation"
-            />
-            <div class="gallery-overlay">
-              <i class="fas fa-search-plus"></i>
-            </div>
-          </div>
-          <div class="gallery-item" data-category="anniversary">
-            <img
-              src="https://images.unsplash.com/photo-1529634597447-92325fb54b08?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-              alt="Anniversary"
-            />
-            <div class="gallery-overlay">
-              <i class="fas fa-search-plus"></i>
-            </div>
-          </div>
-          <div class="gallery-item" data-category="birthday">
-            <img
-              src="https://images.unsplash.com/photo-1558636508-e0db3814bd1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-              alt="Birthday Party"
-            />
-            <div class="gallery-overlay">
-              <i class="fas fa-search-plus"></i>
-            </div>
-          </div>
-          <div class="gallery-item" data-category="reception">
-            <img
-              src="https://images.unsplash.com/photo-1478146896981-b80fe463b330?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-              alt="Wedding Reception"
-            />
-            <div class="gallery-overlay">
-              <i class="fas fa-search-plus"></i>
-            </div>
-          </div>
-          <div class="gallery-item" data-category="holud">
-            <img
-              src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-              alt="Holud Event"
-            />
-            <div class="gallery-overlay">
-              <i class="fas fa-search-plus"></i>
-            </div>
-          </div>
+          @foreach($eventTypes as $type)
+             @foreach($type->galleries as $gallery)
+              <div class="gallery-item" data-category="{{ $type->slug }}" onclick="viewGalleryImage('{{ asset($gallery->image_path) }}')">
+                <img
+                  src="{{ asset($gallery->image_path) }}"
+                  alt="{{ $gallery->caption ?: $type->name }}"
+                />
+                <div class="gallery-overlay">
+                  <i class="fas fa-search-plus"></i>
+                </div>
+              </div>
+             @endforeach
+          @endforeach
         </div>
       </div>
     </section>
+
+
+
+    <!-- Gallery Section -->
+
 
     <!-- Lightbox -->
     <div class="lightbox" id="lightbox" onclick="closeLightbox()">
@@ -2878,8 +2298,17 @@
         });
       });
 
+      function viewGalleryImage(src) {
+        const lightbox = document.getElementById("lightbox");
+        const lightboxImg = document.getElementById("lightbox-img");
+        lightboxImg.src = src;
+        lightbox.classList.add("active");
+        document.body.style.overflow = "hidden";
+      }
+
       function closeLightbox() {
         document.getElementById("lightbox").classList.remove("active");
+        document.body.style.overflow = "auto";
       }
 
       // Testimonial slider
@@ -2965,1013 +2394,115 @@
         });
       }
 
-      // Service Detail Modal Functions
-      const serviceDetails = {
-        birthday: {
-          title: "Birthday Party Planning",
-          subtitle: "Celebrate Life's Special Milestones",
-          image:
-            "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-          description: `
-                    <p>Birthdays are special occasions that deserve to be celebrated in style! Whether you're planning a child's first birthday, a sweet sixteen, a milestone 30th, 50th, or even a 100th birthday celebration, our team is here to make it extraordinary.</p>
-                    <p>We specialize in creating personalized birthday experiences that reflect the celebrant's personality, interests, and dreams. From intimate gatherings to grand celebrations, we handle every detail so you can focus on creating memories.</p>
-                    <p>Our birthday planning services include theme development, venue selection and decoration, entertainment coordination, catering arrangements, cake design, party favors, photography and videography, and complete event management from start to finish.</p>
-                `,
-          highlights: [
-            {
-              icon: "fa-palette",
-              title: "Custom Themes",
-              text: "Unique designs tailored to your vision",
-            },
-            {
-              icon: "fa-users",
-              title: "Guest Management",
-              text: "RSVP tracking and seating arrangements",
-            },
-            {
-              icon: "fa-birthday-cake",
-              title: "Catering Excellence",
-              text: "Delicious menus for all tastes",
-            },
-            {
-              icon: "fa-camera",
-              title: "Memory Capture",
-              text: "Professional photo & video coverage",
-            },
-          ],
-          packages: [
-            {
-              name: "Basic",
-              price: "$299",
-              features: [
-                {
-                  name: "Event Duration",
-                  basic: "3 Hours",
-                  premium: "5 Hours",
-                  pro: "Full Day",
-                },
-                {
-                  name: "Guest Capacity",
-                  basic: "Up to 50",
-                  premium: "Up to 100",
-                  pro: "Unlimited",
-                },
-                {
-                  name: "Venue Decoration",
-                  basic: "Basic Setup",
-                  premium: "Premium Decor",
-                  pro: "Luxury Design",
-                },
-                {
-                  name: "Theme Customization",
-                  basic: false,
-                  premium: true,
-                  pro: true,
-                },
-                {
-                  name: "Balloon & Banner Setup",
-                  basic: true,
-                  premium: true,
-                  pro: true,
-                },
-                {
-                  name: "Table & Chair Arrangements",
-                  basic: true,
-                  premium: true,
-                  pro: true,
-                },
-                {
-                  name: "Cake (Size)",
-                  basic: "Standard",
-                  premium: "Deluxe 2-Tier",
-                  pro: "Custom 3-Tier",
-                },
-                {
-                  name: "Catering",
-                  basic: "Snacks Only",
-                  premium: "Full Menu",
-                  pro: "Gourmet Selection",
-                },
-                {
-                  name: "Beverage Service",
-                  basic: "Soft Drinks",
-                  premium: "Full Bar",
-                  pro: "Premium Bar",
-                },
-                {
-                  name: "Entertainment",
-                  basic: false,
-                  premium: "DJ & Music",
-                  pro: "Live Band & DJ",
-                },
-                {
-                  name: "Photo Booth",
-                  basic: false,
-                  premium: false,
-                  pro: true,
-                },
-                {
-                  name: "Photography",
-                  basic: false,
-                  premium: "3 Hours",
-                  pro: "Full Coverage",
-                },
-                {
-                  name: "Videography",
-                  basic: false,
-                  premium: false,
-                  pro: "Cinematic Video",
-                },
-                {
-                  name: "Party Favors",
-                  basic: false,
-                  premium: "Basic",
-                  pro: "Premium",
-                },
-                {
-                  name: "Event Coordinator",
-                  basic: "Support",
-                  premium: "Dedicated",
-                  pro: "Team + Manager",
-                },
-                {
-                  name: "Setup & Cleanup",
-                  basic: true,
-                  premium: true,
-                  pro: true,
-                },
-              ],
-            },
-          ],
-        },
-        holud: {
-          title: "Holud Ceremony Planning",
-          subtitle: "Embrace Tradition with Elegance",
-          image:
-            "https://images.unsplash.com/photo-1606800052052-a08af7148866?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-          description: `
-                    <p>The Holud ceremony is a beautiful and vibrant pre-wedding tradition that brings families together in celebration. Our specialized Holud planning services honor cultural traditions while adding contemporary elegance to create an unforgettable experience.</p>
-                    <p>We understand the importance of this sacred ritual and work closely with you to ensure every traditional element is respectfully incorporated while creating a visually stunning celebration that your guests will remember forever.</p>
-                    <p>From authentic traditional decor featuring marigold garlands and brass elements to modern fusion aesthetics, we create the perfect ambiance. Our services include complete ceremony coordination, traditional music and dance arrangements, professional makeup and mehndi artists, catering with traditional cuisine, and comprehensive photo-video documentation.</p>
-                `,
-          highlights: [
-            {
-              icon: "fa-om",
-              title: "Cultural Authenticity",
-              text: "Traditional elements honored perfectly",
-            },
-            {
-              icon: "fa-paint-brush",
-              title: "Mehndi Artists",
-              text: "Skilled henna application services",
-            },
-            {
-              icon: "fa-music",
-              title: "Traditional Music",
-              text: "Live cultural performances",
-            },
-            {
-              icon: "fa-utensils",
-              title: "Authentic Cuisine",
-              text: "Traditional dishes & sweets",
-            },
-          ],
-          packages: [
-            {
-              name: "Basic",
-              price: "$799",
-              features: [
-                {
-                  name: "Event Duration",
-                  basic: "4 Hours",
-                  premium: "6 Hours",
-                  pro: "Full Day",
-                },
-                {
-                  name: "Guest Capacity",
-                  basic: "Up to 75",
-                  premium: "Up to 150",
-                  pro: "Unlimited",
-                },
-                {
-                  name: "Venue Decoration",
-                  basic: "Traditional",
-                  premium: "Premium Traditional",
-                  pro: "Luxury Custom",
-                },
-                {
-                  name: "Marigold Garlands & Setup",
-                  basic: true,
-                  premium: true,
-                  pro: true,
-                },
-                {
-                  name: "Traditional Seating (Piri/Peera)",
-                  basic: "Basic",
-                  premium: "Elegant",
-                  pro: "Luxury",
-                },
-                {
-                  name: "Stage Decoration",
-                  basic: "Simple",
-                  premium: "Elaborate",
-                  pro: "Grand",
-                },
-                {
-                  name: "Lighting & Effects",
-                  basic: false,
-                  premium: "LED Lights",
-                  pro: "Full Production",
-                },
-                {
-                  name: "Mehendi Artists",
-                  basic: "1 Artist",
-                  premium: "3 Artists",
-                  pro: "5+ Artists",
-                },
-                {
-                  name: "Makeup Services",
-                  basic: false,
-                  premium: "Bride Only",
-                  pro: "Full Beauty Team",
-                },
-                {
-                  name: "Traditional Music",
-                  basic: "Audio",
-                  premium: "Live Musicians",
-                  pro: "Full Band",
-                },
-                {
-                  name: "Cultural Dance Performance",
-                  basic: false,
-                  premium: true,
-                  pro: "Celebrity Dancers",
-                },
-                {
-                  name: "Catering",
-                  basic: "Standard",
-                  premium: "Premium Menu",
-                  pro: "Gourmet Spread",
-                },
-                {
-                  name: "Traditional Sweets",
-                  basic: "Basic",
-                  premium: "Variety",
-                  pro: "Premium Selection",
-                },
-                {
-                  name: "Photography",
-                  basic: false,
-                  premium: "5 Hours",
-                  pro: "Full Coverage",
-                },
-                {
-                  name: "Videography",
-                  basic: false,
-                  premium: "Highlight Video",
-                  pro: "Cinematic Film",
-                },
-                {
-                  name: "Event Coordinator",
-                  basic: "Support",
-                  premium: "Dedicated Team",
-                  pro: "Senior Manager",
-                },
-              ],
-            },
-          ],
-        },
-        proposal: {
-          title: "Marriage Proposal Planning",
-          subtitle: "The Perfect 'Yes' Moment",
-          image:
-            "https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-          description: `
-                    <p>A marriage proposal is one of the most important moments of your life, and it deserves to be absolutely perfect. Our proposal planning specialists work with you to create a magical, personalized experience that reflects your unique love story.</p>
-                    <p>We handle everything from concept to execution, ensuring that every detail aligns with your vision while maintaining the element of surprise. Whether you envision an intimate rooftop dinner, a beach sunset proposal, a flash mob surprise, or an elaborate destination proposal, we make it happen.</p>
-                    <p>Our services include location scouting and booking, complete romantic setup design, surprise coordination, photographer and videographer to capture the moment, backup plans for weather contingencies, and post-proposal celebration arrangements if desired.</p>
-                `,
-          highlights: [
-            {
-              icon: "fa-heart",
-              title: "Romantic Setups",
-              text: "Stunning visual experiences",
-            },
-            {
-              icon: "fa-user-secret",
-              title: "Surprise Coordination",
-              text: "Flawless timing and execution",
-            },
-            {
-              icon: "fa-camera-retro",
-              title: "Moment Capture",
-              text: "Professional hidden photography",
-            },
-            {
-              icon: "fa-map-marked-alt",
-              title: "Location Scouting",
-              text: "Perfect venue selection",
-            },
-          ],
-          packages: [
-            {
-              name: "Basic",
-              price: "$399",
-              features: [
-                {
-                  name: "Planning Duration",
-                  basic: "2 Hours",
-                  premium: "3 Hours",
-                  pro: "Full Day",
-                },
-                {
-                  name: "Location Options",
-                  basic: "1 Location",
-                  premium: "Choice of 3",
-                  pro: "Unlimited",
-                },
-                {
-                  name: "Setup Design",
-                  basic: "Romantic",
-                  premium: "Luxury",
-                  pro: "Dream Proposal",
-                },
-                {
-                  name: "Flower Arrangements",
-                  basic: "Roses",
-                  premium: "Premium Florals",
-                  pro: "Exotic Displays",
-                },
-                {
-                  name: "Candlelight Setup",
-                  basic: "Basic",
-                  premium: "Extensive",
-                  pro: "Elaborate",
-                },
-                {
-                  name: "LED/String Lights",
-                  basic: false,
-                  premium: "String Lights",
-                  pro: "Full Production",
-                },
-                {
-                  name: "Music Arrangement",
-                  basic: "Playlist",
-                  premium: "Live Musician",
-                  pro: "Live Band",
-                },
-                {
-                  name: "Special Effects",
-                  basic: false,
-                  premium: "Sparklers",
-                  pro: "Fireworks/Effects",
-                },
-                {
-                  name: "Personalized Elements",
-                  basic: "Letter/Sign",
-                  premium: "Custom Props",
-                  pro: "Elaborate Setup",
-                },
-                {
-                  name: "Surprise Coordination",
-                  basic: "Basic",
-                  premium: "Detailed",
-                  pro: "Complex",
-                },
-                {
-                  name: "Photography",
-                  basic: false,
-                  premium: "2 Hours",
-                  pro: "Full Coverage",
-                },
-                {
-                  name: "Videography",
-                  basic: false,
-                  premium: false,
-                  pro: "Cinematic Video",
-                },
-                {
-                  name: "Backup Weather Plan",
-                  basic: false,
-                  premium: true,
-                  pro: true,
-                },
-                {
-                  name: "Post-Proposal Celebration",
-                  basic: false,
-                  premium: "Champagne",
-                  pro: "Full Setup",
-                },
-                {
-                  name: "Planning Consultations",
-                  basic: "1 Session",
-                  premium: "3 Sessions",
-                  pro: "Unlimited",
-                },
-              ],
-            },
-          ],
-        },
-        reception: {
-          title: "Wedding Reception Planning",
-          subtitle: "Celebrate Your Union in Grand Style",
-          image:
-            "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-          description: `
-                    <p>Your wedding reception is the celebration you've been dreaming of - a magical evening where you're surrounded by everyone you love, celebrating the beginning of your new life together. Our comprehensive reception planning services ensure every moment is perfect.</p>
-                    <p>From elegant ballroom celebrations to rustic outdoor receptions, garden parties to beachfront gatherings, we create experiences that reflect your unique style and vision. We coordinate with the best vendors, manage timelines, and ensure flawless execution.</p>
-                    <p>Our services include complete venue transformation, guest management and seating arrangements, entertainment coordination, catering and bar services, lighting and audio production, photography and videography, cake and dessert coordination, and timeline management to ensure everything flows perfectly.</p>
-                `,
-          highlights: [
-            {
-              icon: "fa-rings-wedding",
-              title: "Complete Coordination",
-              text: "Every detail perfectly managed",
-            },
-            {
-              icon: "fa-glass-cheers",
-              title: "Premium Catering",
-              text: "Gourmet dining experiences",
-            },
-            {
-              icon: "fa-compact-disc",
-              title: "Entertainment",
-              text: "Live bands, DJs, and more",
-            },
-            {
-              icon: "fa-lightbulb",
-              title: "Ambiance Design",
-              text: "Stunning lighting and decor",
-            },
-          ],
-          packages: [
-            {
-              name: "Basic",
-              price: "$1,999",
-              features: [
-                {
-                  name: "Event Duration",
-                  basic: "6 Hours",
-                  premium: "8 Hours",
-                  pro: "Full Day",
-                },
-                {
-                  name: "Guest Capacity",
-                  basic: "Up to 150",
-                  premium: "Up to 300",
-                  pro: "Unlimited",
-                },
-                {
-                  name: "Venue Decoration",
-                  basic: "Elegant",
-                  premium: "Premium",
-                  pro: "Luxury Ballroom",
-                },
-                {
-                  name: "Floral Arrangements",
-                  basic: "Centerpieces",
-                  premium: "Extensive",
-                  pro: "Elaborate",
-                },
-                {
-                  name: "Lighting Design",
-                  basic: "Standard",
-                  premium: "Custom LED",
-                  pro: "Full Production",
-                },
-                {
-                  name: "Stage/Backdrop",
-                  basic: "Simple",
-                  premium: "Designed",
-                  pro: "Grand Setup",
-                },
-                {
-                  name: "Seating Arrangements",
-                  basic: "Standard",
-                  premium: "Premium",
-                  pro: "Luxury",
-                },
-                {
-                  name: "Table Settings",
-                  basic: "Standard",
-                  premium: "Premium",
-                  pro: "Fine China",
-                },
-                {
-                  name: "Catering Service",
-                  basic: "Buffet",
-                  premium: "Plated Dinner",
-                  pro: "5-Star Service",
-                },
-                {
-                  name: "Menu Options",
-                  basic: "Standard",
-                  premium: "Gourmet",
-                  pro: "Chef's Selection",
-                },
-                {
-                  name: "Bar Service",
-                  basic: false,
-                  premium: "Open Bar",
-                  pro: "Premium Bar",
-                },
-                {
-                  name: "Entertainment",
-                  basic: "DJ",
-                  premium: "Live Band & DJ",
-                  pro: "Celebrity Performance",
-                },
-                {
-                  name: "Photo Booth",
-                  basic: false,
-                  premium: "Standard",
-                  pro: "Multiple Stations",
-                },
-                {
-                  name: "Photography",
-                  basic: false,
-                  premium: "6 Hours",
-                  pro: "Full Coverage",
-                },
-                {
-                  name: "Videography",
-                  basic: false,
-                  premium: "Highlight Film",
-                  pro: "Cinematic Production",
-                },
-                {
-                  name: "Wedding Cake",
-                  basic: "Standard",
-                  premium: "Designer 3-Tier",
-                  pro: "Custom Creation",
-                },
-                {
-                  name: "Guest Favors",
-                  basic: false,
-                  premium: "Standard",
-                  pro: "Premium",
-                },
-                {
-                  name: "Event Coordination Team",
-                  basic: "2 Staff",
-                  premium: "5 Staff",
-                  pro: "10+ Staff",
-                },
-                {
-                  name: "Rehearsal Included",
-                  basic: false,
-                  premium: false,
-                  pro: true,
-                },
-              ],
-            },
-          ],
-        },
-        graduation: {
-          title: "Graduation Party Planning",
-          subtitle: "Celebrate Academic Achievement",
-          image:
-            "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-          description: `
-                    <p>Graduation marks a significant milestone in life - the culmination of years of hard work and dedication. Whether it's high school, college, or graduate school, this achievement deserves a memorable celebration that honors the graduate's journey.</p>
-                    <p>Our graduation party planning services create fun, sophisticated celebrations that bring together family, friends, and mentors to celebrate this important transition. From casual backyard parties to formal events, we tailor every detail to the graduate's personality and preferences.</p>
-                    <p>We handle theme development incorporating school colors and achievements, venue decoration, photo displays showcasing memories, entertainment and activities, catering services, cake and dessert bars, award or recognition ceremony coordination, and memory book or guestbook setup.</p>
-                `,
-          highlights: [
-            {
-              icon: "fa-graduation-cap",
-              title: "Academic Theme",
-              text: "School colors and achievements",
-            },
-            {
-              icon: "fa-images",
-              title: "Memory Displays",
-              text: "Photo walls and presentations",
-            },
-            {
-              icon: "fa-trophy",
-              title: "Recognition Setup",
-              text: "Awards and speeches",
-            },
-            {
-              icon: "fa-gift",
-              title: "Memorable Favors",
-              text: "Personalized keepsakes",
-            },
-          ],
-          packages: [
-            {
-              name: "Basic",
-              price: "$399",
-              features: [
-                {
-                  name: "Event Duration",
-                  basic: "3 Hours",
-                  premium: "5 Hours",
-                  pro: "Full Day",
-                },
-                {
-                  name: "Guest Capacity",
-                  basic: "Up to 50",
-                  premium: "Up to 100",
-                  pro: "Unlimited",
-                },
-                {
-                  name: "Venue Decoration",
-                  basic: "Themed",
-                  premium: "Custom",
-                  pro: "Premium Design",
-                },
-                {
-                  name: "School Colors Integration",
-                  basic: true,
-                  premium: true,
-                  pro: true,
-                },
-                {
-                  name: "Balloon & Banner Setup",
-                  basic: "Basic",
-                  premium: "Extensive",
-                  pro: "Elaborate",
-                },
-                {
-                  name: "Photo Display Wall",
-                  basic: false,
-                  premium: true,
-                  pro: "Multiple Displays",
-                },
-                {
-                  name: "Memory Slideshow",
-                  basic: false,
-                  premium: true,
-                  pro: "Professional Video",
-                },
-                {
-                  name: "Photo Booth",
-                  basic: false,
-                  premium: false,
-                  pro: true,
-                },
-                {
-                  name: "Catering",
-                  basic: "Snacks",
-                  premium: "Full Menu",
-                  pro: "Gourmet Food Stations",
-                },
-                {
-                  name: "Graduation Cake",
-                  basic: "Standard",
-                  premium: "Custom Design",
-                  pro: "Multi-Tier",
-                },
-                {
-                  name: "Dessert Bar",
-                  basic: false,
-                  premium: false,
-                  pro: true,
-                },
-                {
-                  name: "Entertainment",
-                  basic: "Music",
-                  premium: "DJ",
-                  pro: "Live Entertainment",
-                },
-                {
-                  name: "Recognition Ceremony Setup",
-                  basic: false,
-                  premium: "Basic",
-                  pro: "Full Stage",
-                },
-                {
-                  name: "Guest Book Station",
-                  basic: true,
-                  premium: true,
-                  pro: "Interactive Memory Book",
-                },
-                {
-                  name: "Party Favors",
-                  basic: false,
-                  premium: "Standard",
-                  pro: "Custom",
-                },
-                {
-                  name: "Photography",
-                  basic: false,
-                  premium: "3 Hours",
-                  pro: "Full Coverage",
-                },
-                {
-                  name: "Videography",
-                  basic: false,
-                  premium: false,
-                  pro: "Professional Video",
-                },
-              ],
-            },
-          ],
-        },
-        anniversary: {
-          title: "Anniversary Celebration Planning",
-          subtitle: "Honor Your Love Story",
-          image:
-            "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-          description: `
-                    <p>Anniversaries are beautiful milestones that celebrate enduring love and commitment. Whether it's your first anniversary or your golden 50th, each year together deserves to be celebrated in a special way that honors your unique journey.</p>
-                    <p>Our anniversary planning services create intimate, romantic, and meaningful celebrations that reflect your relationship. From vow renewals to surprise parties, quiet dinners for two to grand celebrations with all your loved ones, we craft experiences filled with love and nostalgia.</p>
-                    <p>We specialize in memory lane displays featuring your journey together, romantic ambiance creation, catering with favorite foods and flavors, entertainment including your special songs, photo and video montages, guest coordination if it's a surprise, and complete event management allowing you to simply enjoy your special day.</p>
-                `,
-          highlights: [
-            {
-              icon: "fa-infinity",
-              title: "Love Story Telling",
-              text: "Display your journey together",
-            },
-            {
-              icon: "fa-candle-holder",
-              title: "Romantic Ambiance",
-              text: "Intimate and elegant setups",
-            },
-            {
-              icon: "fa-photo-video",
-              title: "Memory Preservation",
-              text: "Professional documentation",
-            },
-            {
-              icon: "fa-surprise",
-              title: "Surprise Coordination",
-              text: "Secret planning expertise",
-            },
-          ],
-          packages: [
-            {
-              name: "Basic",
-              price: "$499",
-              features: [
-                {
-                  name: "Event Duration",
-                  basic: "3 Hours",
-                  premium: "5 Hours",
-                  pro: "Full Day",
-                },
-                {
-                  name: "Guest Capacity",
-                  basic: "Up to 20",
-                  premium: "Up to 50",
-                  pro: "Up to 100",
-                },
-                {
-                  name: "Venue Setup",
-                  basic: "Romantic",
-                  premium: "Elegant",
-                  pro: "Luxury",
-                },
-                {
-                  name: "Floral Arrangements",
-                  basic: "Roses",
-                  premium: "Premium",
-                  pro: "Elaborate",
-                },
-                {
-                  name: "Candlelight Setup",
-                  basic: "Basic",
-                  premium: "Extensive",
-                  pro: "Spectacular",
-                },
-                {
-                  name: "Lighting & Ambiance",
-                  basic: "String Lights",
-                  premium: "Custom LED",
-                  pro: "Full Production",
-                },
-                {
-                  name: "Memory Lane Display",
-                  basic: false,
-                  premium: "Photo Wall",
-                  pro: "Interactive Display",
-                },
-                {
-                  name: "Video Montage",
-                  basic: false,
-                  premium: "Basic",
-                  pro: "Professional Edit",
-                },
-                {
-                  name: "Music",
-                  basic: "Playlist",
-                  premium: "Live Music",
-                  pro: "Live Band",
-                },
-                {
-                  name: "Catering",
-                  basic: "Dinner for Two",
-                  premium: "Full Menu",
-                  pro: "Gourmet Experience",
-                },
-                {
-                  name: "Anniversary Cake",
-                  basic: "Standard",
-                  premium: "Elegant Design",
-                  pro: "Custom Creation",
-                },
-                {
-                  name: "Champagne Service",
-                  basic: false,
-                  premium: true,
-                  pro: "Premium Selection",
-                },
-                {
-                  name: "Vow Renewal Coordination",
-                  basic: false,
-                  premium: false,
-                  pro: true,
-                },
-                {
-                  name: "Surprise Planning",
-                  basic: false,
-                  premium: "Basic",
-                  pro: "Elaborate",
-                },
-                {
-                  name: "Photography",
-                  basic: false,
-                  premium: "3 Hours",
-                  pro: "Full Coverage",
-                },
-                {
-                  name: "Videography",
-                  basic: false,
-                  premium: false,
-                  pro: "Cinematic Film",
-                },
-                {
-                  name: "Guest Coordination",
-                  basic: false,
-                  premium: true,
-                  pro: true,
-                },
-              ],
-            },
-          ],
-        },
-      };
+      // Dynamic Service Details
+      @php
+        $details = $eventTypes->mapWithKeys(function($type) {
+            return [$type->slug => [
+                'title' => $type->name,
+                'subtitle' => 'Premium Event Services',
+                'image' => $type->featured_image ? asset($type->featured_image) : 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+                'description' => $type->description,
+                'tiers' => $type->pricingTiers
+            ]];
+        });
+      @endphp
+      const serviceDetails = @json($details);
 
       function showServiceDetail(serviceType) {
         const modal = document.getElementById("serviceDetailModal");
         const body = document.getElementById("serviceDetailBody");
         const service = serviceDetails[serviceType];
 
-        let highlightsHTML = "";
-        service.highlights.forEach((highlight) => {
-          highlightsHTML += `
-                    <div class="highlight-box">
-                        <i class="fas ${highlight.icon}"></i>
-                        <h4>${highlight.title}</h4>
-                        <p>${highlight.text}</p>
+        if (!service) return;
+
+        let tiersHTML = '<div class="row">';
+        if (service.tiers && service.tiers.length > 0) {
+            service.tiers.forEach(tier => {
+                 tiersHTML += `
+                 <div class="col-md-4 mb-3">
+                    <div class="pricing-card h-100" style="padding: 20px; text-align: left;">
+                        <h4 style="color: var(--primary-color)">${tier.tier_name}</h4>
+                        <div class="pricing-price" style="font-size: 1.5rem; margin: 10px 0;">$${tier.price}</div>
+                        <ul class="pricing-features" style="padding-left: 0; list-style: none;">
+                            ${tier.features.map(f => `<li><i class="fas fa-check" style="color: var(--secondary-color); margin-right: 8px;"></i> ${f}</li>`).join('')}
+                        </ul>
                     </div>
-                `;
-        });
-
-        let tableHTML =
-          '<table><thead><tr><th>Features</th><th>Basic</th><th class="featured-package">Premium</th><th>Pro</th></tr></thead><tbody>';
-
-        // Add price row
-        tableHTML += `
-                <tr class="package-price-row">
-                    <td>Package Price</td>
-                    <td>${
-                      service.packages[0].features[0].basic === "2 Hours"
-                        ? "$399"
-                        : service.packages[0].features[0].basic === "3 Hours" &&
-                          serviceType === "birthday"
-                        ? "$299"
-                        : service.packages[0].features[0].basic === "3 Hours" &&
-                          serviceType === "graduation"
-                        ? "$399"
-                        : service.packages[0].features[0].basic === "3 Hours" &&
-                          serviceType === "anniversary"
-                        ? "$499"
-                        : service.packages[0].features[0].basic === "4 Hours"
-                        ? "$799"
-                        : service.packages[0].features[0].basic === "6 Hours"
-                        ? "$1,999"
-                        : "$399"
-                    }</td>
-                    <td>${
-                      service.packages[0].features[0].basic === "2 Hours"
-                        ? "$799"
-                        : service.packages[0].features[0].basic === "3 Hours" &&
-                          serviceType === "birthday"
-                        ? "$599"
-                        : service.packages[0].features[0].basic === "3 Hours" &&
-                          serviceType === "graduation"
-                        ? "$699"
-                        : service.packages[0].features[0].basic === "3 Hours" &&
-                          serviceType === "anniversary"
-                        ? "$899"
-                        : service.packages[0].features[0].basic === "4 Hours"
-                        ? "$1,299"
-                        : service.packages[0].features[0].basic === "6 Hours"
-                        ? "$3,999"
-                        : "$799"
-                    }</td>
-                    <td>${
-                      service.packages[0].features[0].basic === "2 Hours"
-                        ? "$1,499"
-                        : service.packages[0].features[0].basic === "3 Hours" &&
-                          serviceType === "birthday"
-                        ? "$999"
-                        : service.packages[0].features[0].basic === "3 Hours" &&
-                          serviceType === "graduation"
-                        ? "$1,199"
-                        : service.packages[0].features[0].basic === "3 Hours" &&
-                          serviceType === "anniversary"
-                        ? "$1,599"
-                        : service.packages[0].features[0].basic === "4 Hours"
-                        ? "$1,999"
-                        : service.packages[0].features[0].basic === "6 Hours"
-                        ? "$6,999"
-                        : "$1,499"
-                    }</td>
-                </tr>
-            `;
-
-        service.packages[0].features.forEach((feature) => {
-          tableHTML += `<tr><td>${feature.name}</td>`;
-
-          // Basic column
-          if (typeof feature.basic === "boolean") {
-            tableHTML += `<td>${
-              feature.basic
-                ? '<i class="fas fa-check check-icon"></i>'
-                : '<i class="fas fa-times cross-icon"></i>'
-            }</td>`;
-          } else {
-            tableHTML += `<td>${feature.basic}</td>`;
-          }
-
-          // Premium column
-          if (typeof feature.premium === "boolean") {
-            tableHTML += `<td class="featured-package">${
-              feature.premium
-                ? '<i class="fas fa-check check-icon"></i>'
-                : '<i class="fas fa-times cross-icon"></i>'
-            }</td>`;
-          } else {
-            tableHTML += `<td class="featured-package">${feature.premium}</td>`;
-          }
-
-          // Pro column
-          if (typeof feature.pro === "boolean") {
-            tableHTML += `<td>${
-              feature.pro
-                ? '<i class="fas fa-check check-icon"></i>'
-                : '<i class="fas fa-times cross-icon"></i>'
-            }</td>`;
-          } else {
-            tableHTML += `<td>${feature.pro}</td>`;
-          }
-
-          tableHTML += "</tr>";
-        });
-
-        tableHTML += "</tbody></table>";
+                 </div>
+                 `;
+            });
+        } else {
+            tiersHTML += '<div class="col-12"><p>Contact us for custom pricing.</p></div>';
+        }
+        tiersHTML += '</div>';
 
         body.innerHTML = `
-                <div class="service-detail-header">
-                    <h2>${service.title}</h2>
-                    <p>${service.subtitle}</p>
-                </div>
-                
-                <div class="service-detail-banner">
-                    <img src="${service.image}" alt="${service.title}">
-                </div>
-                
-                <div class="service-description">
-                    <h3>About This Service</h3>
-                    ${service.description}
-                </div>
-                
-                <div class="service-highlights">
-                    ${highlightsHTML}
-                </div>
-                
-                <div class="package-comparison">
-                    <h3>Package Comparison</h3>
-                    <div class="package-table">
-                        ${tableHTML}
-                    </div>
-                </div>
-                
-                <div class="detail-cta">
-                    <h3>Ready to Plan Your Event?</h3>
-                    <p>Contact us today to discuss your vision and get a customized quote for your perfect celebration.</p>
-                    <button class="btn-primary-custom" onclick="closeServiceDetail(); document.getElementById('contact').scrollIntoView({behavior: 'smooth'})">Get Started</button>
-                </div>
-            `;
+            <div class="service-detail-header">
+                <h2>${service.title}</h2>
+                <p>${service.subtitle}</p>
+            </div>
+            <div class="service-detail-banner">
+                <img src="${service.image}" alt="${service.title}">
+            </div>
+            <div class="service-description">
+                <h3>About This Service</h3>
+                ${service.description}
+            </div>
+            <div class="package-comparison">
+                 <h3>Available Packages</h3>
+                 ${tiersHTML}
+            </div>
+            <div class="detail-cta">
+                <h3>Ready to Plan?</h3>
+                <button class="btn-primary-custom" onclick="window.location.href='/events/${serviceType}'">View Full Details</button>
+            </div>
+        `;
 
         modal.classList.add("active");
         document.body.style.overflow = "hidden";
       }
+
+      function showPricing(category) {
+        const tabs = document.querySelectorAll('.pricing-tab');
+        tabs.forEach(tab => {
+            if(tab.getAttribute('onclick').includes(`('${category}')`)) {
+                tab.classList.add('active');
+            } else {
+                tab.classList.remove('active');
+            }
+        });
+
+        document.querySelectorAll('.pricing-content').forEach(content => {
+            content.classList.remove('active');
+            if (content.id === `${category}-pricing`) {
+                content.classList.add('active');
+            }
+        });
+      }
+
+      function filterGallery(category) {
+        const filters = document.querySelectorAll('.gallery-filter');
+        filters.forEach(filter => {
+             if(filter.getAttribute('onclick').includes(`('${category}')`)) {
+                filter.classList.add('active');
+            } else {
+                filter.classList.remove('active');
+            }
+        });
+
+        const items = document.querySelectorAll('.gallery-item');
+        items.forEach(item => {
+            if (category === 'all' || item.getAttribute('data-category') === category) {
+                item.style.display = 'block';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+        
+        if(typeof AOS !== 'undefined') {
+            AOS.refresh();
+        }
+      }
+
 
       function closeServiceDetail() {
         const modal = document.getElementById("serviceDetailModal");

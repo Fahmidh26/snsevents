@@ -70,34 +70,41 @@
                     About Us
                 </a>
 
-                <a href="#" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white transition-colors">
-                    <i class="fas fa-concierge-bell w-5 h-5 mr-3"></i>
-                    Services
+                <a href="{{ route('admin.event-types.index') }}" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg {{ request()->routeIs('admin.event-types.*') ? 'bg-primary/20 text-primary' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }} transition-colors">
+                    <i class="fas fa-calendar-alt w-5 h-5 mr-3"></i>
+                    Event Types
+                </a>
+
+                <a href="{{ route('admin.pricing-tiers.index') }}" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg {{ request()->routeIs('admin.pricing-tiers.*') ? 'bg-primary/20 text-primary' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }} transition-colors">
+                    <i class="fas fa-tags w-5 h-5 mr-3"></i>
+                    Pricing Tiers
                 </a>
                 
-                <a href="#" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white transition-colors">
+                <a href="{{ route('admin.galleries.index') }}" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg {{ request()->routeIs('admin.galleries.*') ? 'bg-primary/20 text-primary' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }} transition-colors">
                     <i class="fas fa-images w-5 h-5 mr-3"></i>
-                    Gallery
+                    Event Gallery
                 </a>
 
-                <a href="#" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white transition-colors">
-                    <i class="fas fa-comment-alt w-5 h-5 mr-3"></i>
-                    Testimonials
+                <p class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 mt-6">Requests & Inquiries</p>
+
+                <a href="{{ route('admin.inquiries.index') }}" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg {{ request()->routeIs('admin.inquiries.*') ? 'bg-primary/20 text-primary' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }} transition-colors">
+                    <i class="fas fa-envelope-open-text w-5 h-5 mr-3"></i>
+                    Package Inquiries
                 </a>
 
-                <a href="#" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white transition-colors">
-                    <i class="fas fa-calendar-check w-5 h-5 mr-3"></i>
-                    Events
-                </a>
-
-                <a href="#" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white transition-colors">
-                    <i class="fas fa-tags w-5 h-5 mr-3"></i>
-                    Pricing
+                <a href="{{ route('admin.custom-requests.index') }}" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg {{ request()->routeIs('admin.custom-requests.*') ? 'bg-primary/20 text-primary' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }} transition-colors">
+                    <i class="fas fa-magic w-5 h-5 mr-3"></i>
+                    Custom Requests
                 </a>
 
                 <p class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 mt-6">Settings</p>
 
-                 <a href="{{ route('company-profile.edit') }}" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg {{ request()->routeIs('company-profile.edit') ? 'bg-primary/20 text-primary' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }} transition-colors">
+                <a href="{{ route('admin.settings.index') }}" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg {{ request()->routeIs('admin.settings.index') ? 'bg-primary/20 text-primary' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }} transition-colors">
+                    <i class="fas fa-cog w-5 h-5 mr-3"></i>
+                    General Settings
+                </a>
+
+                <a href="{{ route('company-profile.edit') }}" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg {{ request()->routeIs('company-profile.edit') ? 'bg-primary/20 text-primary' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }} transition-colors">
                     <i class="fas fa-building w-5 h-5 mr-3"></i>
                     Company Profile
                 </a>
