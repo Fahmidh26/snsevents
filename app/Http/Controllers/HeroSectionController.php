@@ -22,7 +22,7 @@ class HeroSectionController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'background_image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'background_image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'heading' => 'nullable|string|max:255',
         ]);
 
@@ -39,15 +39,15 @@ class HeroSectionController extends Controller
         return redirect()->route('hero.index')->with('success', 'Slide created successfully!');
     }
 
-    public function edit(HeroSection $heroSection)
+    public function edit(HeroSection $hero)
     {
-        return view('admin.hero.edit', compact('heroSection'));
+        return view('admin.hero.edit', compact('hero'));
     }
 
-    public function update(Request $request, HeroSection $heroSection)
+    public function update(Request $request, HeroSection $hero)
     {
         $request->validate([
-            'background_image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'background_image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'heading' => 'nullable|string|max:255',
         ]);
 
@@ -56,24 +56,24 @@ class HeroSectionController extends Controller
 
         if ($request->hasFile('background_image_path')) {
             // Delete old image
-            if ($heroSection->background_image_path) {
-                Storage::delete('public/' . $heroSection->background_image_path);
+            if ($hero->background_image_path) {
+                Storage::delete('public/' . $hero->background_image_path);
             }
             $path = $request->file('background_image_path')->store('hero-slides', 'public');
             $data['background_image_path'] = $path;
         }
 
-        $heroSection->update($data);
+        $hero->update($data);
 
         return redirect()->route('hero.index')->with('success', 'Slide updated successfully!');
     }
 
-    public function destroy(HeroSection $heroSection)
+    public function destroy(HeroSection $hero)
     {
-        if ($heroSection->background_image_path) {
-            Storage::delete('public/' . $heroSection->background_image_path);
+        if ($hero->background_image_path) {
+            Storage::delete('public/' . $hero->background_image_path);
         }
-        $heroSection->delete();
+        $hero->delete();
         return redirect()->route('hero.index')->with('success', 'Slide deleted successfully!');
     }
 }

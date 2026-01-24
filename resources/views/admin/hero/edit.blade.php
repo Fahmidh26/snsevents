@@ -7,7 +7,7 @@
         <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg border-t-4 border-primary">
             <div class="p-8 text-secondary">
                 
-                <form method="POST" action="{{ route('hero.update', $heroSection->id) }}" enctype="multipart/form-data" class="space-y-6">
+                <form method="POST" action="{{ route('hero.update', $hero->id) }}" enctype="multipart/form-data" class="space-y-6">
                     @csrf
                     @method('PUT')
                     
@@ -20,27 +20,27 @@
                         <!-- Heading & Subheading -->
                         <div class="mb-6">
                             <label for="heading" class="block text-gray-700 text-sm font-bold mb-2 uppercase tracking-wider">Heading</label>
-                            <input type="text" name="heading" id="heading" value="{{ old('heading', $heroSection->heading) }}" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary/50 focus:ring-opacity-50">
+                            <input type="text" name="heading" id="heading" value="{{ old('heading', $hero->heading) }}" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary/50 focus:ring-opacity-50">
                         </div>
 
                         <div class="mb-6">
                             <label for="subheading" class="block text-gray-700 text-sm font-bold mb-2 uppercase tracking-wider">Subheading</label>
-                            <input type="text" name="subheading" id="subheading" value="{{ old('subheading', $heroSection->subheading) }}" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary/50 focus:ring-opacity-50">
+                            <input type="text" name="subheading" id="subheading" value="{{ old('subheading', $hero->subheading) }}" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary/50 focus:ring-opacity-50">
                         </div>
 
                         <!-- Button Text -->
                         <div class="mb-6">
                             <label for="button_text" class="block text-gray-700 text-sm font-bold mb-2 uppercase tracking-wider">Button Text</label>
-                            <input type="text" name="button_text" id="button_text" value="{{ old('button_text', $heroSection->button_text) }}" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary/50 focus:ring-opacity-50">
+                            <input type="text" name="button_text" id="button_text" value="{{ old('button_text', $hero->button_text) }}" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary/50 focus:ring-opacity-50">
                         </div>
 
                         <!-- Image -->
                         <div class="mb-6">
                             <label for="background_image_path" class="block text-gray-700 text-sm font-bold mb-2 uppercase tracking-wider">Background Image</label>
                             
-                            @if($heroSection->background_image_path)
+                            @if($hero->background_image_path)
                                 <div class="mb-3 p-2 border border-gray-200 rounded-lg bg-gray-50 inline-block">
-                                    <img src="{{ asset('storage/' . $heroSection->background_image_path) }}" alt="Current Slide" class="h-32 object-cover rounded">
+                                    <img src="{{ asset('storage/' . $hero->background_image_path) }}" alt="Current Slide" class="h-32 object-cover rounded">
                                     <p class="text-xs text-gray-500 mt-1">Current Image</p>
                                 </div>
                             @endif
@@ -59,13 +59,13 @@
                              <!-- Order -->
                             <div>
                                 <label for="sort_order" class="block text-gray-700 text-sm font-bold mb-2 uppercase tracking-wider">Sort Order</label>
-                                <input type="number" name="sort_order" id="sort_order" value="{{ old('sort_order', $heroSection->sort_order) }}" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary/50 focus:ring-opacity-50">
+                                <input type="number" name="sort_order" id="sort_order" value="{{ old('sort_order', $hero->sort_order) }}" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary/50 focus:ring-opacity-50">
                             </div>
 
                             <!-- Active Status -->
                             <div class="flex items-center pt-8">
                                 <label for="is_active" class="flex items-center cursor-pointer">
-                                    <input type="checkbox" name="is_active" id="is_active" class="form-checkbox h-5 w-5 text-primary rounded focus:ring-primary border-gray-300" {{ $heroSection->is_active ? 'checked' : '' }}>
+                                    <input type="checkbox" name="is_active" id="is_active" class="form-checkbox h-5 w-5 text-primary rounded focus:ring-primary border-gray-300" {{ $hero->is_active ? 'checked' : '' }}>
                                     <span class="ml-2 text-gray-700 font-medium">Active (Visible on website)</span>
                                 </label>
                             </div>
