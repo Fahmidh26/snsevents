@@ -1854,6 +1854,375 @@
         margin-bottom: 30px;
       }
 
+      /* Leadership & Vision Section */
+      .leadership-section {
+        padding: 120px 0;
+        background: linear-gradient(180deg, var(--surface-white) 0%, var(--light-bg) 50%, var(--surface-white) 100%);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .leadership-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: 
+          radial-gradient(ellipse at 0% 0%, rgba(201, 162, 39, 0.08) 0%, transparent 50%),
+          radial-gradient(ellipse at 100% 100%, rgba(201, 162, 39, 0.06) 0%, transparent 50%),
+          radial-gradient(ellipse at 50% 50%, rgba(15, 15, 15, 0.02) 0%, transparent 70%);
+        pointer-events: none;
+      }
+
+      .leadership-section::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        right: -200px;
+        width: 400px;
+        height: 400px;
+        border: 1px solid rgba(201, 162, 39, 0.1);
+        border-radius: 50%;
+        transform: translateY(-50%);
+        pointer-events: none;
+      }
+
+      .leader-image-wrapper {
+        position: relative;
+        padding: 30px;
+      }
+
+      .leader-image-wrapper::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 120px;
+        height: 120px;
+        border-top: 4px solid var(--primary-color);
+        border-left: 4px solid var(--primary-color);
+        border-radius: 8px 0 0 0;
+        transition: var(--transition-smooth);
+      }
+
+      .leader-image-wrapper::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 120px;
+        height: 120px;
+        border-bottom: 4px solid var(--primary-color);
+        border-right: 4px solid var(--primary-color);
+        border-radius: 0 0 8px 0;
+        transition: var(--transition-smooth);
+      }
+
+      .leader-image-wrapper:hover::before,
+      .leader-image-wrapper:hover::after {
+        width: 140px;
+        height: 140px;
+      }
+
+      .leader-image {
+        width: 100%;
+        border-radius: 16px;
+        box-shadow: var(--shadow-lg);
+        filter: grayscale(15%);
+        transition: var(--transition-smooth);
+        position: relative;
+        z-index: 1;
+      }
+
+      .leader-image:hover {
+        filter: grayscale(0%);
+        transform: scale(1.02);
+        box-shadow: var(--shadow-xl);
+      }
+
+      .leader-badge {
+        position: absolute;
+        bottom: 50px;
+        right: 50px;
+        background: var(--primary-gradient);
+        color: #fff;
+        padding: 16px 24px;
+        border-radius: 12px;
+        box-shadow: var(--shadow-gold);
+        z-index: 2;
+        animation: float-gentle 3s ease-in-out infinite;
+      }
+
+      .leader-badge i {
+        font-size: 1.5rem;
+        margin-right: 8px;
+      }
+
+      .leader-badge span {
+        font-weight: 600;
+        font-size: 0.95rem;
+        letter-spacing: 0.5px;
+      }
+
+      .leader-subtitle {
+        color: var(--primary-color);
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .leader-subtitle::before {
+        content: "";
+        width: 40px;
+        height: 2px;
+        background: var(--primary-gradient);
+        border-radius: 2px;
+      }
+
+      .leader-name {
+        font-size: 2.8rem;
+        font-family: 'Playfair Display', serif;
+        color: var(--secondary-color);
+        margin-bottom: 24px;
+        line-height: 1.2;
+      }
+
+      .leader-quote-box {
+        background: linear-gradient(135deg, rgba(201, 162, 39, 0.05) 0%, rgba(255, 255, 255, 0.9) 100%);
+        padding: 32px 36px;
+        border-left: 4px solid var(--primary-color);
+        border-radius: 0 16px 16px 0;
+        margin-bottom: 32px;
+        position: relative;
+        box-shadow: var(--shadow-sm);
+      }
+
+      .leader-quote-box::before {
+        content: '"';
+        position: absolute;
+        top: -10px;
+        left: 20px;
+        font-size: 5rem;
+        font-family: 'Playfair Display', serif;
+        color: rgba(201, 162, 39, 0.15);
+        line-height: 1;
+      }
+
+      .leader-bio {
+        font-style: italic;
+        font-size: 1.15rem;
+        color: var(--text-dark);
+        line-height: 1.8;
+        margin-bottom: 16px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .leader-why {
+        font-size: 0.95rem;
+        color: var(--text-light);
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        margin: 0;
+      }
+
+      .leader-why strong {
+        color: var(--primary-color);
+        white-space: nowrap;
+      }
+
+      .leader-background {
+        margin-bottom: 36px;
+        padding: 24px;
+        background: var(--surface-white);
+        border-radius: 16px;
+        box-shadow: var(--shadow-xs);
+        border: 1px solid rgba(0, 0, 0, 0.04);
+      }
+
+      .leader-background-title {
+        font-size: 1.1rem;
+        color: var(--secondary-color);
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 12px;
+      }
+
+      .leader-background-title i {
+        width: 36px;
+        height: 36px;
+        background: rgba(201, 162, 39, 0.1);
+        color: var(--primary-color);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.9rem;
+      }
+
+      .leader-background p {
+        color: var(--text-light);
+        line-height: 1.75;
+        margin: 0;
+        padding-left: 48px;
+      }
+
+      .vision-mission-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+      }
+
+      .vision-card {
+        background: var(--surface-white);
+        padding: 32px 28px;
+        border-radius: 20px;
+        box-shadow: var(--shadow-sm);
+        transition: var(--transition-smooth);
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(0, 0, 0, 0.03);
+      }
+
+      .vision-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: var(--primary-gradient);
+        transform: scaleX(0);
+        transition: var(--transition-smooth);
+      }
+
+      .vision-card:hover {
+        transform: translateY(-8px);
+        box-shadow: var(--shadow-md);
+      }
+
+      .vision-card:hover::before {
+        transform: scaleX(1);
+      }
+
+      .vision-card.mission-card::before {
+        background: linear-gradient(135deg, var(--secondary-color) 0%, #333 100%);
+      }
+
+      .vision-icon {
+        width: 56px;
+        height: 56px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+        font-size: 1.4rem;
+        transition: var(--transition-smooth);
+      }
+
+      .vision-card:hover .vision-icon {
+        transform: rotateY(180deg);
+      }
+
+      .vision-icon.gold {
+        background: rgba(201, 162, 39, 0.1);
+        color: var(--primary-color);
+      }
+
+      .vision-icon.dark {
+        background: rgba(15, 15, 15, 0.08);
+        color: var(--secondary-color);
+      }
+
+      .vision-card h4 {
+        font-size: 1.25rem;
+        margin-bottom: 12px;
+        color: var(--secondary-color);
+      }
+
+      .vision-card p {
+        font-size: 0.95rem;
+        color: var(--text-light);
+        line-height: 1.7;
+        margin: 0;
+      }
+
+      /* Decorative Elements */
+      .leadership-decoration {
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(201, 162, 39, 0.08) 0%, transparent 70%);
+        pointer-events: none;
+        animation: pulse-glow 4s ease-in-out infinite;
+      }
+
+      .leadership-decoration.top-right {
+        top: -100px;
+        right: -100px;
+      }
+
+      .leadership-decoration.bottom-left {
+        bottom: -100px;
+        left: -100px;
+      }
+
+      @media (max-width: 991.98px) {
+        .leader-name {
+          font-size: 2.2rem;
+        }
+        
+        .vision-mission-grid {
+          grid-template-columns: 1fr;
+        }
+        
+        .leader-badge {
+          bottom: 40px;
+          right: 40px;
+          padding: 12px 18px;
+        }
+        
+        .leader-image-wrapper::before,
+        .leader-image-wrapper::after {
+          width: 80px;
+          height: 80px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .leadership-section {
+          padding: 80px 0;
+        }
+        
+        .leader-name {
+          font-size: 1.8rem;
+        }
+        
+        .leader-quote-box {
+          padding: 24px;
+        }
+        
+        .leader-bio {
+          font-size: 1rem;
+        }
+        
+        .leader-badge {
+          display: none;
+        }
+      }
+
       /* Responsive */
       @media (max-width: 991.98px) {
         .about-content {
@@ -2069,91 +2438,98 @@
 
     <!-- CEO & Vision Section -->
     @if(isset($companyProfile) && ($companyProfile->ceo_name || $companyProfile->mission || $companyProfile->vision))
-    <section id="ceo" class="about-section" style="background-color: #fff; position: relative;">
-      <!-- Decorative Element -->
-      <div style="position: absolute; top: 0; right: 0; width: 300px; height: 300px; background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, rgba(255,255,255,0) 70%); z-index: 0;"></div>
-
+    <section id="ceo" class="leadership-section">
+      <!-- Decorative Elements -->
+      <div class="leadership-decoration top-right"></div>
+      <div class="leadership-decoration bottom-left"></div>
+      
       <div class="container" style="position: relative; z-index: 1;">
         <div class="section-title" data-aos="fade-up">
           <h2>{{ $companyProfile->ceo_section_title ?? 'Leadership & Vision' }}</h2>
           <p>{{ $companyProfile->ceo_section_subtitle ?? 'The Driving Force Behind SNS Events' }}</p>
         </div>
         
-        <div class="row align-items-center">
-            <!-- CEO Image -->
-             <div class="col-lg-5 mb-5 mb-lg-0" data-aos="fade-right">
-                <div style="position: relative; padding: 20px;">
-                    <div style="position: absolute; top: 0; left: 0; width: 100px; height: 100px; border-top: 5px solid var(--primary-color); border-left: 5px solid var(--primary-color);"></div>
-                    <div style="position: absolute; bottom: 0; right: 0; width: 100px; height: 100px; border-bottom: 5px solid var(--primary-color); border-right: 5px solid var(--primary-color);"></div>
-                    <img 
-                        src="{{ $companyProfile->ceo_image_path ? asset('storage/' . $companyProfile->ceo_image_path) : 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80' }}" 
-                        alt="CEO"
-                        class="img-fluid"
-                        style="width: 100%; box-shadow: 0 20px 50px rgba(0,0,0,0.1); filter: grayscale(20%); transition: all 0.5s ease;"
-                        onmouseover="this.style.filter='grayscale(0%)'; this.style.transform='scale(1.02)'"
-                        onmouseout="this.style.filter='grayscale(20%)'; this.style.transform='scale(1)'"
-                    >
+        <div class="row align-items-center g-5">
+          <!-- Leader Image -->
+          <div class="col-lg-5" data-aos="fade-right" data-aos-duration="800">
+            <div class="leader-image-wrapper">
+              <img 
+                src="{{ $companyProfile->ceo_image_path ? asset('storage/' . $companyProfile->ceo_image_path) : 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80' }}" 
+                alt="{{ $companyProfile->ceo_name ?? 'CEO' }}"
+                class="leader-image"
+              >
+              @if($companyProfile->ceo_name)
+              <div class="leader-badge">
+                <i class="fas fa-crown"></i>
+                <span>CEO & Founder</span>
+              </div>
+              @endif
+            </div>
+          </div>
+
+          <!-- Leader Content -->
+          <div class="col-lg-7" data-aos="fade-left" data-aos-duration="800" data-aos-delay="100">
+            @if($companyProfile->ceo_name)
+            <div class="mb-4">
+              <div class="leader-subtitle">Meet the CEO</div>
+              <h3 class="leader-name">{{ $companyProfile->ceo_name }}</h3>
+            </div>
+            @endif
+
+            @if($companyProfile->ceo_bio || $companyProfile->ceo_why_business)
+            <div class="leader-quote-box">
+              @if($companyProfile->ceo_bio)
+              <p class="leader-bio">"{{ $companyProfile->ceo_bio }}"</p>
+              @endif
+              
+              @if($companyProfile->ceo_why_business)
+              <p class="leader-why">
+                <strong>Why I started:</strong>
+                <span>{{ $companyProfile->ceo_why_business }}</span>
+              </p>
+              @endif
+            </div>
+            @endif
+
+            @if($companyProfile->ceo_background)
+            <div class="leader-background" data-aos="fade-up" data-aos-delay="200">
+              <div class="leader-background-title">
+                <i class="fas fa-briefcase"></i>
+                Professional Background
+              </div>
+              <p>{{ $companyProfile->ceo_background }}</p>
+            </div>
+            @endif
+            
+            @if($companyProfile->mission || $companyProfile->vision)
+            <div class="vision-mission-grid" data-aos="fade-up" data-aos-delay="300">
+              @if($companyProfile->mission)
+              <div class="vision-card mission-card">
+                <div class="vision-icon dark">
+                  <i class="fas fa-bullseye"></i>
                 </div>
-             </div>
+                <h4>Our Mission</h4>
+                <p>{{ $companyProfile->mission }}</p>
+              </div>
+              @endif
 
-             <!-- CEO Content -->
-             <div class="col-lg-7 ps-lg-5" data-aos="fade-left">
-                @if($companyProfile->ceo_name)
-                    <div class="mb-4">
-                        <h5 style="color: var(--primary-color); letter-spacing: 2px; text-transform: uppercase; font-size: 0.9rem; font-weight: 600; margin-bottom: 10px;">Meet the CEO</h5>
-                        <h3 style="font-size: 2.5rem; font-family: 'Playfair Display', serif; color: var(--secondary-color);">{{ $companyProfile->ceo_name }}</h3>
-                    </div>
-                @endif
-
-                <div style="background: var(--light-bg); padding: 30px; border-left: 4px solid var(--primary-color); border-radius: 0 10px 10px 0; margin-bottom: 30px;">
-                    @if($companyProfile->ceo_bio)
-                        <p style="font-style: italic; font-size: 1.1rem; color: #555; margin-bottom: 15px;">"{{ $companyProfile->ceo_bio }}"</p>
-                    @endif
-                    
-                    @if($companyProfile->ceo_why_business)
-                         <p style="font-size: 0.95rem; color: #777; margin-bottom: 0;"><strong>Why I started:</strong> {{ $companyProfile->ceo_why_business }}</p>
-                    @endif
+              @if($companyProfile->vision)
+              <div class="vision-card">
+                <div class="vision-icon gold">
+                  <i class="fas fa-eye"></i>
                 </div>
-
-                @if($companyProfile->ceo_background)
-                    <div class="mb-5">
-                         <h5 style="font-size: 1.1rem; color: var(--secondary-color); font-weight: 600; display: flex; align-items: center; gap: 10px;">
-                            <i class="fas fa-briefcase" style="color: var(--primary-color);"></i> Professional Background
-                         </h5>
-                        <p style="color: var(--text-light); line-height: 1.7;">{{ $companyProfile->ceo_background }}</p>
-                    </div>
-                @endif
-                
-                <div class="row g-4">
-                    @if($companyProfile->mission)
-                    <div class="col-md-6">
-                        <div style="background: #fff; padding: 25px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); height: 100%; transition: transform 0.3s ease; border-top: 3px solid var(--secondary-color);" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
-                            <div style="width: 50px; height: 50px; background: rgba(26, 26, 26, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; color: var(--secondary-color);">
-                                <i class="fas fa-bullseye text-xl"></i>
-                            </div>
-                            <h4 style="font-size: 1.2rem; margin-bottom: 10px;">Our Mission</h4>
-                            <p style="font-size: 0.9rem; color: #666; margin: 0;">{{ $companyProfile->mission }}</p>
-                        </div>
-                    </div>
-                    @endif
-
-                    @if($companyProfile->vision)
-                    <div class="col-md-6">
-                        <div style="background: #fff; padding: 25px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); height: 100%; transition: transform 0.3s ease; border-top: 3px solid var(--primary-color);" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
-                             <div style="width: 50px; height: 50px; background: rgba(212, 175, 55, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; color: var(--primary-color);">
-                                <i class="fas fa-eye text-xl"></i>
-                            </div>
-                            <h4 style="font-size: 1.2rem; margin-bottom: 10px;">Our Vision</h4>
-                             <p style="font-size: 0.9rem; color: #666; margin: 0;">{{ $companyProfile->vision }}</p>
-                        </div>
-                    </div>
-                    @endif
-                </div>
-             </div>
+                <h4>Our Vision</h4>
+                <p>{{ $companyProfile->vision }}</p>
+              </div>
+              @endif
+            </div>
+            @endif
+          </div>
         </div>
       </div>
     </section>
     @endif
+
 
     <!-- Services Section -->
     <section id="services" class="services-section">
