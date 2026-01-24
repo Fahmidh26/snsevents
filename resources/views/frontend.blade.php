@@ -242,6 +242,48 @@
         display: none;
       }
 
+      /* Dropdown Menu */
+      .dropdown-menu {
+        background: rgba(15, 15, 15, 0.95);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 12px;
+        padding: 10px 0;
+        box-shadow: var(--shadow-lg);
+        margin-top: 10px;
+      }
+
+      .dropdown-item {
+        color: rgba(255, 255, 255, 0.85);
+        padding: 10px 24px;
+        font-weight: 500;
+        font-size: 0.9rem;
+        transition: var(--transition-fast);
+      }
+
+      .dropdown-item:hover, .dropdown-item:focus {
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--primary-color);
+        padding-left: 28px;
+      }
+
+      .nav-link.dropdown-toggle::after {
+        display: inline-block;
+        margin-left: 0.4em;
+        vertical-align: 0.15em;
+        content: "";
+        border-top: 0.3em solid;
+        border-right: 0.3em solid transparent;
+        border-bottom: 0;
+        border-left: 0.3em solid transparent;
+        transition: var(--transition-fast);
+      }
+
+      .nav-item.show .nav-link.dropdown-toggle::after {
+        transform: rotate(180deg);
+      }
+
       /* Mobile Navbar */
       @media (max-width: 991.98px) {
         .navbar-collapse {
@@ -2330,6 +2372,7 @@
 
     <!-- Hero Section -->
     @if(isset($heroSlides) && $heroSlides->count() > 0)
+        <section id="home">
         <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
             <div class="carousel-inner">
                 @foreach($heroSlides as $key => $slide)
@@ -2357,6 +2400,7 @@
             </button>
             @endif
         </div>
+        </section>
     @else
         <section id="home" class="hero-section">
           <div class="hero-content">

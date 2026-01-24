@@ -32,14 +32,15 @@
           <li class="nav-item">
             <a class="nav-link {{ request()->routeIs('custom-package') ? 'active' : '' }}" href="{{ route('custom-package') }}">Custom Package</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url('/#gallery') }}">Gallery</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url('/#testimonials') }}">Testimonials</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url('/#faq') }}">FAQ</a>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Explore
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{{ url('/#gallery') }}">Gallery</a></li>
+              <li><a class="dropdown-item" href="{{ url('/#testimonials') }}">Testimonials</a></li>
+              <li><a class="dropdown-item" href="{{ url('/#faq') }}">FAQ</a></li>
+            </ul>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{{ url('/#contact') }}">Contact</a>
