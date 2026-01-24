@@ -17,8 +17,8 @@ class CompanyProfileController extends Controller
     public function update(Request $request)
     {
         $request->validate([
-            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'ceo_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'ceo_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'ceo_name' => 'nullable|string|max:255',
             'ceo_bio' => 'nullable|string',
             'ceo_background' => 'nullable|string',

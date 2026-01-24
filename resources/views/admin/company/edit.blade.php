@@ -42,6 +42,7 @@
                                         hover:file:bg-primary/20
                                         cursor-pointer
                                     ">
+                                    @error('logo') <span class="text-red-500 text-sm block mt-1">{{ $message }}</span> @enderror
                                     <p class="mt-1 text-xs text-gray-500">Recommended: PNG with transparent background.</p>
                                 </div>
                             </div>
@@ -85,6 +86,7 @@
                                         hover:file:bg-primary/20
                                         cursor-pointer
                                     ">
+                                    @error('ceo_image') <span class="text-red-500 text-sm block mt-1">{{ $message }}</span> @enderror
                                 </div>
                             </div>
                         </div>
