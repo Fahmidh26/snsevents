@@ -55,14 +55,20 @@ class EventGalleryController extends Controller
     {
         $request->validate([
             'caption' => 'nullable|string|max:255',
-            'display_order' => 'integer',
+            'display_order' => 'nullable|integer',
         ]);
 
-        $gallery->update([
+        $updateData = [
             'caption' => $request->caption,
-            'display_order' => $request->display_order,
             'is_featured' => $request->has('is_featured')
-        ]);
+        ];
+
+        // Only update display_order if it's provided
+        if ($request->has('display_order')) {
+            $updateData['display_order'] = $request->display_order;
+        }
+
+        $gallery->update($updateData);
 
         if ($request->has('is_featured')) {
             // Unset other featured images for this event type
