@@ -2304,8 +2304,17 @@
         <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
             <div class="carousel-inner">
                 @foreach($heroSlides as $key => $slide)
-                <div class="carousel-item {{ $key == 0 ? 'active' : '' }}" style="height: 100vh; background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{{ Str::startsWith($slide->background_image_path, 'http') ? $slide->background_image_path : ($slide->background_image_path ? asset('storage/' . $slide->background_image_path) : 'https://images.unsplash.com/photo-1519167758481-83f29da8c8f0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') }}'); background-size: cover; background-position: center;">
-                     <div class="d-flex align-items-center justify-content-center h-100">
+                <div class="carousel-item {{ $key == 0 ? 'active' : '' }}" style="height: 100vh;">
+                    @if($slide->background_video_path)
+                        <video autoplay muted loop playsinline class="position-absolute w-100 h-100" style="object-fit: cover; z-index: -1;">
+                             <source src="{{ asset('storage/' . $slide->background_video_path) }}" type="video/{{ pathinfo($slide->background_video_path, PATHINFO_EXTENSION) == 'mov' ? 'quicktime' : pathinfo($slide->background_video_path, PATHINFO_EXTENSION) }}">
+                        </video>
+                        <div class="position-absolute w-100 h-100" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)); z-index: 0;"></div>
+                    @else
+                        <div class="position-absolute w-100 h-100" style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{{ Str::startsWith($slide->background_image_path, 'http') ? $slide->background_image_path : ($slide->background_image_path ? asset('storage/' . $slide->background_image_path) : 'https://images.unsplash.com/photo-1519167758481-83f29da8c8f0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') }}'); background-size: cover; background-position: center; z-index: -1;"></div>
+                    @endif
+
+                     <div class="d-flex align-items-center justify-content-center h-100" style="position: relative; z-index: 1;">
                           <div class="hero-content text-center text-white">
                                 <h1 data-aos="fade-down">{{ $slide->heading }}</h1>
                                 <p data-aos="fade-up" data-aos-delay="200">{{ $slide->subheading }}</p>

@@ -54,6 +54,28 @@
                                 cursor-pointer
                             ">
                         </div>
+
+                         <!-- Video -->
+                         <div class="mb-6">
+                            <label for="background_video_path" class="block text-gray-700 text-sm font-bold mb-2 uppercase tracking-wider">Background Video (Optional)</label>
+                            
+                            @if($hero->background_video_path)
+                                <div class="mb-3 p-2 border border-gray-200 rounded-lg bg-gray-50 inline-block">
+                                    <video src="{{ asset('storage/' . $hero->background_video_path) }}" class="h-32 object-cover rounded" controls></video>
+                                    <p class="text-xs text-gray-500 mt-1">Current Video</p>
+                                </div>
+                            @endif
+
+                            <input type="file" name="background_video_path" id="background_video_path" class="block w-full text-sm text-gray-500
+                                file:mr-4 file:py-2 file:px-4
+                                file:rounded-full file:border-0
+                                file:text-sm file:font-semibold
+                                file:bg-primary/10 file:text-primary
+                                hover:file:bg-primary/20
+                                cursor-pointer
+                            ">
+                            <p class="mt-1 text-xs text-gray-500">Max size: 100MB. Supported formats: MP4, MOV, OGG, WEBM.</p>
+                        </div>
                         
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                              <!-- Order -->

@@ -14,6 +14,7 @@ class HeroSection extends Model
         'subheading',
         'button_text',
         'background_image_path',
+        'background_video_path',
         'sort_order',
         'is_active',
     ];
