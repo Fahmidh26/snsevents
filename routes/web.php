@@ -73,7 +73,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // Company Profile Routes
+    // CEO Section Routes
     Route::get('/company-profile/edit', [CompanyProfileController::class, 'edit'])->name('company-profile.edit');
     Route::post('/company-profile/update', [CompanyProfileController::class, 'update'])->name('company-profile.update');
 

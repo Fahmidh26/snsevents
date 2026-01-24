@@ -1,6 +1,6 @@
 <x-admin-layout>
     <x-slot name="header">
-        Company Profile Settings
+        CEO Section Settings
     </x-slot>
 
     <div class="max-w-4xl mx-auto">

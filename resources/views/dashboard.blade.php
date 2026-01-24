@@ -72,9 +72,9 @@
             <div class="grid grid-cols-2 gap-4">
                 <a href="{{ route('company-profile.edit') }}" class="flex flex-col items-center justify-center p-6 border border-gray-200 rounded-lg hover:border-primary hover:bg-primary/5 transition-all group cursor-pointer shadow-sm hover:shadow-md">
                     <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary mb-3 group-hover:bg-primary group-hover:text-white transition-colors duration-300">
-                        <i class="fas fa-building text-xl"></i>
+                        <i class="fas fa-user-tie text-xl"></i>
                     </div>
-                    <span class="text-sm font-semibold text-gray-600 group-hover:text-primary transition-colors">Company Info</span>
+                    <span class="text-sm font-semibold text-gray-600 group-hover:text-primary transition-colors">CEO Section</span>
                 </a>
                 
                  <button class="flex flex-col items-center justify-center p-6 border border-gray-200 rounded-lg hover:border-primary hover:bg-primary/5 transition-all group cursor-pointer shadow-sm hover:shadow-md">
@@ -122,7 +122,7 @@
                <div class="flex items-start">
                    <div class="w-2 h-2 mt-2 rounded-full bg-blue-500 mr-3"></div>
                    <div>
-                       <p class="text-sm font-medium text-secondary">Company Profile updated</p>
+                       <p class="text-sm font-medium text-secondary">CEO Section updated</p>
                        <p class="text-xs text-gray-400">2 days ago</p>
                    </div>
                </div>

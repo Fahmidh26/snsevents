@@ -141,8 +141,8 @@
                 </a>
 
                 <a href="{{ route('company-profile.edit') }}" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg {{ request()->routeIs('company-profile.edit') ? 'bg-primary/20 text-primary' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }} transition-colors">
-                    <i class="fas fa-building w-5 h-5 mr-3"></i>
-                    Company Profile
+                    <i class="fas fa-user-tie w-5 h-5 mr-3"></i>
+                    CEO Section
                 </a>
 
                 <a href="{{ route('admin.seo.index') }}" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg {{ request()->routeIs('admin.seo.*') ? 'bg-primary/20 text-primary' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }} transition-colors">
