@@ -62,6 +62,24 @@
                                 class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary/50 focus:ring-opacity-50">{{ old('office_hours', $contactInfo->office_hours) }}</textarea>
                             <p class="text-xs text-gray-500 mt-1">e.g., Mon - Fri: 9:00 AM - 6:00 PM<br />Sat: 10:00 AM - 4:00 PM</p>
                         </div>
+
+                        <!-- Map Embed Code -->
+                        <div class="mb-6">
+                            <label for="map_url" class="block text-gray-700 text-sm font-bold mb-2 uppercase tracking-wider">Google Maps Embed Code</label>
+                            <textarea name="map_url" id="map_url" rows="4" 
+                                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary/50 focus:ring-opacity-50 font-mono text-sm"
+                                placeholder='<iframe src="https://www.google.com/maps/embed?pb=..." width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>'>{{ old('map_url', $contactInfo->map_url) }}</textarea>
+                            <div class="mt-2 p-3 bg-blue-50 border-l-4 border-blue-400 rounded-r">
+                                <p class="text-xs text-blue-700 font-semibold mb-1">📍 How to add Google Maps:</p>
+                                <ol class="text-xs text-blue-600 ml-4 list-decimal space-y-1">
+                                    <li>Go to <a href="https://www.google.com/maps" target="_blank" class="underline">Google Maps</a></li>
+                                    <li>Search for your location</li>
+                                    <li>Click "Share" button → Select "Embed a map"</li>
+                                    <li><strong>Copy the ENTIRE iframe code</strong> and paste it above</li>
+                                    <li>That's it! The system will automatically extract the URL.</li>
+                                </ol>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="flex items-center justify-end border-t border-gray-200 pt-6">

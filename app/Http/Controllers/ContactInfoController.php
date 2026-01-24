@@ -24,6 +24,7 @@ class ContactInfoController extends Controller
             'address' => 'nullable|string',
             'office_hours' => 'nullable|string',
             'description' => 'nullable|string',
+            'map_url' => 'nullable|string',
         ]);
 
         $contactInfo = ContactInfo::first();
@@ -31,7 +32,18 @@ class ContactInfoController extends Controller
             $contactInfo = new ContactInfo();
         }
 
-        $contactInfo->fill($request->all());
+        // Extract URL from iframe if entire iframe code is pasted
+        $mapUrl = $request->input('map_url');
+        if ($mapUrl && strpos($mapUrl, '<iframe') !== false) {
+            // Extract src attribute from iframe
+            preg_match('/src="([^"]+)"/', $mapUrl, $matches);
+            if (isset($matches[1])) {
+                $mapUrl = $matches[1];
+            }
+        }
+
+        $contactInfo->fill($request->except('map_url'));
+        $contactInfo->map_url = $mapUrl;
         $contactInfo->save();
 
         return redirect()->route('contact-info.edit')->with('success', 'Contact information updated successfully!');

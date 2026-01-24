@@ -1470,6 +1470,44 @@
         color: var(--text-light);
       }
 
+      .contact-map-section {
+        margin-top: 30px;
+        width: 100%;
+      }
+
+      .contact-map-section h5 {
+        font-size: 1.2rem;
+        color: var(--secondary-color);
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .contact-map-section h5 i {
+        color: var(--primary-color);
+      }
+
+      .contact-map {
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        height: 450px;
+        width: 100%;
+      }
+
+      .contact-map:hover {
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        transform: translateY(-2px);
+      }
+
+      .contact-map iframe {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+
       .contact-form {
         flex: 1;
         background: #fff;
@@ -2240,6 +2278,10 @@
           flex-direction: column;
         }
 
+        .contact-map {
+          height: 300px;
+        }
+
         .pricing-tabs {
           flex-direction: column;
           align-items: center;
@@ -2883,6 +2925,23 @@
                 <div class="contact-details">
                   <h5>Office Hours</h5>
                   <p>{!! nl2br(e($contactInfo->office_hours)) !!}</p>
+                </div>
+              </div>
+            @endif
+
+            @if($contactInfo && $contactInfo->map_url)
+              <div class="contact-map-section">
+                <h5><i class="fas fa-map-marked-alt"></i> Location Map</h5>
+                <div class="contact-map">
+                  <iframe 
+                    src="{{ $contactInfo->map_url }}" 
+                    width="100%" 
+                    height="100%" 
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                  </iframe>
                 </div>
               </div>
             @endif

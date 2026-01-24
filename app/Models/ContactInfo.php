@@ -15,5 +15,6 @@ class ContactInfo extends Model
         'address',
         'office_hours',
         'description',
+        'map_url',
     ];
 }
