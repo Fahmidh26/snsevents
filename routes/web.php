@@ -20,6 +20,8 @@ use App\Http\Controllers\Admin\PrivacyPolicyController;
 use App\Http\Controllers\Admin\TermsAndConditionController;
 use App\Http\Controllers\PrivacyPolicyController as FrontendPrivacyPolicyController;
 use App\Http\Controllers\TermsAndConditionController as FrontendTermsAndConditionController;
+use App\Http\Controllers\CounselingController;
+use App\Http\Controllers\Admin\CounselingController as AdminCounselingController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -85,6 +87,12 @@ Route::get('/custom-package', function() {
 })->name('custom-package');
 Route::post('/custom-package/submit', [EventController::class, 'submitCustomRequest'])->name('custom-package.submit');
 
+// Counseling Frontend Routes
+Route::get('/counseling', [CounselingController::class, 'index'])->name('counseling');
+Route::get('/counseling/slots', [CounselingController::class, 'getSlots'])->name('counseling.slots');
+Route::post('/counseling/book', [CounselingController::class, 'book'])->name('counseling.book');
+Route::get('/counseling/confirmation/{code}', [CounselingController::class, 'confirmation'])->name('counseling.confirmation');
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -143,6 +151,20 @@ Route::middleware('auth')->group(function () {
         // Terms & Conditions
         Route::get('terms-and-conditions', [TermsAndConditionController::class, 'edit'])->name('terms-and-condition.edit');
         Route::post('terms-and-conditions', [TermsAndConditionController::class, 'update'])->name('terms-and-condition.update');
+
+        // Counseling Management
+        Route::get('counseling/settings', [AdminCounselingController::class, 'settings'])->name('counseling.settings');
+        Route::post('counseling/settings', [AdminCounselingController::class, 'updateSettings'])->name('counseling.settings.update');
+        Route::get('counseling/slots', [AdminCounselingController::class, 'slots'])->name('counseling.slots');
+        Route::get('counseling/slots/create', [AdminCounselingController::class, 'createSlot'])->name('counseling.slots.create');
+        Route::post('counseling/slots', [AdminCounselingController::class, 'storeSlot'])->name('counseling.slots.store');
+        Route::get('counseling/slots/{id}/edit', [AdminCounselingController::class, 'editSlot'])->name('counseling.slots.edit');
+        Route::put('counseling/slots/{id}', [AdminCounselingController::class, 'updateSlot'])->name('counseling.slots.update');
+        Route::delete('counseling/slots/{id}', [AdminCounselingController::class, 'deleteSlot'])->name('counseling.slots.destroy');
+        Route::get('counseling/bookings', [AdminCounselingController::class, 'bookings'])->name('counseling.bookings');
+        Route::patch('counseling/bookings/{id}/status', [AdminCounselingController::class, 'updateBookingStatus'])->name('counseling.bookings.status');
+        Route::delete('counseling/bookings/{id}', [AdminCounselingController::class, 'deleteBooking'])->name('counseling.bookings.destroy');
+        Route::get('counseling/check-availability', [AdminCounselingController::class, 'checkSlotAvailability'])->name('counseling.check-availability');
     });
 
     // Contact Info Routes

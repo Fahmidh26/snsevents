@@ -6,8 +6,10 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ $siteSettings->site_title ? $siteSettings->site_title . ' - Admin' : 'Admin Dashboard - SNS Events' }}</title>
-    @if($siteSettings->favicon_path)
-    <link rel="icon" type="image/x-icon" href="{{ asset('storage/' . $siteSettings->favicon_path) }}">
+    @if(isset($siteSettings) && $siteSettings->favicon_path)
+        <link rel="shortcut icon" href="{{ Storage::url($siteSettings->favicon_path) }}" type="image/x-icon">
+    @else
+        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
     @endif
 
     <!-- Fonts -->
@@ -134,6 +136,23 @@
                 <a href="{{ route('admin.custom-requests.index') }}" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg {{ request()->routeIs('admin.custom-requests.*') ? 'bg-primary/20 text-primary' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }} transition-colors">
                     <i class="fas fa-magic w-5 h-5 mr-3"></i>
                     Custom Requests
+                </a>
+
+                <p class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 mt-6">Counseling</p>
+
+                <a href="{{ route('admin.counseling.settings') }}" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg {{ request()->routeIs('admin.counseling.settings') ? 'bg-primary/20 text-primary' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }} transition-colors">
+                    <i class="fas fa-heart w-5 h-5 mr-3"></i>
+                    Counseling Settings
+                </a>
+
+                <a href="{{ route('admin.counseling.slots') }}" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg {{ request()->routeIs('admin.counseling.slots*') ? 'bg-primary/20 text-primary' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }} transition-colors">
+                    <i class="fas fa-clock w-5 h-5 mr-3"></i>
+                    Manage Slots
+                </a>
+
+                <a href="{{ route('admin.counseling.bookings') }}" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg {{ request()->routeIs('admin.counseling.bookings*') ? 'bg-primary/20 text-primary' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }} transition-colors">
+                    <i class="fas fa-calendar-check w-5 h-5 mr-3"></i>
+                    View Bookings
                 </a>
 
                 <p class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 mt-6">Settings</p>

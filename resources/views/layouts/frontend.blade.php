@@ -3,7 +3,13 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@yield('title', 'SNS Events - Premium Event Planning')</title>
+    @if(isset($siteSettings) && $siteSettings->favicon_path)
+        <link rel="shortcut icon" href="{{ Storage::url($siteSettings->favicon_path) }}" type="image/x-icon">
+    @else
+        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
+    @endif
+    <title>@yield('title', ($siteSettings->site_title ?? 'SNS Events') . ' - Premium Event Planning')</title>
+    @yield('meta')
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
@@ -70,14 +76,7 @@
         .inner-page-hero { padding: 150px 0 100px; background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1472653431158-6364773b2a56?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80'); background-size: cover; background-position: center; color: #fff; text-align: center; }
         .inner-page-hero h1 { font-size: 3.5rem; font-weight: 700; margin-bottom: 15px; }
 
-        footer { background: var(--secondary-color); color: #fff; padding: 80px 0 30px; }
-        .footer-logo { font-family: "Playfair Display", serif; font-size: 2rem; font-weight: 700; color: var(--primary-color); margin-bottom: 20px; display: block; text-decoration: none; }
-        .footer-links h4 { color: #fff; margin-bottom: 25px; font-size: 1.2rem; }
-        .footer-links ul { list-style: none; padding: 0; }
-        .footer-links ul li { margin-bottom: 12px; }
-        .footer-links ul li a { color: #adb5bd; text-decoration: none; transition: color 0.3s ease; }
-        .footer-links ul li a:hover { color: var(--primary-color); }
-        .copy-right { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 30px; margin-top: 50px; text-align: center; color: #adb5bd; font-size: 0.9rem; }
+        /* Footer styles removed - moved to partial */
 
         .alert-success { background: var(--primary-color); border: none; color: #fff; border-radius: 10px; }
 
@@ -136,44 +135,7 @@
 
     @yield('content')
 
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4 mb-4">
-                    <a href="{{ url('/') }}" class="footer-logo">SNS EVENTS</a>
-                    <p class="text-light-50">Creating unforgettable moments with premium event decoration and management services since 2010.</p>
-                </div>
-                <div class="col-lg-2 col-md-4 footer-links mb-4">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="{{ url('/') }}">Home</a></li>
-                        <li><a href="{{ route('events.index') }}">Our Events</a></li>
-                        <li><a href="{{ route('custom-package') }}">Custom Planning</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-3 col-md-4 footer-links mb-4">
-                    <h4>Our Services</h4>
-                    <ul>
-                        <li><a href="#">Wedding Decoration</a></li>
-                        <li><a href="#">Birthday Parties</a></li>
-                        <li><a href="#">Corporate Events</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-3 col-md-4 footer-links mb-4">
-                    <h4>Contact Us</h4>
-                    <ul class="text-light-50">
-                        <li><i class="fas fa-map-marker-alt me-2 text-primary"></i> 123 Event Street, City</li>
-                        <li><i class="fas fa-phone me-2 text-primary"></i> +1 234 567 890</li>
-                        <li><i class="fas fa-envelope me-2 text-primary"></i> info@snsevents.com</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="copy-right">
-                <p>&copy; {{ date('Y') }} SNS Events. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
+    @include('layouts.partials.footer')
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

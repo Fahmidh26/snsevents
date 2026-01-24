@@ -6,8 +6,10 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>{{ $siteSettings->site_title ?? config('app.name', 'Laravel') }}</title>
-        @if($siteSettings->favicon_path)
-        <link rel="icon" type="image/x-icon" href="{{ asset('storage/' . $siteSettings->favicon_path) }}">
+        @if(isset($siteSettings) && $siteSettings->favicon_path)
+            <link rel="shortcut icon" href="{{ Storage::url($siteSettings->favicon_path) }}" type="image/x-icon">
+        @else
+            <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
         @endif
 
         <!-- Fonts -->
