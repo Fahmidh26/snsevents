@@ -167,6 +167,18 @@
                     <i class="fas fa-user-cog w-5 h-5 mr-3"></i>
                     Admin Profile
                 </a>
+
+                <p class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 mt-6">Legal</p>
+
+                <a href="{{ route('admin.privacy-policy.edit') }}" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg {{ request()->routeIs('admin.privacy-policy.*') ? 'bg-primary/20 text-primary' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }} transition-colors">
+                    <i class="fas fa-shield-alt w-5 h-5 mr-3"></i>
+                    Privacy Policy
+                </a>
+
+                <a href="{{ route('admin.terms-and-condition.edit') }}" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg {{ request()->routeIs('admin.terms-and-condition.*') ? 'bg-primary/20 text-primary' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }} transition-colors">
+                    <i class="fas fa-file-contract w-5 h-5 mr-3"></i>
+                    Terms & Conditions
+                </a>
             </nav>
 
             <!-- User Info (Bottom Sidebar) -->

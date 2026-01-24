@@ -16,6 +16,10 @@ use App\Http\Controllers\Admin\SeoDetailController;
 use App\Http\Controllers\Admin\ServiceAreaController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\TestimonialController;
+use App\Http\Controllers\Admin\PrivacyPolicyController;
+use App\Http\Controllers\Admin\TermsAndConditionController;
+use App\Http\Controllers\PrivacyPolicyController as FrontendPrivacyPolicyController;
+use App\Http\Controllers\TermsAndConditionController as FrontendTermsAndConditionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -68,6 +72,9 @@ Route::get('/service-areas', function () {
     
     return view('service-areas', compact('companyProfile', 'serviceAreas', 'seo'));
 })->name('service-areas');
+
+Route::get('/privacy-policy', [FrontendPrivacyPolicyController::class, 'index'])->name('privacy-policy');
+Route::get('/terms-and-conditions', [FrontendTermsAndConditionController::class, 'index'])->name('terms-and-conditions');
 
 // Frontend Event Routes
 Route::get('/events', [EventController::class, 'index'])->name('events.index');
@@ -128,6 +135,14 @@ Route::middleware('auth')->group(function () {
         
         // FAQs Management
         Route::resource('faqs', FAQController::class);
+
+        // Privacy Policy
+        Route::get('privacy-policy', [PrivacyPolicyController::class, 'edit'])->name('privacy-policy.edit');
+        Route::post('privacy-policy', [PrivacyPolicyController::class, 'update'])->name('privacy-policy.update');
+
+        // Terms & Conditions
+        Route::get('terms-and-conditions', [TermsAndConditionController::class, 'edit'])->name('terms-and-condition.edit');
+        Route::post('terms-and-conditions', [TermsAndConditionController::class, 'update'])->name('terms-and-condition.update');
     });
 
     // Contact Info Routes

@@ -26,7 +26,10 @@ class AppServiceProvider extends ServiceProvider
 
         try {
             $siteSettings = \App\Models\SiteSetting::current();
+            $contactInfo = \App\Models\ContactInfo::first();
+            
             \Illuminate\Support\Facades\View::share('siteSettings', $siteSettings);
+            \Illuminate\Support\Facades\View::share('contactInfo', $contactInfo);
         } catch (\Exception $e) {
             // Handle migration or DB connection issues
         }

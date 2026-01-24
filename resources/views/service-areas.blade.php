@@ -270,6 +270,8 @@
               <li><a href="{{ url('/#about') }}">About Us</a></li>
               <li><a href="{{ url('/#services') }}">Services</a></li>
               <li><a href="{{ url('/#contact') }}">Contact</a></li>
+              <li><a href="{{ route('privacy-policy') }}">Privacy Policy</a></li>
+              <li><a href="{{ route('terms-and-conditions') }}">Terms & Conditions</a></li>
             </ul>
           </div>
           <div class="col-md-4 mb-4">
