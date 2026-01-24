@@ -15,7 +15,13 @@ class EventType extends Model
         'description',
         'featured_image',
         'status',
-        'display_order'
+        'display_order',
+        'meta_title',
+        'meta_description',
+        'meta_keywords',
+        'og_title',
+        'og_description',
+        'og_image'
     ];
 
     protected $casts = [

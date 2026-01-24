@@ -44,6 +44,64 @@
                 </div>
             </div>
 
+            <!-- SEO Section -->
+            <div class="mt-8 pt-8 border-t border-gray-200">
+                <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                    <i class="fas fa-search text-primary"></i> SEO Settings (Optional)
+                </h3>
+                <p class="text-sm text-gray-500 mb-6">Customize how this event type appears in search engines and social media. Leave blank to use defaults.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Meta Title</label>
+                        <input type="text" name="meta_title" value="{{ old('meta_title') }}" maxlength="255" class="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" placeholder="e.g. Birthday Party Planning - SNS Events">
+                        <p class="text-xs text-gray-500 mt-1">Recommended: 50-60 characters. Leave blank to use event name.</p>
+                        @error('meta_title') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                    </div>
+
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Meta Description</label>
+                        <textarea name="meta_description" rows="3" maxlength="500" class="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" placeholder="Brief description for search engines...">{{ old('meta_description') }}</textarea>
+                        <p class="text-xs text-gray-500 mt-1">Recommended: 150-160 characters. This appears in search results.</p>
+                        @error('meta_description') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                    </div>
+
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Meta Keywords</label>
+                        <input type="text" name="meta_keywords" value="{{ old('meta_keywords') }}" maxlength="255" class="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" placeholder="birthday, party planning, decorations, texas">
+                        <p class="text-xs text-gray-500 mt-1">Comma-separated keywords related to this event type.</p>
+                        @error('meta_keywords') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                    </div>
+
+                    <div class="md:col-span-2 pt-4 border-t border-gray-100">
+                        <h4 class="text-sm font-bold text-gray-700 mb-4 flex items-center gap-2">
+                            <i class="fab fa-facebook text-blue-600"></i> Social Media / Open Graph
+                        </h4>
+                    </div>
+
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">OG Title (Social Media)</label>
+                        <input type="text" name="og_title" value="{{ old('og_title') }}" maxlength="255" class="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" placeholder="Leave blank to use Meta Title">
+                        <p class="text-xs text-gray-500 mt-1">Title shown when shared on Facebook, Twitter, etc.</p>
+                        @error('og_title') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                    </div>
+
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">OG Description (Social Media)</label>
+                        <textarea name="og_description" rows="3" maxlength="500" class="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" placeholder="Leave blank to use Meta Description">{{ old('og_description') }}</textarea>
+                        <p class="text-xs text-gray-500 mt-1">Description shown when shared on social media.</p>
+                        @error('og_description') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                    </div>
+
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">OG Image (Social Media)</label>
+                        <input type="file" name="og_image" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 transition-all cursor-pointer">
+                        <p class="text-xs text-gray-500 mt-1">Recommended: 1200x630px. Leave blank to use Featured Image.</p>
+                        @error('og_image') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                    </div>
+                </div>
+            </div>
+
             <div class="mt-8 flex justify-end">
                 <button type="submit" class="bg-primary hover:bg-accent text-white px-8 py-3 rounded-lg font-bold transition-all shadow-lg hover:shadow-xl flex items-center gap-2">
                     <i class="fas fa-save"></i> Save Event Type

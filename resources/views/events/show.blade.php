@@ -1,6 +1,47 @@
 @extends('layouts.frontend')
 
-@section('title', $eventType->name . ' - SNS Events')
+@section('title', $seo->title)
+
+@section('meta')
+    <meta name="description" content="{{ $seo->meta_description }}" />
+    <meta name="keywords" content="{{ $seo->meta_keywords }}" />
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{{ url()->current() }}" />
+    <meta property="og:title" content="{{ $seo->og_title }}" />
+    <meta property="og:description" content="{{ $seo->og_description }}" />
+    @if($seo->og_image)
+        <meta property="og:image" content="{{ asset($seo->og_image) }}" />
+    @endif
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="{{ $seo->og_title }}" />
+    <meta name="twitter:description" content="{{ $seo->og_description }}" />
+    @if($seo->og_image)
+        <meta name="twitter:image" content="{{ asset($seo->og_image) }}" />
+    @endif
+    
+    <!-- Schema.org markup for Google+ -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": "{{ $eventType->name }}",
+      "description": "{{ $eventType->description }}",
+      "provider": {
+        "@type": "LocalBusiness",
+        "name": "SNS Events",
+        "url": "{{ url('/') }}"
+      }
+      @if($seo->og_image)
+      ,
+      "image": "{{ asset($seo->og_image) }}"
+      @endif
+    }
+    </script>
+@endsection
 
 @section('content')
 <section class="inner-page-hero" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('{{ asset($eventType->featured_image ?: 'https://images.unsplash.com/photo-1472653431158-6364773b2a56?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') }}'); background-size: cover; background-position: center;">

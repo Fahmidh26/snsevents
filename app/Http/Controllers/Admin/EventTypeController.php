@@ -28,9 +28,15 @@ class EventTypeController extends Controller
             'description' => 'nullable|string',
             'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'display_order' => 'integer',
+            'meta_title' => 'nullable|string|max:255',
+            'meta_description' => 'nullable|string|max:500',
+            'meta_keywords' => 'nullable|string|max:255',
+            'og_title' => 'nullable|string|max:255',
+            'og_description' => 'nullable|string|max:500',
+            'og_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
 
-        $data = $request->except('featured_image');
+        $data = $request->except(['featured_image', 'og_image']);
         $data['slug'] = Str::slug($request->name);
         $data['status'] = $request->has('status');
 
@@ -38,6 +44,12 @@ class EventTypeController extends Controller
             $imageName = time() . '.' . $request->featured_image->extension();
             $request->featured_image->move(public_path('uploads/events'), $imageName);
             $data['featured_image'] = 'uploads/events/' . $imageName;
+        }
+
+        if ($request->hasFile('og_image')) {
+            $ogImageName = 'og_' . time() . '.' . $request->og_image->extension();
+            $request->og_image->move(public_path('uploads/events'), $ogImageName);
+            $data['og_image'] = 'uploads/events/' . $ogImageName;
         }
 
         EventType::create($data);
@@ -57,9 +69,15 @@ class EventTypeController extends Controller
             'description' => 'nullable|string',
             'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'display_order' => 'integer',
+            'meta_title' => 'nullable|string|max:255',
+            'meta_description' => 'nullable|string|max:500',
+            'meta_keywords' => 'nullable|string|max:255',
+            'og_title' => 'nullable|string|max:255',
+            'og_description' => 'nullable|string|max:500',
+            'og_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
 
-        $data = $request->except('featured_image');
+        $data = $request->except(['featured_image', 'og_image']);
         $data['slug'] = Str::slug($request->name);
         $data['status'] = $request->has('status');
 
@@ -72,6 +90,17 @@ class EventTypeController extends Controller
             $imageName = time() . '.' . $request->featured_image->extension();
             $request->featured_image->move(public_path('uploads/events'), $imageName);
             $data['featured_image'] = 'uploads/events/' . $imageName;
+        }
+
+        if ($request->hasFile('og_image')) {
+            // Delete old OG image
+            if ($eventType->og_image && file_exists(public_path($eventType->og_image))) {
+                unlink(public_path($eventType->og_image));
+            }
+
+            $ogImageName = 'og_' . time() . '.' . $request->og_image->extension();
+            $request->og_image->move(public_path('uploads/events'), $ogImageName);
+            $data['og_image'] = 'uploads/events/' . $ogImageName;
         }
 
         $eventType->update($data);

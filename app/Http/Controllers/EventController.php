@@ -28,8 +28,18 @@ class EventController extends Controller
                 $q->where('status', true)->orderBy('display_order');
             }])
             ->firstOrFail();
+        
+        // Prepare SEO data with fallbacks
+        $seo = (object) [
+            'title' => $eventType->meta_title ?? $eventType->name . ' - SNS Events',
+            'meta_description' => $eventType->meta_description ?? $eventType->description ?? 'Premium ' . $eventType->name . ' services by SNS Events.',
+            'meta_keywords' => $eventType->meta_keywords ?? $eventType->name . ', event planning, decorations, texas',
+            'og_title' => $eventType->og_title ?? $eventType->meta_title ?? $eventType->name . ' - SNS Events',
+            'og_description' => $eventType->og_description ?? $eventType->meta_description ?? $eventType->description ?? 'Premium ' . $eventType->name . ' services by SNS Events.',
+            'og_image' => $eventType->og_image ?? $eventType->featured_image ?? null
+        ];
             
-        return view('events.show', compact('eventType'));
+        return view('events.show', compact('eventType', 'seo'));
     }
 
     public function inquire(Request $request)
