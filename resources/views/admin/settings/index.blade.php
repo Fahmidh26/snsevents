@@ -58,6 +58,27 @@
                             @error('site_description') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                         </div>
 
+
+                        <!-- Logo -->
+                        <div class="mb-6">
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Company Logo</label>
+                            <div class="flex items-center gap-4">
+                                @if($settings->logo_path)
+                                    <div class="p-2 border border-gray-100 rounded bg-gray-50 flex items-center justify-center">
+                                        <img src="{{ asset('storage/' . $settings->logo_path) }}" alt="Current Logo" class="h-16 object-contain">
+                                    </div>
+                                @endif
+                                <div class="flex-1">
+                                    <input type="file" name="logo" class="block w-full text-sm text-gray-500 
+                                    file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 
+                                    file:text-sm file:font-semibold file:bg-primary/10 file:text-primary 
+                                    hover:file:bg-primary/20 cursor-pointer">
+                                </div>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-2">Recommended: PNG with transparent background.</p>
+                            @error('logo') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                        </div>
+
                         <!-- Favicon -->
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-2">Favicon</label>

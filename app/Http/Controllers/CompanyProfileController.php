@@ -17,7 +17,6 @@ class CompanyProfileController extends Controller
     public function update(Request $request)
     {
         $request->validate([
-            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'ceo_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'ceo_name' => 'nullable|string|max:255',
             'ceo_bio' => 'nullable|string',
@@ -31,16 +30,7 @@ class CompanyProfileController extends Controller
         ]);
 
         $companyProfile = CompanyProfile::firstOrCreate([]);
-        $data = $request->except(['logo', 'ceo_image']);
-
-        if ($request->hasFile('logo')) {
-            // Delete old logo if exists
-            if ($companyProfile->logo_path) {
-                Storage::delete('public/' . $companyProfile->logo_path);
-            }
-            $path = $request->file('logo')->store('company_logos', 'public');
-            $data['logo_path'] = $path;
-        }
+        $data = $request->except(['ceo_image']);
         
         if ($request->hasFile('ceo_image')) {
             // Delete old logo if exists

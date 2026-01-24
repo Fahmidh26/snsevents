@@ -23,7 +23,7 @@
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
       "name": "SNS Events",
-      "image": "{{ $companyProfile->logo_path ? asset('storage/'.$companyProfile->logo_path) : '' }}",
+      "image": "{{ $siteSettings->logo_path ? asset('storage/'.$siteSettings->logo_path) : '' }}",
       "description": "{{ $companyProfile->mission ?? 'Premium event decoration services in Texas.' }}",
       "address": {
         "@type": "PostalAddress",

@@ -23,6 +23,7 @@ class SettingController extends Controller
             'admin_email' => 'required|email',
             'footer_text' => 'nullable|string|max:255',
             'footer_description' => 'nullable|string',
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'favicon' => 'nullable|image|mimes:ico,png,jpg|max:1024',
             'facebook_url' => 'nullable|url',
             'instagram_url' => 'nullable|url',
@@ -31,7 +32,14 @@ class SettingController extends Controller
         ]);
 
         $settings = SiteSetting::current();
-        $data = $request->except(['favicon']);
+        $data = $request->except(['favicon', 'logo']);
+        
+        if ($request->hasFile('logo')) {
+            if ($settings->logo_path) {
+                Storage::delete('public/' . $settings->logo_path);
+            }
+            $data['logo_path'] = $request->file('logo')->store('settings', 'public');
+        }
 
         if ($request->hasFile('favicon')) {
             if ($settings->favicon_path) {

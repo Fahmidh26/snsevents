@@ -17,37 +17,6 @@
                 <form method="POST" action="{{ route('company-profile.update') }}" enctype="multipart/form-data" class="space-y-6">
                     @csrf
                     
-                    <!-- Branding Section -->
-                    <div class="border-b border-gray-200 pb-6 mb-6">
-                        <h3 class="font-serif text-xl font-bold text-secondary mb-4 flex items-center">
-                            <i class="fas fa-gem text-primary mr-3"></i> 
-                            Brand Identity
-                        </h3>
-                        
-                        <!-- Logo -->
-                        <div class="mb-6">
-                            <label for="logo" class="block text-gray-700 text-sm font-bold mb-2 uppercase tracking-wider">Company Logo</label>
-                            <div class="flex items-center space-x-6">
-                                @if($companyProfile->logo_path)
-                                    <div class="p-2 border border-gray-200 rounded-lg bg-gray-50">
-                                        <img src="{{ asset('storage/' . $companyProfile->logo_path) }}" alt="Current Logo" class="h-24 object-contain">
-                                    </div>
-                                @endif
-                                <div class="flex-1">
-                                    <input type="file" name="logo" id="logo" class="block w-full text-sm text-gray-500
-                                        file:mr-4 file:py-2 file:px-4
-                                        file:rounded-full file:border-0
-                                        file:text-sm file:font-semibold
-                                        file:bg-primary/10 file:text-primary
-                                        hover:file:bg-primary/20
-                                        cursor-pointer
-                                    ">
-                                    @error('logo') <span class="text-red-500 text-sm block mt-1">{{ $message }}</span> @enderror
-                                    <p class="mt-1 text-xs text-gray-500">Recommended: PNG with transparent background.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
                     <!-- Leadership Section -->
                      <div class="border-b border-gray-200 pb-6 mb-6">

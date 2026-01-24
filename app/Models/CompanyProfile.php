@@ -10,7 +10,6 @@ class CompanyProfile extends Model
     use HasFactory;
 
     protected $fillable = [
-        'logo_path',
         'ceo_name',
         'ceo_bio',
         'ceo_background',
