@@ -1,6 +1,11 @@
+<!DOCTYPE html>
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    @php
+        $siteSettings = \App\Models\SiteSetting::current();
+    @endphp
     <title>{{ $privacyPolicy->meta_title ?? 'Privacy Policy - ' . $siteSettings->site_title }}</title>
     <meta name="description" content="{{ $privacyPolicy->meta_description ?? 'Privacy Policy for ' . $siteSettings->site_title . '. Learn about how we handle your data.' }}" />
     <meta name="keywords" content="{{ $privacyPolicy->meta_keywords ?? 'privacy policy, terms, data protection' }}">
@@ -45,6 +50,7 @@
     <style>
       :root {
         --primary-color: #c9a227;
+        --primary-gradient: linear-gradient(135deg, #c9a227 0%, #d4af37 50%, #e8d48a 100%);
         --secondary-color: #0f0f0f;
         --accent-color: #d4af37;
         --light-bg: #fafafa;
@@ -52,6 +58,7 @@
         --text-light: #5a5a5a;
         --shadow-lg: 0 16px 48px rgba(0,0,0,0.12);
         --glass-bg: rgba(255, 255, 255, 0.95);
+        --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       }
 
       body {
@@ -65,32 +72,114 @@
         font-family: "Playfair Display", serif;
       }
 
-      /* Navbar */
+      /* Navbar - matching frontend */
       .navbar {
-        background: rgba(15, 15, 15, 0.95);
-        backdrop-filter: blur(10px);
-        padding: 1rem 0;
+        background: rgba(10, 10, 10, 0.95);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        padding: 10px 0;
         box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        transition: var(--transition-smooth);
+        z-index: 1000;
       }
 
       .navbar-brand {
         font-family: "Playfair Display", serif;
-        font-size: 1.8rem;
+        font-size: 1.5rem;
         font-weight: 700;
         color: var(--primary-color) !important;
         text-transform: uppercase;
         letter-spacing: 2px;
+        transition: var(--transition-smooth);
+      }
+
+      .navbar-brand:hover {
+        transform: scale(1.02);
+        text-shadow: 0 0 20px rgba(201, 162, 39, 0.3);
       }
 
       .navbar-nav .nav-link {
-        color: rgba(255,255,255,0.9) !important;
-        margin: 0 15px;
+        color: rgba(255, 255, 255, 0.9) !important;
+        margin: 0 10px;
+        padding: 6px 0 !important;
         font-weight: 500;
-        transition: color 0.3s ease;
+        font-size: 0.85rem;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        position: relative;
+        transition: var(--transition-smooth);
       }
 
       .navbar-nav .nav-link:hover {
         color: var(--primary-color) !important;
+      }
+
+      .navbar-nav .nav-link::before {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 0;
+        height: 2px;
+        background: var(--primary-gradient);
+        transition: var(--transition-smooth);
+        transform: translateX(-50%);
+        border-radius: 2px;
+      }
+
+      .navbar-nav .nav-link:hover::before {
+        width: 100%;
+      }
+
+      .dropdown-menu {
+        background: rgba(15, 15, 15, 0.95);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 12px;
+        padding: 10px 0;
+        box-shadow: var(--shadow-lg);
+        margin-top: 10px;
+      }
+
+      .dropdown-item {
+        color: rgba(255, 255, 255, 0.85);
+        padding: 10px 24px;
+        font-weight: 500;
+        font-size: 0.9rem;
+        transition: all 0.2s ease;
+      }
+
+      .dropdown-item:hover, .dropdown-item:focus {
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--primary-color);
+        padding-left: 28px;
+      }
+
+      /* Mobile Navbar */
+      @media (max-width: 991.98px) {
+        .navbar-collapse {
+          background: rgba(15, 15, 15, 0.98);
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+          margin-top: 15px;
+          padding: 25px;
+          border-radius: 16px;
+          box-shadow: 0 24px 64px rgba(0,0,0,0.16);
+          border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .navbar-nav .nav-link {
+          padding: 12px 0 !important;
+          margin: 0;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .navbar-toggler {
+          padding: 8px 12px;
+          border-radius: 8px;
+        }
       }
 
       /* Hero */
@@ -106,6 +195,7 @@
         background-attachment: fixed !important;
         color: #fff;
         text-align: center;
+        margin-top: 70px;
       }
       
       .page-hero::after {
@@ -217,19 +307,6 @@
         from { opacity: 0; transform: translateY(40px); }
         to { opacity: 1; transform: translateY(0); }
       }
-
-      /* Footer */
-      .footer {
-        background: var(--secondary-color);
-        color: #fff;
-        padding: 80px 0 30px;
-      }
-      .footer h3 { color: var(--primary-color); margin-bottom: 25px; }
-      .footer ul { list-style: none; padding: 0; }
-      .footer ul li { margin-bottom: 12px; }
-      .footer a { color: #ccc; text-decoration: none; transition: 0.3s; }
-      .footer a:hover { color: var(--primary-color); }
-      .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 30px; margin-top: 50px; text-align: center; color: #888; }
     </style>
   </head>
   <body>
