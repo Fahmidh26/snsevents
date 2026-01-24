@@ -196,8 +196,8 @@
     <div class="footer-bottom">
         <p>
         {{ $siteSettings->footer_text ?? '&copy; ' . date('Y') . ' SNS Events. All rights reserved.' }} |
-        <a href="#" style="color: inherit">Privacy Policy</a> |
-        <a href="#" style="color: inherit">Terms of Service</a>
+        <a href="{{ route('privacy-policy') }}" style="color: inherit">Privacy Policy</a> |
+        <a href="{{ route('terms-and-conditions') }}" style="color: inherit">Terms of Service</a>
         </p>
     </div>
     </div>
