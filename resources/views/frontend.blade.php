@@ -174,28 +174,29 @@
       .navbar {
         background: transparent;
         backdrop-filter: none;
-        padding: 1.25rem 0;
+        padding: 15px 0;
         box-shadow: none;
         transition: var(--transition-smooth);
         z-index: 1000;
+        height: auto;
       }
 
       .navbar.scrolled {
-        background: rgba(15, 15, 15, 0.95);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        padding: 0.75rem 0;
-        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        background: rgba(10, 10, 10, 0.85);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        padding: 10px 0;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       }
 
       .navbar-brand {
         font-family: "Playfair Display", serif;
-        font-size: 1.75rem;
+        font-size: 1.5rem;
         font-weight: 700;
         color: var(--primary-color) !important;
         text-transform: uppercase;
-        letter-spacing: 3px;
+        letter-spacing: 2px;
         transition: var(--transition-smooth);
       }
 
@@ -206,11 +207,12 @@
 
       .navbar-nav .nav-link {
         color: rgba(255, 255, 255, 0.9) !important;
-        margin: 0 12px;
-        padding: 8px 4px !important;
+        margin: 0 10px;
+        padding: 6px 0 !important;
         font-weight: 500;
-        font-size: 0.95rem;
+        font-size: 0.85rem;
         letter-spacing: 0.5px;
+        text-transform: uppercase;
         position: relative;
         transition: var(--transition-smooth);
       }
