@@ -14,6 +14,7 @@ class SiteSetting extends Model
         'site_description',
         'admin_email',
         'footer_text',
+        'footer_description',
         'favicon_path',
         'facebook_url',
         'instagram_url',

@@ -22,6 +22,7 @@ class SettingController extends Controller
             'site_description' => 'nullable|string',
             'admin_email' => 'required|email',
             'footer_text' => 'nullable|string|max:255',
+            'footer_description' => 'nullable|string',
             'favicon' => 'nullable|image|mimes:ico,png,jpg|max:1024',
             'facebook_url' => 'nullable|url',
             'instagram_url' => 'nullable|url',

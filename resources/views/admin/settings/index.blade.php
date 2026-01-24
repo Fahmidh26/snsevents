@@ -44,6 +44,13 @@
                             </div>
                         </div>
 
+                        <!-- Footer Description -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Footer Description (About Text)</label>
+                            <textarea name="footer_description" rows="3" class="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" placeholder="Short description about the company displayed in the footer.">{{ old('footer_description', $settings->footer_description) }}</textarea>
+                            @error('footer_description') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                        </div>
+
                         <!-- Site Description -->
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-2">Site Description</label>

@@ -3,18 +3,21 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{ $seo->title ?? 'SNS Events - Premium Event Planning' }}</title>
-    <meta name="description" content="{{ $seo->meta_description ?? 'SNS Events provides premium event planning and decoration services in Texas.' }}" />
-    <meta name="keywords" content="{{ $seo->meta_keywords ?? 'event planning, decorations, texas' }}" />
+    <title>{{ $seo->title ?? ($siteSettings->site_title ?? 'SNS Events - Premium Event Planning') }}</title>
+    <meta name="description" content="{{ $seo->meta_description ?? ($siteSettings->site_description ?? 'SNS Events provides premium event planning and decoration services in Texas.') }}" />
+    <meta name="keywords" content="{{ $seo->meta_keywords ?? 'event planning, decorations, texas, weddings, corporate events' }}" />
+    
+    <!-- Favicon -->
+    @if($siteSettings->favicon_path)
+    <link rel="icon" type="image/x-icon" href="{{ asset('storage/' . $siteSettings->favicon_path) }}">
+    @endif
     
     <!-- Open Graph / Social Media -->
-    <meta property="og:title" content="{{ $seo->og_title ?? ($seo->title ?? 'SNS Events - Premium Event Planning') }}" />
-    <meta property="og:description" content="{{ $seo->og_description ?? ($seo->meta_description ?? 'SNS Events provides premium event planning and decoration services in Texas.') }}" />
+    <meta property="og:title" content="{{ $seo->og_title ?? ($seo->title ?? ($siteSettings->site_title ?? 'SNS Events')) }}" />
+    <meta property="og:description" content="{{ $seo->og_description ?? ($seo->meta_description ?? ($siteSettings->site_description ?? 'Premium Event Planning')) }}" />
     @if(isset($seo->og_image) && $seo->og_image)
         <meta property="og:image" content="{{ $seo->og_image }}" />
     @endif
-    
-    <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -2960,24 +2963,23 @@
       <div class="container">
         <div class="footer-content">
           <div class="footer-section">
-            <h3>SNS Events</h3>
+            <h3>{{ $siteSettings->site_title ?? 'SNS Events' }}</h3>
             <p>
-              Creating unforgettable moments since 2010. Based in Texas, we
-              transform your vision into reality with meticulous planning and
-              flawless execution.
+              {{ $siteSettings->footer_description ?? 'Creating unforgettable moments since 2010. Based in Texas, we transform your vision into reality with meticulous planning and flawless execution.' }}
             </p>
             <div class="social-links">
-              <a href="#" class="social-link"
-                ><i class="fab fa-facebook-f"></i
-              ></a>
-              <a href="#" class="social-link"
-                ><i class="fab fa-instagram"></i
-              ></a>
-              <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-              <a href="#" class="social-link"
-                ><i class="fab fa-pinterest"></i
-              ></a>
-              <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+              @if($siteSettings->facebook_url)
+              <a href="{{ $siteSettings->facebook_url }}" class="social-link" target="_blank"><i class="fab fa-facebook-f"></i></a>
+              @endif
+              @if($siteSettings->instagram_url)
+              <a href="{{ $siteSettings->instagram_url }}" class="social-link" target="_blank"><i class="fab fa-instagram"></i></a>
+              @endif
+              @if($siteSettings->twitter_url)
+              <a href="{{ $siteSettings->twitter_url }}" class="social-link" target="_blank"><i class="fab fa-twitter"></i></a>
+              @endif
+              @if($siteSettings->linkedin_url)
+              <a href="{{ $siteSettings->linkedin_url }}" class="social-link" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+              @endif
             </div>
           </div>
 
@@ -3031,7 +3033,7 @@
 
         <div class="footer-bottom">
           <p>
-            &copy; 2025 SNS Events. All rights reserved. |
+            {{ $siteSettings->footer_text ?? '&copy; ' . date('Y') . ' SNS Events. All rights reserved.' }} |
             <a href="#" style="color: inherit">Privacy Policy</a> |
             <a href="#" style="color: inherit">Terms of Service</a>
           </p>

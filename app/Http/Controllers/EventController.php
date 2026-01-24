@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\EventType;
 use App\Models\PackageInquiry;
 use App\Models\CustomPackageRequest;
-use App\Models\Setting;
+use App\Models\SiteSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\PackageInquiryMail;
@@ -46,7 +46,7 @@ class EventController extends Controller
         $inquiry = PackageInquiry::create($request->all());
 
         // Send Email to Admin
-        $adminEmail = Setting::get('admin_email');
+        $adminEmail = SiteSetting::current()->admin_email;
         if ($adminEmail) {
             Mail::to($adminEmail)->send(new PackageInquiryMail($inquiry));
         }
@@ -71,7 +71,7 @@ class EventController extends Controller
         $customRequest = CustomPackageRequest::create($request->all());
 
         // Send Email to Admin
-        $adminEmail = Setting::get('admin_email');
+        $adminEmail = SiteSetting::current()->admin_email;
         if ($adminEmail) {
             Mail::to($adminEmail)->send(new CustomPackageRequestMail($customRequest));
         }

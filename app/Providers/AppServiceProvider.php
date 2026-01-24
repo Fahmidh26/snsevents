@@ -23,5 +23,12 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('admin-only', function ($user) {
             return $user->is_admin === 1;
         });
+
+        try {
+            $siteSettings = \App\Models\SiteSetting::current();
+            \Illuminate\Support\Facades\View::share('siteSettings', $siteSettings);
+        } catch (\Exception $e) {
+            // Handle migration or DB connection issues
+        }
     }
 }
