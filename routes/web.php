@@ -1,7 +1,21 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\AboutUsController;
 use App\Http\Controllers\CompanyProfileController;
+use App\Http\Controllers\ContactInfoController;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\HeroSectionController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Admin\CustomPackageRequestController;
+use App\Http\Controllers\Admin\EventGalleryController;
+use App\Http\Controllers\Admin\EventTypeController;
+use App\Http\Controllers\Admin\FAQController;
+use App\Http\Controllers\Admin\PackageInquiryController;
+use App\Http\Controllers\Admin\PricingTierController;
+use App\Http\Controllers\Admin\SeoDetailController;
+use App\Http\Controllers\Admin\ServiceAreaController;
+use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\TestimonialController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -56,13 +70,13 @@ Route::get('/service-areas', function () {
 })->name('service-areas');
 
 // Frontend Event Routes
-Route::get('/events', [\App\Http\Controllers\EventController::class, 'index'])->name('events.index');
-Route::get('/events/{slug}', [\App\Http\Controllers\EventController::class, 'show'])->name('events.show');
-Route::post('/inquire', [\App\Http\Controllers\EventController::class, 'inquire'])->name('inquire.store');
+Route::get('/events', [EventController::class, 'index'])->name('events.index');
+Route::get('/events/{slug}', [EventController::class, 'show'])->name('events.show');
+Route::post('/inquire', [EventController::class, 'inquire'])->name('inquire.store');
 Route::get('/custom-package', function() {
     return view('events.custom');
 })->name('custom-package');
-Route::post('/custom-package/submit', [\App\Http\Controllers\EventController::class, 'submitCustomRequest'])->name('custom-package.submit');
+Route::post('/custom-package/submit', [EventController::class, 'submitCustomRequest'])->name('custom-package.submit');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -78,47 +92,47 @@ Route::middleware('auth')->group(function () {
     Route::post('/company-profile/update', [CompanyProfileController::class, 'update'])->name('company-profile.update');
 
     // About Us Routes
-    Route::get('/about-us/edit', [\App\Http\Controllers\AboutUsController::class, 'edit'])->name('about-us.edit');
-    Route::post('/about-us/update', [\App\Http\Controllers\AboutUsController::class, 'update'])->name('about-us.update');
+    Route::get('/about-us/edit', [AboutUsController::class, 'edit'])->name('about-us.edit');
+    Route::post('/about-us/update', [AboutUsController::class, 'update'])->name('about-us.update');
 
     // Hero Section Routes
-    Route::resource('hero', \App\Http\Controllers\HeroSectionController::class)->except(['show']);
+    Route::resource('hero', HeroSectionController::class)->except(['show']);
 
     // Admin Event Management Routes
     Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
-        Route::resource('event-types', \App\Http\Controllers\Admin\EventTypeController::class);
-        Route::resource('pricing-tiers', \App\Http\Controllers\Admin\PricingTierController::class);
-        Route::resource('galleries', \App\Http\Controllers\Admin\EventGalleryController::class);
+        Route::resource('event-types', EventTypeController::class);
+        Route::resource('pricing-tiers', PricingTierController::class);
+        Route::resource('galleries', EventGalleryController::class);
         
-        Route::get('inquiries', [\App\Http\Controllers\Admin\PackageInquiryController::class, 'index'])->name('inquiries.index');
-        Route::patch('inquiries/{inquiry}/status', [\App\Http\Controllers\Admin\PackageInquiryController::class, 'updateStatus'])->name('inquiries.update-status');
-        Route::delete('inquiries/{inquiry}', [\App\Http\Controllers\Admin\PackageInquiryController::class, 'destroy'])->name('inquiries.destroy');
+        Route::get('inquiries', [PackageInquiryController::class, 'index'])->name('inquiries.index');
+        Route::patch('inquiries/{inquiry}/status', [PackageInquiryController::class, 'updateStatus'])->name('inquiries.update-status');
+        Route::delete('inquiries/{inquiry}', [PackageInquiryController::class, 'destroy'])->name('inquiries.destroy');
         
-        Route::get('custom-requests', [\App\Http\Controllers\Admin\CustomPackageRequestController::class, 'index'])->name('custom-requests.index');
-        Route::patch('custom-requests/{customRequest}/status', [\App\Http\Controllers\Admin\CustomPackageRequestController::class, 'updateStatus'])->name('custom-requests.update-status');
-        Route::delete('custom-requests/{customRequest}', [\App\Http\Controllers\Admin\CustomPackageRequestController::class, 'destroy'])->name('custom-requests.destroy');
+        Route::get('custom-requests', [CustomPackageRequestController::class, 'index'])->name('custom-requests.index');
+        Route::patch('custom-requests/{customRequest}/status', [CustomPackageRequestController::class, 'updateStatus'])->name('custom-requests.update-status');
+        Route::delete('custom-requests/{customRequest}', [CustomPackageRequestController::class, 'destroy'])->name('custom-requests.destroy');
         
-        Route::get('settings', [\App\Http\Controllers\Admin\SettingController::class, 'index'])->name('settings.index');
-        Route::post('settings/update', [\App\Http\Controllers\Admin\SettingController::class, 'update'])->name('settings.update');
+        Route::get('settings', [SettingController::class, 'index'])->name('settings.index');
+        Route::post('settings/update', [SettingController::class, 'update'])->name('settings.update');
         
         // SEO Management
-        Route::get('seo', [\App\Http\Controllers\Admin\SeoDetailController::class, 'index'])->name('seo.index');
-        Route::get('seo/{id}/edit', [\App\Http\Controllers\Admin\SeoDetailController::class, 'edit'])->name('seo.edit');
-        Route::post('seo/{id}/update', [\App\Http\Controllers\Admin\SeoDetailController::class, 'update'])->name('seo.update');
+        Route::get('seo', [SeoDetailController::class, 'index'])->name('seo.index');
+        Route::get('seo/{id}/edit', [SeoDetailController::class, 'edit'])->name('seo.edit');
+        Route::post('seo/{id}/update', [SeoDetailController::class, 'update'])->name('seo.update');
         
         // Service Areas Management
-        Route::resource('service-areas', \App\Http\Controllers\Admin\ServiceAreaController::class);
+        Route::resource('service-areas', ServiceAreaController::class);
         
         // Testimonials Management
-        Route::resource('testimonials', \App\Http\Controllers\Admin\TestimonialController::class);
+        Route::resource('testimonials', TestimonialController::class);
         
         // FAQs Management
-        Route::resource('faqs', \App\Http\Controllers\Admin\FAQController::class);
+        Route::resource('faqs', FAQController::class);
     });
 
     // Contact Info Routes
-    Route::get('/contact-info/edit', [\App\Http\Controllers\ContactInfoController::class, 'edit'])->name('contact-info.edit');
-    Route::post('/contact-info/update', [\App\Http\Controllers\ContactInfoController::class, 'update'])->name('contact-info.update');
+    Route::get('/contact-info/edit', [ContactInfoController::class, 'edit'])->name('contact-info.edit');
+    Route::post('/contact-info/update', [ContactInfoController::class, 'update'])->name('contact-info.update');
 });
 
 require __DIR__.'/auth.php';
