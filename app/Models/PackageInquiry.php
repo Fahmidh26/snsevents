@@ -27,4 +27,17 @@ class PackageInquiry extends Model
     {
         return $this->belongsTo(PricingTier::class);
     }
+
+    public function eventType()
+    {
+        return $this->hasOneThrough(
+            EventType::class,
+            PricingTier::class,
+            'id', // Foreign key on pricing_tiers table
+            'id', // Foreign key on event_types table
+            'pricing_tier_id', // Local key on package_inquiries table
+            'event_type_id' // Local key on pricing_tiers table
+        );
+    }
+
 }

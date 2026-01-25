@@ -93,9 +93,8 @@ Route::get('/counseling/slots', [CounselingController::class, 'getSlots'])->name
 Route::post('/counseling/book', [CounselingController::class, 'book'])->name('counseling.book');
 Route::get('/counseling/confirmation/{code}', [CounselingController::class, 'confirmation'])->name('counseling.confirmation');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Dashboard route moved to admin.php
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

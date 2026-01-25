@@ -1,12 +1,15 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\DashboardController;
 
 Route::middleware(['auth', 'admin'])->group(function () {
 
-    Route::get('/admin', function () {
-        return view('dashboard');
-    })->name('admin.dashboard');
+    // Admin Dashboard (primary route)
+    Route::get('/admin', [DashboardController::class, 'index'])->name('admin.dashboard');
+    
+    // Dashboard alias for backward compatibility
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
 
 });
 

@@ -42,4 +42,17 @@ class EventType extends Model
     {
         return $this->hasOne(EventGallery::class)->where('is_featured', true);
     }
+
+    public function packageInquiries()
+    {
+        return $this->hasManyThrough(
+            PackageInquiry::class,
+            PricingTier::class,
+            'event_type_id', // Foreign key on pricing_tiers table
+            'pricing_tier_id', // Foreign key on package_inquiries table
+            'id', // Local key on event_types table
+            'id' // Local key on pricing_tiers table
+        );
+    }
+
 }
