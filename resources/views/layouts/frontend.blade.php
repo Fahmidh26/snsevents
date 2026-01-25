@@ -359,5 +359,51 @@
         });
     </script>
     @yield('scripts')
+    <!-- WhatsApp Floating Button -->
+    <style>
+        .whatsapp-float {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 40px;
+            left: 40px; /* Moved to left to avoid overlap */
+            background-color: #25d366;
+            color: #FFF;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 3px #999;
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .whatsapp-float:hover {
+            background-color: #128C7E;
+            transform: scale(1.1);
+            color: white;
+        }
+        
+        .whatsapp-float i {
+            margin-top: 1px;
+        }
+    </style>
+    @php
+        $whatsappNumber = '1234567890';
+        // Check if $contactInfo is available (from controller) or fetch it
+        if(!isset($contactInfo)) {
+             $contactInfo = \App\Models\ContactInfo::first();
+        }
+        
+        if($contactInfo && $contactInfo->phone) {
+            $whatsappNumber = preg_replace('/[^0-9+]/', '', $contactInfo->phone);
+        }
+    @endphp
+    <a href="https://wa.me/{{ $whatsappNumber }}" class="whatsapp-float" target="_blank" title="Chat on WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
 </body>
 </html>
