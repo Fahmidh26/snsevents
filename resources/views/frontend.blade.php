@@ -172,6 +172,10 @@
 
       /* Navbar */
       .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
         background: transparent;
         backdrop-filter: none;
         padding: 15px 0;
@@ -2312,11 +2316,10 @@
           font-size: 0.85rem;
         }
 
-        /* Adjusting hero height for very small screens if content overflows */
+        /* Ensure hero takes full height even on mobile */
         .hero-section, .carousel-item {
-          min-height: 500px;
-          height: auto !important;
-          padding: 100px 0;
+          height: 100vh !important;
+          min-height: 600px; /* Ensure space for content */
         }
       }
 
