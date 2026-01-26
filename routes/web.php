@@ -36,22 +36,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Temporary route to fix storage link on shared hosting
-Route::get('/fix-storage', function () {
-    $target = storage_path('app/public');
-    $link = public_path('storage');
-    
-    // Check if the link already exists
-    if (file_exists($link)) {
-        return "Link already exists at: $link <br> Target: " . readlink($link);
+// Serving storage files via Laravel for shared hosting (when symlink is disabled)
+Route::get('storage/{path}', function ($path) {
+    $filePath = storage_path('app/public/' . $path);
+
+    if (!file_exists($filePath)) {
+        abort(404);
     }
 
-    try {
-        symlink($target, $link);
-        return "Symlink created successfully!<br>Target: $target<br>Link: $link";
-    } catch (\Exception $e) {
-        return "Error creating symlink: " . $e->getMessage();
-    }
-});
+    return response()->file($filePath);
+})->where('path', '.*');
 
 Route::get('/', function () {
     $companyProfile = \App\Models\CompanyProfile::first();

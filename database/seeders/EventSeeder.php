@@ -67,7 +67,6 @@ class EventSeeder extends Seeder
             }
         }
 
-        // Default setting
-        \App\Models\Setting::set('admin_email', 'admin@snsevents.com');
+        
     }
 }
