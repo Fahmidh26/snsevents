@@ -35,6 +35,24 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Temporary route to fix storage link on shared hosting
+Route::get('/fix-storage', function () {
+    $target = storage_path('app/public');
+    $link = public_path('storage');
+    
+    // Check if the link already exists
+    if (file_exists($link)) {
+        return "Link already exists at: $link <br> Target: " . readlink($link);
+    }
+
+    try {
+        symlink($target, $link);
+        return "Symlink created successfully!<br>Target: $target<br>Link: $link";
+    } catch (\Exception $e) {
+        return "Error creating symlink: " . $e->getMessage();
+    }
+});
+
 Route::get('/', function () {
     $companyProfile = \App\Models\CompanyProfile::first();
     $aboutUs = \App\Models\AboutUs::first();
