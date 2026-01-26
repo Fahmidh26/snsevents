@@ -1908,7 +1908,7 @@
 
       .leader-image-wrapper {
         position: relative;
-        padding: 30px;
+        padding: 10px;
       }
 
       .leader-image-wrapper::before {
@@ -2482,7 +2482,7 @@
         
         <div class="row align-items-center g-5">
           <!-- Leader Image -->
-          <div class="col-lg-5" data-aos="fade-right" data-aos-duration="800">
+          <div class="col-lg-6" data-aos="fade-right" data-aos-duration="800">
             <div class="leader-image-wrapper">
               <img 
                 src="{{ $companyProfile->ceo_image_path ? asset('storage/' . $companyProfile->ceo_image_path) : 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80' }}" 
@@ -2496,10 +2496,20 @@
               </div>
               @endif
             </div>
+
+            @if($companyProfile->ceo_background)
+            <div class="leader-background mt-5" data-aos="fade-up" data-aos-delay="200">
+              <div class="leader-background-title">
+                <i class="fas fa-briefcase"></i>
+                Professional Background
+              </div>
+              <p>{{ $companyProfile->ceo_background }}</p>
+            </div>
+            @endif
           </div>
 
           <!-- Leader Content -->
-          <div class="col-lg-7" data-aos="fade-left" data-aos-duration="800" data-aos-delay="100">
+          <div class="col-lg-6" data-aos="fade-left" data-aos-duration="800" data-aos-delay="100">
             @if($companyProfile->ceo_name)
             <div class="mb-4">
               <div class="leader-subtitle">Meet the CEO</div>
@@ -2522,15 +2532,7 @@
             </div>
             @endif
 
-            @if($companyProfile->ceo_background)
-            <div class="leader-background" data-aos="fade-up" data-aos-delay="200">
-              <div class="leader-background-title">
-                <i class="fas fa-briefcase"></i>
-                Professional Background
-              </div>
-              <p>{{ $companyProfile->ceo_background }}</p>
-            </div>
-            @endif
+
             
             @if($companyProfile->mission || $companyProfile->vision)
             <div class="vision-mission-grid" data-aos="fade-up" data-aos-delay="300">
