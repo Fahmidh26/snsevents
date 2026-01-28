@@ -30,15 +30,7 @@
         "addressRegion": "Texas",
         "addressCountry": "US"
       },
-      "areaServed": [
-        @foreach($serviceAreas as $index => $area)
-        {
-            "@type": "City",
-            "name": "{{ $area->name }}",
-            "sameAs": "{{ $area->map_url ?? '' }}"
-        }{{ $loop->last ? '' : ',' }}
-        @endforeach
-      ],
+
       "url": "{{ url('/') }}"
     }
     </script>
@@ -2343,61 +2335,175 @@
     <!-- Navbar -->
     @include('layouts.partials.navbar')
 
-    <!-- Hero Section -->
-    @if(isset($heroSlides) && $heroSlides->count() > 0)
-        <section id="home">
-        <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
-            <div class="carousel-inner">
-                @foreach($heroSlides as $key => $slide)
-                <div class="carousel-item {{ $key == 0 ? 'active' : '' }}" style="height: 100vh;">
-                    @if($slide->background_video_path)
-                        <video autoplay muted loop playsinline class="position-absolute w-100 h-100" style="object-fit: cover; z-index: -1;">
-                             <source src="{{ asset('storage/' . $slide->background_video_path) }}" type="video/{{ pathinfo($slide->background_video_path, PATHINFO_EXTENSION) == 'mov' ? 'quicktime' : pathinfo($slide->background_video_path, PATHINFO_EXTENSION) }}">
-                        </video>
-                        <div class="position-absolute w-100 h-100" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)); z-index: 0;"></div>
-                    @else
-                        <div class="position-absolute w-100 h-100" style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{{ Str::startsWith($slide->background_image_path, 'http') ? $slide->background_image_path : ($slide->background_image_path ? asset('storage/' . $slide->background_image_path) : 'https://images.unsplash.com/photo-1519167758481-83f29da8c8f0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') }}'); background-size: cover; background-position: center; z-index: -1;"></div>
-                    @endif
-
-                     <div class="d-flex align-items-center justify-content-center h-100" style="position: relative; z-index: 1;">
-                          <div class="hero-content text-center text-white">
-                                <h1 data-aos="fade-down">{{ $slide->heading }}</h1>
-                                <p data-aos="fade-up" data-aos-delay="200">{{ $slide->subheading }}</p>
-                                <button class="btn-primary-custom" data-aos="fade-up" data-aos-delay="400" onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})">
-                                    {{ $slide->button_text }}
-                                </button>
-                          </div>
-                     </div>
-                </div>
-                @endforeach
-            </div>
-            @if($heroSlides->count() > 1)
-            <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
-            @endif
+    <!-- Page Header -->
+    <header class="page-header" style="padding-top: 100px; padding-bottom: 50px; background: var(--secondary-color); color: #fff; text-align: center;">
+        <div class="container">
+            <h1 data-aos="fade-down">About Us</h1>
+            <p data-aos="fade-up" data-aos-delay="200" style="color: var(--primary-color);">Discover Our Story, Mission & Vision</p>
         </div>
-        </section>
-    @else
-        <section id="home" class="hero-section">
-          <div class="hero-content">
-            <h1 data-aos="fade-down">Creating Unforgettable Moments</h1>
-            <p data-aos="fade-up" data-aos-delay="200">Where Dreams Meet Reality</p>
-            <button
-              class="btn-primary-custom"
-              data-aos="fade-up"
-              data-aos-delay="400"
-              onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})"
-            >
-              Plan Your Event
-            </button>
+    </header>
+
+    <!-- About Section -->
+    <!-- About Section -->
+    <section id="about" class="about-section">
+      <div class="container">
+        <div class="section-title" data-aos="fade-up">
+          <h2>{{ $aboutUs->title ?? 'About Us' }}</h2>
+          <p>{{ $aboutUs->subtitle ?? 'Crafting Perfect Celebrations Since 2010 — Based in Texas' }}</p>
+        </div>
+        <div class="about-content">
+          <div class="about-image" data-aos="fade-right">
+            @if(isset($aboutUs) && $aboutUs->image_path)
+                <img src="{{ asset('storage/' . $aboutUs->image_path) }}" alt="{{ $aboutUs->title }}">
+            @else
+                <img
+                  src="https://images.unsplash.com/photo-1511578314322-379afb476865?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                  alt="About Us"
+                />
+            @endif
           </div>
-        </section>
+          <div class="about-text" data-aos="fade-left">
+            <h3>{{ $aboutUs->main_heading ?? 'Your Vision, Our Expertise' }}</h3>
+            
+            @if(isset($aboutUs) && $aboutUs->description)
+                @foreach(explode("\n", $aboutUs->description) as $paragraph)
+                    @if(trim($paragraph))
+                        <p>{!! nl2br(e(trim($paragraph))) !!}</p>
+                    @endif
+                @endforeach
+            @else
+                <p>
+                  At SNS Events, based in Texas, we believe every celebration is
+                  unique and deserves to be treated as such. With over a decade of
+                  experience in creating magical moments, we've mastered the art of
+                  turning dreams into reality.
+                </p>
+                <p>
+                  Our team of dedicated professionals works tirelessly to ensure
+                  every detail is perfect, from the initial concept to the final
+                  execution. We pride ourselves on our creativity, attention to
+                  detail, and unwavering commitment to excellence.
+                </p>
+            @endif
+
+            @if(isset($companyProfile) && $companyProfile->team_description)
+                <h4 style="color: var(--secondary-color); margin-top: 20px;">Our Team</h4>
+                <p>{{ $companyProfile->team_description }}</p>
+            @endif
+
+            <div class="stats-container">
+              <div class="stat-box" data-aos="zoom-in" data-aos-delay="100">
+                <h4>{{ $aboutUs->events_count ?? '500+' }}</h4>
+                <p>{{ $aboutUs->events_label ?? 'Events Planned' }}</p>
+              </div>
+              <div class="stat-box" data-aos="zoom-in" data-aos-delay="200">
+                <h4>{{ $aboutUs->clients_count ?? '450+' }}</h4>
+                <p>{{ $aboutUs->clients_label ?? 'Happy Clients' }}</p>
+              </div>
+              <div class="stat-box" data-aos="zoom-in" data-aos-delay="300">
+                <h4>{{ $aboutUs->experience_years ?? '10+' }}</h4>
+                <p>{{ $aboutUs->experience_label ?? 'Years Experience' }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CEO & Vision Section -->
+    @if(isset($companyProfile) && ($companyProfile->ceo_name || $companyProfile->mission || $companyProfile->vision))
+    <section id="ceo" class="leadership-section">
+      <!-- Decorative Elements -->
+      <div class="leadership-decoration top-right"></div>
+      <div class="leadership-decoration bottom-left"></div>
+      
+      <div class="container" style="position: relative; z-index: 1;">
+        <div class="section-title" data-aos="fade-up">
+          <h2>{{ $companyProfile->ceo_section_title ?? 'Leadership & Vision' }}</h2>
+          <p>{{ $companyProfile->ceo_section_subtitle ?? 'The Driving Force Behind SNS Events' }}</p>
+        </div>
+        
+        <div class="row align-items-center g-5">
+          <!-- Leader Image -->
+          <div class="col-lg-6" data-aos="fade-right" data-aos-duration="800">
+            <div class="leader-image-wrapper">
+              <img 
+                src="{{ $companyProfile->ceo_image_path ? asset('storage/' . $companyProfile->ceo_image_path) : 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80' }}" 
+                alt="{{ $companyProfile->ceo_name ?? 'CEO' }}"
+                class="leader-image"
+              >
+              @if($companyProfile->ceo_name)
+              <div class="leader-badge">
+                <i class="fas fa-crown"></i>
+                <span>CEO & Founder</span>
+              </div>
+              @endif
+            </div>
+
+            @if($companyProfile->ceo_background)
+            <div class="leader-background mt-5" data-aos="fade-up" data-aos-delay="200">
+              <div class="leader-background-title">
+                <i class="fas fa-briefcase"></i>
+                Professional Background
+              </div>
+              <p>{{ $companyProfile->ceo_background }}</p>
+            </div>
+            @endif
+          </div>
+
+          <!-- Leader Content -->
+          <div class="col-lg-6" data-aos="fade-left" data-aos-duration="800" data-aos-delay="100">
+            @if($companyProfile->ceo_name)
+            <div class="mb-4">
+              <div class="leader-subtitle">Meet the CEO</div>
+              <h3 class="leader-name">{{ $companyProfile->ceo_name }}</h3>
+            </div>
+            @endif
+
+            @if($companyProfile->ceo_bio || $companyProfile->ceo_why_business)
+            <div class="leader-quote-box">
+              @if($companyProfile->ceo_bio)
+              <p class="leader-bio">"{{ $companyProfile->ceo_bio }}"</p>
+              @endif
+              
+              @if($companyProfile->ceo_why_business)
+              <p class="leader-why">
+                <strong>Why I started:</strong>
+                <span>{{ $companyProfile->ceo_why_business }}</span>
+              </p>
+              @endif
+            </div>
+            @endif
+
+
+            
+            @if($companyProfile->mission || $companyProfile->vision)
+            <div class="vision-mission-grid" data-aos="fade-up" data-aos-delay="300">
+              @if($companyProfile->mission)
+              <div class="vision-card mission-card">
+                <div class="vision-icon dark">
+                  <i class="fas fa-bullseye"></i>
+                </div>
+                <h4>Our Mission</h4>
+                <p>{{ $companyProfile->mission }}</p>
+              </div>
+              @endif
+
+              @if($companyProfile->vision)
+              <div class="vision-card">
+                <div class="vision-icon gold">
+                  <i class="fas fa-eye"></i>
+                </div>
+                <h4>Our Vision</h4>
+                <p>{{ $companyProfile->vision }}</p>
+              </div>
+              @endif
+            </div>
+            @endif
+          </div>
+        </div>
+      </div>
+    </section>
     @endif
 
 
@@ -2405,307 +2511,22 @@
 
 
 
-    <!-- Services Section -->
-    <section id="services" class="services-section">
-      <div class="container">
-        <div class="section-title" data-aos="fade-up">
-          <h2>Our Services</h2>
-          <p>Comprehensive Event Planning Solutions</p>
-        </div>
 
-        <div class="row">
-          @foreach($eventTypes as $type)
-          <div
-            class="col-md-6 col-lg-4 mb-4"
-            data-aos="fade-up"
-            data-aos-delay="{{ $loop->index * 100 }}"
-          >
-            <div class="service-card h-100" onclick="showServiceDetail('{{ $type->slug }}')">
-              <div class="service-image">
-                <img
-                  src="{{ $type->featured_image ? asset($type->featured_image) : 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80' }}"
-                  alt="{{ $type->name }}"
-                />
-                <div class="service-overlay">
-                  <h3>{{ $type->name }}</h3>
-                </div>
-              </div>
-              <div class="service-content">
-                <p>
-                  {{ Str::limit(strip_tags($type->description), 100) }}
-                </p>
-                <ul class="service-features">
-                  @if($type->pricingTiers->isNotEmpty() && !empty($type->pricingTiers->first()->features))
-                    @foreach(array_slice($type->pricingTiers->first()->features, 0, 4) as $feature)
-                    <li><i class="fas fa-check"></i> {{ $feature }}</li>
-                    @endforeach
-                  @else
-                    <li><i class="fas fa-check"></i> Custom Planning</li>
-                    <li><i class="fas fa-check"></i> Venue Selection</li>
-                    <li><i class="fas fa-check"></i> Decoration</li>
-                    <li><i class="fas fa-check"></i> Coordination</li>
-                  @endif
-                </ul>
-                <button class="btn-pricing mt-3">View Details</button>
-              </div>
-            </div>
-          </div>
-          @endforeach
-        </div>
-    </section>
 
-    <!-- Service Detail Modal -->
-    <div class="service-detail-modal" id="serviceDetailModal">
-      <div class="service-detail-overlay" onclick="closeServiceDetail()"></div>
-      <div class="service-detail-content">
-        <button class="service-detail-close" onclick="closeServiceDetail()">
-          <i class="fas fa-times"></i>
-        </button>
-        <div class="service-detail-body" id="serviceDetailBody">
-          <!-- Content will be dynamically loaded here -->
-        </div>
-      </div>
-    </div>
 
-    <!-- Pricing Section -->
-    <section id="pricing" class="pricing-section">
-      <div class="container">
-        <div class="section-title" data-aos="fade-up">
-          <h2>Our Packages</h2>
-          <p>Choose the Perfect Package for Your Event</p>
-        </div>
-
-        <div class="pricing-tabs" data-aos="fade-up" data-aos-delay="100">
-          @foreach($eventTypes as $type)
-          <div class="pricing-tab {{ $loop->first ? 'active' : '' }}" onclick="showPricing('{{ $type->slug }}')">
-             {{ $type->name }}
-          </div>
-           @endforeach
-        </div>
-
-        @foreach($eventTypes as $type)
-        <!-- {{ $type->name }} Packages -->
-        <div class="pricing-content {{ $loop->first ? 'active' : '' }}" id="{{ $type->slug }}-pricing">
-          <div class="row">
-            @forelse($type->pricingTiers as $tier)
-            <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
-              <div class="pricing-card {{ $loop->index == 1 ? 'featured' : '' }}">
-                @if($loop->index == 1)
-                <span class="pricing-badge">Most Popular</span>
-                @endif
-                <h3>{{ $tier->tier_name }}</h3>
-                <div class="pricing-price">${{ number_format($tier->price, 0) }}<span>/event</span></div>
-                <ul class="pricing-features">
-                  @foreach($tier->features as $feature)
-                  <li><i class="fas fa-check"></i> {{ $feature }}</li>
-                  @endforeach
-                </ul>
-                <button class="btn-pricing" onclick="window.location.href='{{ route('events.show', $type->slug) }}'">Choose Plan</button>
-              </div>
-            </div>
-            @empty
-            <div class="col-12 text-center">
-                <p>No packages defined for this event type yet.</p>
-            </div>
-            @endforelse
-          </div>
-        </div>
-        @endforeach
-      </div>
-    </section>
-
-    <!-- Gallery Section -->
-    <section id="gallery" class="gallery-section">
-      <div class="container">
-        <div class="section-title" data-aos="fade-up">
-          <h2>Our Gallery</h2>
-          <p>Moments We've Captured</p>
-        </div>
-
-        <div class="gallery-filters" data-aos="fade-up" data-aos-delay="100">
-          <div class="gallery-filter active" onclick="filterGallery('all')">
-            All
-          </div>
-          @foreach($eventTypes as $type)
-          <div class="gallery-filter" onclick="filterGallery('{{ $type->slug }}')">
-             {{ $type->name }}
-          </div>
-          @endforeach
-        </div>
-
-        <div class="gallery-grid" data-aos="fade-up" data-aos-delay="200">
-          @foreach($eventTypes as $type)
-             @foreach($type->galleries as $gallery)
-              <div class="gallery-item" data-category="{{ $type->slug }}" onclick="viewGalleryImage('{{ asset($gallery->image_path) }}')">
-                <img
-                  src="{{ asset($gallery->image_path) }}"
-                  alt="{{ $gallery->caption ?: $type->name }}"
-                />
-                <div class="gallery-overlay">
-                  <i class="fas fa-search-plus"></i>
-                </div>
-              </div>
-             @endforeach
-          @endforeach
-        </div>
-      </div>
-    </section>
 
 
 
     <!-- Gallery Section -->
 
 
-    <!-- Lightbox -->
-    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
-      <span class="lightbox-close">&times;</span>
-      <img src="" alt="Gallery Image" id="lightbox-img" />
-    </div>
 
-    <!-- Testimonials Section -->
-    <section id="testimonials" class="testimonials-section">
-      <div class="container">
-        <div class="section-title" data-aos="fade-up">
-          <h2>What Our Clients Say</h2>
-          <p>Real Stories from Real People</p>
-        </div>
 
-        <div class="testimonial-slider" data-aos="fade-up" data-aos-delay="100">
-          @if($testimonials && $testimonials->count() > 0)
-            @foreach($testimonials as $index => $testimonial)
-              <div
-                class="testimonial-card"
-                id="testimonial-{{ $index + 1 }}"
-                style="{{ $index === 0 ? '' : 'display: none' }}"
-              >
-                <div class="testimonial-image">
-                  @if($testimonial->image_path)
-                    <img src="{{ asset('storage/' . $testimonial->image_path) }}" alt="{{ $testimonial->name }}" />
-                  @else
-                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Client" />
-                  @endif
-                </div>
-                <div class="testimonial-text">
-                  "{{ $testimonial->text }}"
-                </div>
-                <div class="testimonial-author">{{ $testimonial->name }}</div>
-                @if($testimonial->role)
-                  <div class="testimonial-role">{{ $testimonial->role }}</div>
-                @endif
-                <div class="testimonial-rating">
-                  @for($i = 1; $i <= 5; $i++)
-                    <i class="fas fa-star {{ $i <= $testimonial->rating ? '' : 'text-gray-300' }}"></i>
-                  @endfor
-                </div>
-              </div>
-            @endforeach
-          @else
-            <div class="testimonial-card" id="testimonial-1">
-              <div class="testimonial-image">
-                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Client" />
-              </div>
-              <div class="testimonial-text">
-                "No testimonials available yet."
-              </div>
-            </div>
-          @endif
-        </div>
 
-        @if($testimonials && $testimonials->count() > 1)
-          <div class="slider-controls">
-            <button class="slider-btn" onclick="changeTestimonial(-1)">
-              <i class="fas fa-chevron-left"></i>
-            </button>
-            <button class="slider-btn" onclick="changeTestimonial(1)">
-              <i class="fas fa-chevron-right"></i>
-            </button>
-          </div>
-        @endif
-      </div>
-    </section>
 
-    <!-- FAQ Section -->
-    <section id="faq" class="faq-section">
-      <div class="container">
-        <div class="section-title" data-aos="fade-up">
-          <h2>Frequently Asked Questions</h2>
-          <p>Everything You Need to Know</p>
-        </div>
 
-        <div class="faq-container">
-          @if($faqs && $faqs->count() > 0)
-            @foreach($faqs as $index => $faq)
-              <div class="faq-item" data-aos="fade-up" data-aos-delay="{{ ($index + 1) * 100 }}">
-                <div class="faq-question" onclick="toggleFaq(this)">
-                  <h4>{{ $faq->question }}</h4>
-                  <i class="fas fa-chevron-down faq-icon"></i>
-                </div>
-                <div class="faq-answer">
-                  <div class="faq-answer-content">
-                    {!! nl2br(e($faq->answer)) !!}
-                  </div>
-                </div>
-              </div>
-            @endforeach
-          @else
-            <div class="faq-item" data-aos="fade-up">
-              <div class="faq-question" onclick="toggleFaq(this)">
-                <h4>No FAQs available yet.</h4>
-                <i class="fas fa-chevron-down faq-icon"></i>
-              </div>
-              <div class="faq-answer">
-                <div class="faq-answer-content">
-                  Please check back later for frequently asked questions.
-                </div>
-              </div>
-            </div>
-          @endif
-        </div>
-      </div>
-    </section>
 
-    <!-- Service Areas Section -->
-    <section id="service-areas" class="service-areas-section">
-      <div class="container">
-        <div class="section-title" data-aos="fade-up">
-          <h2>Areas We Serve</h2>
-          <p>Premier Event Decoration Across Texas</p>
-        </div>
 
-        <div class="row g-4 justify-content-center">
-            @forelse($serviceAreas as $area)
-            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
-                <div class="area-card">
-                    <div class="area-icon">
-                        <i class="fas fa-map-marked-alt"></i>
-                    </div>
-                    <h3>{{ $area->name }}</h3>
-                    <p>{{ $area->description ?? "Expert event decoration services in {$area->name} and surrounding neighborhoods. We bring your vision to life with style and elegance." }}</p>
-                    
-                    <div class="d-flex align-items-center justify-content-between">
-                        <span class="text-muted text-sm"><i class="fas fa-map-pin me-1"></i> {{ $area->city }}, {{ $area->state }} {{ $area->zip_code }}</span>
-                        @if($area->map_url)
-                        <a href="{{ $area->map_url }}" target="_blank" class="area-link">
-                            View Map <i class="fas fa-arrow-right"></i>
-                        </a>
-                        @endif
-                    </div>
-                </div>
-            </div>
-            @empty
-            <div class="col-12 text-center">
-                <p>We serve all major cities in Texas. Contact us for availability in your area.</p>
-            </div>
-            @endforelse
-        </div>
-        
-        <div class="text-center mt-12" data-aos="fade-up" data-aos-delay="200">
-            <a href="{{ route('service-areas') }}" class="btn-view-all">
-                View All Serving Locations <i class="fas fa-arrow-right ml-2"></i>
-            </a>
-        </div>
-      </div>
-    </section>
 
     <!-- Contact Section -->
     <section id="contact" class="contact-section">
@@ -2896,139 +2717,11 @@
         });
       });
 
-      // Pricing tabs
-      function showPricing(category) {
-        // Hide all pricing content
-        document.querySelectorAll(".pricing-content").forEach((content) => {
-          content.classList.remove("active");
-        });
 
-        // Remove active class from all tabs
-        document.querySelectorAll(".pricing-tab").forEach((tab) => {
-          tab.classList.remove("active");
-        });
 
-        // Show selected pricing content
-        document.getElementById(category + "-pricing").classList.add("active");
 
-        // Add active class to clicked tab
-        event.target.classList.add("active");
-      }
 
-      // Gallery filter
-      function filterGallery(category) {
-        const items = document.querySelectorAll(".gallery-item");
-        const filters = document.querySelectorAll(".gallery-filter");
 
-        // Remove active class from all filters
-        filters.forEach((filter) => filter.classList.remove("active"));
-
-        // Add active class to clicked filter
-        event.target.classList.add("active");
-
-        // Show/hide gallery items
-        items.forEach((item) => {
-          if (category === "all" || item.dataset.category === category) {
-            item.style.display = "block";
-            setTimeout(() => {
-              item.style.opacity = "1";
-              item.style.transform = "scale(1)";
-            }, 10);
-          } else {
-            item.style.opacity = "0";
-            item.style.transform = "scale(0.8)";
-            setTimeout(() => {
-              item.style.display = "none";
-            }, 300);
-          }
-        });
-      }
-
-      // Lightbox functionality
-      document.querySelectorAll(".gallery-item").forEach((item) => {
-        item.addEventListener("click", function () {
-          const imgSrc = this.querySelector("img").src;
-          const lightbox = document.getElementById("lightbox");
-          const lightboxImg = document.getElementById("lightbox-img");
-
-          lightboxImg.src = imgSrc;
-          lightbox.classList.add("active");
-        });
-      });
-
-      function viewGalleryImage(src) {
-        const lightbox = document.getElementById("lightbox");
-        const lightboxImg = document.getElementById("lightbox-img");
-        lightboxImg.src = src;
-        lightbox.classList.add("active");
-        document.body.style.overflow = "hidden";
-      }
-
-      function closeLightbox() {
-        document.getElementById("lightbox").classList.remove("active");
-        document.body.style.overflow = "auto";
-      }
-
-      // Testimonial slider
-      let currentTestimonial = 1;
-      const totalTestimonials = {{ $testimonials && $testimonials->count() > 0 ? $testimonials->count() : 1 }};
-
-      function changeTestimonial(direction) {
-        if (totalTestimonials <= 1) return;
-        
-        // Hide current testimonial
-        const currentElement = document.getElementById("testimonial-" + currentTestimonial);
-        if (currentElement) {
-          currentElement.style.display = "none";
-        }
-
-        // Calculate new testimonial
-        currentTestimonial += direction;
-
-        // Loop around
-        if (currentTestimonial > totalTestimonials) {
-          currentTestimonial = 1;
-        } else if (currentTestimonial < 1) {
-          currentTestimonial = totalTestimonials;
-        }
-
-        // Show new testimonial
-        const newElement = document.getElementById("testimonial-" + currentTestimonial);
-        if (newElement) {
-          newElement.style.display = "block";
-        }
-      }
-
-      // Auto-advance testimonials
-      @if($testimonials && $testimonials->count() > 1)
-      setInterval(() => {
-        changeTestimonial(1);
-      }, 6000);
-      @endif
-
-      // FAQ toggle
-      function toggleFaq(element) {
-        const faqItem = element.parentElement;
-        const answer = faqItem.querySelector(".faq-answer");
-        const answerContent = answer.querySelector(".faq-answer-content");
-
-        // Close all other FAQs
-        document.querySelectorAll(".faq-item").forEach((item) => {
-          if (item !== faqItem && item.classList.contains("active")) {
-            item.classList.remove("active");
-            item.querySelector(".faq-answer").style.maxHeight = "0";
-          }
-        });
-
-        // Toggle current FAQ
-        faqItem.classList.toggle("active");
-
-        if (faqItem.classList.contains("active")) {
-          answer.style.maxHeight = answerContent.offsetHeight + "px";
-        } else {
-          answer.style.maxHeight = "0";
-        }
-      }
 
       // Form submission
       function submitForm(e) {
@@ -3058,128 +2751,7 @@
         });
       }
 
-      // Dynamic Service Details
-      @php
-        $details = $eventTypes->mapWithKeys(function($type) {
-            return [$type->slug => [
-                'title' => $type->name,
-                'subtitle' => 'Premium Event Services',
-                'image' => $type->featured_image ? asset($type->featured_image) : 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-                'description' => $type->description,
-                'tiers' => $type->pricingTiers
-            ]];
-        });
-      @endphp
-      const serviceDetails = @json($details);
 
-      function showServiceDetail(serviceType) {
-        const modal = document.getElementById("serviceDetailModal");
-        const body = document.getElementById("serviceDetailBody");
-        const service = serviceDetails[serviceType];
-
-        if (!service) return;
-
-        let tiersHTML = '<div class="row">';
-        if (service.tiers && service.tiers.length > 0) {
-            service.tiers.forEach(tier => {
-                 tiersHTML += `
-                 <div class="col-md-4 mb-3">
-                    <div class="pricing-card h-100" style="padding: 20px; text-align: left;">
-                        <h4 style="color: var(--primary-color)">${tier.tier_name}</h4>
-                        <div class="pricing-price" style="font-size: 1.5rem; margin: 10px 0;">$${tier.price}</div>
-                        <ul class="pricing-features" style="padding-left: 0; list-style: none;">
-                            ${tier.features.map(f => `<li><i class="fas fa-check" style="color: var(--secondary-color); margin-right: 8px;"></i> ${f}</li>`).join('')}
-                        </ul>
-                    </div>
-                 </div>
-                 `;
-            });
-        } else {
-            tiersHTML += '<div class="col-12"><p>Contact us for custom pricing.</p></div>';
-        }
-        tiersHTML += '</div>';
-
-        body.innerHTML = `
-            <div class="service-detail-header">
-                <h2>${service.title}</h2>
-                <p>${service.subtitle}</p>
-            </div>
-            <div class="service-detail-banner">
-                <img src="${service.image}" alt="${service.title}">
-            </div>
-            <div class="service-description">
-                <h3>About This Service</h3>
-                ${service.description}
-            </div>
-            <div class="package-comparison">
-                 <h3>Available Packages</h3>
-                 ${tiersHTML}
-            </div>
-            <div class="detail-cta">
-                <h3>Ready to Plan?</h3>
-                <button class="btn-primary-custom" onclick="window.location.href='/events/${serviceType}'">View Full Details</button>
-            </div>
-        `;
-
-        modal.classList.add("active");
-        document.body.style.overflow = "hidden";
-      }
-
-      function showPricing(category) {
-        const tabs = document.querySelectorAll('.pricing-tab');
-        tabs.forEach(tab => {
-            if(tab.getAttribute('onclick').includes(`('${category}')`)) {
-                tab.classList.add('active');
-            } else {
-                tab.classList.remove('active');
-            }
-        });
-
-        document.querySelectorAll('.pricing-content').forEach(content => {
-            content.classList.remove('active');
-            if (content.id === `${category}-pricing`) {
-                content.classList.add('active');
-            }
-        });
-      }
-
-      function filterGallery(category) {
-        const filters = document.querySelectorAll('.gallery-filter');
-        filters.forEach(filter => {
-             if(filter.getAttribute('onclick').includes(`('${category}')`)) {
-                filter.classList.add('active');
-            } else {
-                filter.classList.remove('active');
-            }
-        });
-
-        const items = document.querySelectorAll('.gallery-item');
-        items.forEach(item => {
-            if (category === 'all' || item.getAttribute('data-category') === category) {
-                item.style.display = 'block';
-            } else {
-                item.style.display = 'none';
-            }
-        });
-        
-        if(typeof AOS !== 'undefined') {
-            AOS.refresh();
-        }
-      }
-
-
-      function closeServiceDetail() {
-        const modal = document.getElementById("serviceDetailModal");
-        modal.classList.remove("active");
-        document.body.style.overflow = "auto";
-      }
-
-      // Close modal on escape key
-      document.addEventListener("keydown", function (e) {
-        if (e.key === "Escape") {
-          closeServiceDetail();
-        }
-      });
 
       // Counter animation for stats
       function animateCounter(element, target, duration = 2000) {

@@ -87,6 +87,20 @@ Route::get('/service-areas', function () {
     return view('service-areas', compact('companyProfile', 'serviceAreas', 'seo'));
 })->name('service-areas');
 
+Route::get('/about-us', function () {
+    $companyProfile = \App\Models\CompanyProfile::first();
+    $aboutUs = \App\Models\AboutUs::first();
+    $contactInfo = \App\Models\ContactInfo::first();
+    
+    $seo = new \stdClass();
+    $seo->title = $aboutUs->title ?? 'About SNS Events - Premium Event Planning';
+    $seo->meta_description = $aboutUs->subtitle ?? 'Learn more about SNS Events, our mission, vision, and the team behind our premium event planning services.';
+    $seo->meta_keywords = 'about sns events, event planners texas, event decorators, wedding planners';
+    $seo->og_image = $aboutUs->image_path ? asset('storage/' . $aboutUs->image_path) : null;
+    
+    return view('about', compact('companyProfile', 'aboutUs', 'contactInfo', 'seo'));
+})->name('about-us');
+
 Route::get('/privacy-policy', [FrontendPrivacyPolicyController::class, 'index'])->name('privacy-policy');
 Route::get('/terms-and-conditions', [FrontendTermsAndConditionController::class, 'index'])->name('terms-and-conditions');
 

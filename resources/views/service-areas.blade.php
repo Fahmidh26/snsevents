@@ -267,7 +267,7 @@
             <h3>Quick Links</h3>
             <ul>
               <li><a href="{{ url('/#home') }}">Home</a></li>
-              <li><a href="{{ url('/#about') }}">About Us</a></li>
+              <li><a href="{{ route('about-us') }}">About Us</a></li>
               <li><a href="{{ url('/#services') }}">Services</a></li>
               <li><a href="{{ url('/#contact') }}">Contact</a></li>
               <li><a href="{{ route('privacy-policy') }}">Privacy Policy</a></li>

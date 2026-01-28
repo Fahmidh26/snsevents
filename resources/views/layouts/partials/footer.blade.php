@@ -144,7 +144,7 @@
         <h3>Quick Links</h3>
         <ul class="footer-links">
             <li><a href="{{ url('/#home') }}">Home</a></li>
-            <li><a href="{{ url('/#about') }}">About Us</a></li>
+            <li><a href="{{ route('about-us') }}">About Us</a></li>
             <li><a href="{{ url('/#services') }}">Services</a></li>
             <li><a href="{{ url('/#pricing') }}">Packages</a></li>
             <li><a href="{{ url('/#gallery') }}">Gallery</a></li>

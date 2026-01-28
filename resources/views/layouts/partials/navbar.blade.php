@@ -24,7 +24,7 @@
             <a class="nav-link" href="{{ url('/#home') }}">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{ url('/#about') }}">About</a>
+            <a class="nav-link {{ request()->routeIs('about-us') ? 'active' : '' }}" href="{{ route('about-us') }}">About</a>
           </li>
           <li class="nav-item">
             <a class="nav-link {{ request()->routeIs('events.*') ? 'active' : '' }}" href="{{ route('events.index') }}">Events</a>
