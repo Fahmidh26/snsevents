@@ -27,7 +27,7 @@
             <a class="nav-link {{ request()->routeIs('about-us') ? 'active' : '' }}" href="{{ route('about-us') }}">About</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {{ request()->routeIs('events.*') ? 'active' : '' }}" href="{{ route('events.index') }}">Events</a>
+            <a class="nav-link {{ request()->routeIs('events.*') ? 'active' : '' }}" href="{{ route('events.index') }}">Services</a>
           </li>
           <li class="nav-item">
             <a class="nav-link {{ request()->routeIs('custom-package') ? 'active' : '' }}" href="{{ route('custom-package') }}">Custom Package</a>
