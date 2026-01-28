@@ -22,6 +22,8 @@ use App\Http\Controllers\PrivacyPolicyController as FrontendPrivacyPolicyControl
 use App\Http\Controllers\TermsAndConditionController as FrontendTermsAndConditionController;
 use App\Http\Controllers\CounselingController;
 use App\Http\Controllers\Admin\CounselingController as AdminCounselingController;
+use App\Http\Controllers\ManagementSessionController;
+use App\Http\Controllers\Admin\ManagementSessionController as AdminManagementSessionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -119,6 +121,12 @@ Route::get('/counseling/slots', [CounselingController::class, 'getSlots'])->name
 Route::post('/counseling/book', [CounselingController::class, 'book'])->name('counseling.book');
 Route::get('/counseling/confirmation/{code}', [CounselingController::class, 'confirmation'])->name('counseling.confirmation');
 
+// Management Session Frontend Routes
+Route::get('/management-session', [ManagementSessionController::class, 'index'])->name('management-session');
+Route::get('/management-session/slots', [ManagementSessionController::class, 'getSlots'])->name('management-session.slots');
+Route::post('/management-session/book', [ManagementSessionController::class, 'book'])->name('management-session.book');
+Route::get('/management-session/confirmation/{code}', [ManagementSessionController::class, 'confirmation'])->name('management-session.confirmation');
+
 // Dashboard route moved to admin.php
 
 
@@ -190,6 +198,19 @@ Route::middleware('auth')->group(function () {
         Route::patch('counseling/bookings/{id}/status', [AdminCounselingController::class, 'updateBookingStatus'])->name('counseling.bookings.status');
         Route::delete('counseling/bookings/{id}', [AdminCounselingController::class, 'deleteBooking'])->name('counseling.bookings.destroy');
         Route::get('counseling/check-availability', [AdminCounselingController::class, 'checkSlotAvailability'])->name('counseling.check-availability');
+
+        // Management Session Management
+        Route::get('management-session/settings', [AdminManagementSessionController::class, 'settings'])->name('management-session.settings');
+        Route::post('management-session/settings', [AdminManagementSessionController::class, 'updateSettings'])->name('management-session.settings.update');
+        Route::get('management-session/slots', [AdminManagementSessionController::class, 'slots'])->name('management-session.slots');
+        Route::get('management-session/slots/create', [AdminManagementSessionController::class, 'createSlot'])->name('management-session.slots.create');
+        Route::post('management-session/slots', [AdminManagementSessionController::class, 'storeSlot'])->name('management-session.slots.store');
+        Route::get('management-session/slots/{id}/edit', [AdminManagementSessionController::class, 'editSlot'])->name('management-session.slots.edit');
+        Route::put('management-session/slots/{id}', [AdminManagementSessionController::class, 'updateSlot'])->name('management-session.slots.update');
+        Route::delete('management-session/slots/{id}', [AdminManagementSessionController::class, 'deleteSlot'])->name('management-session.slots.destroy');
+        Route::get('management-session/bookings', [AdminManagementSessionController::class, 'bookings'])->name('management-session.bookings');
+        Route::patch('management-session/bookings/{id}/status', [AdminManagementSessionController::class, 'updateBookingStatus'])->name('management-session.bookings.status');
+        Route::delete('management-session/bookings/{id}', [AdminManagementSessionController::class, 'deleteBooking'])->name('management-session.bookings.destroy');
     });
 
     // Contact Info Routes

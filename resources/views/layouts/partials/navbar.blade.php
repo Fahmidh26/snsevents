@@ -32,8 +32,14 @@
           <li class="nav-item">
             <a class="nav-link {{ request()->routeIs('custom-package') ? 'active' : '' }}" href="{{ route('custom-package') }}">Custom Package</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link {{ request()->routeIs('counseling*') ? 'active' : '' }}" href="{{ route('counseling') }}">Book a Session</a>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle {{ request()->routeIs('counseling*') || request()->routeIs('management-session*') ? 'active' : '' }}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Book a Session
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{{ route('counseling') }}">Counseling Session</a></li>
+              <li><a class="dropdown-item" href="{{ route('management-session') }}">Management Consultation</a></li>
+            </ul>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
