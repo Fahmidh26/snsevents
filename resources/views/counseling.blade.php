@@ -434,6 +434,7 @@
         padding: 100px 0;
         background: var(--light-bg);
         position: relative;
+        margin-top: 60px;
     }
 
     .form-wrapper {
@@ -451,15 +452,18 @@
 
     .form-image img {
         width: 100%;
+        height: 500px; 
+        object-fit: cover; 
         border-radius: 20px;
         box-shadow: 0 30px 60px rgba(0, 0, 0, 0.12);
     }
 
     .info-card {
-        position: absolute;
-        bottom: -40px;
-        left: -40px;
-        right: 40px;
+        position: relative;
+        margin-top: -150px;
+        margin-left: -30px;
+        margin-right: 30px;
+        z-index: 10;
         background: rgba(255, 255, 255, 0.98);
         backdrop-filter: blur(10px);
         padding: 30px;
@@ -806,7 +810,7 @@
 </section>
 
 <!-- Booking Form Section -->
-<section class="booking-form-section" id="booking-form-section">
+<section class="booking-form-section form-hidden" id="booking-form-section">
     <div class="container">
         <div class="form-wrapper">
             <div class="form-image" data-aos="fade-right">
@@ -814,54 +818,39 @@
                 <div class="info-card">
                     <div class="info-header">
                         <div class="icon-box">
-                            <i class="fas fa-shield-alt"></i>
+                            <i class="fas fa-calendar-check"></i>
                         </div>
                         <div>
-                            <h4>Why Choose Us?</h4>
-                            <p>Professional & Secure Care</p>
+                            <h4>Booking Summary</h4>
+                            <p>Complete your reservation</p>
                         </div>
                     </div>
-                    <ul class="benefits-list">
-                        <li>
-                            <i class="fas fa-check-circle"></i>
-                            <span>Certified Experts</span>
-                        </li>
-                        <li>
-                            <i class="fas fa-user-shield"></i>
-                            <span>100% Confidential</span>
-                        </li>
-                        <li>
-                            <i class="fas fa-clock"></i>
-                            <span>Flexible Scheduling</span>
-                        </li>
-                    </ul>
+                    <div class="selected-slot-display" id="form-slot-display">
+                        <div class="slot-info-grid">
+                            <div class="slot-info-item">
+                                <div class="slot-info-label">Date</div>
+                                <div class="slot-info-value" id="form-date"></div>
+                            </div>
+                            <div class="slot-info-item">
+                                <div class="slot-info-label">Time</div>
+                                <div class="slot-info-value" id="form-time"></div>
+                            </div>
+                            <div class="slot-info-item">
+                                <div class="slot-info-label">Duration</div>
+                                <div class="slot-info-value" id="form-duration"></div>
+                            </div>
+                            <div class="slot-info-item">
+                                <div class="slot-info-label">Price</div>
+                                <div class="slot-info-value" id="form-price"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             
-            <div class="form-card form-hidden" id="booking-form-card" data-aos="fade-up">
-                <h3>Complete Your Booking</h3>
+            <div class="form-card" id="booking-form-card" data-aos="fade-up">
+                <h3>Finalize Booking</h3>
                 <p class="subtitle">Enter your details to confirm your session</p>
-
-                <div class="selected-slot-display" id="form-slot-display">
-                    <div class="slot-info-grid">
-                        <div class="slot-info-item">
-                            <div class="slot-info-label">Date</div>
-                            <div class="slot-info-value" id="form-date"></div>
-                        </div>
-                        <div class="slot-info-item">
-                            <div class="slot-info-label">Time</div>
-                            <div class="slot-info-value" id="form-time"></div>
-                        </div>
-                        <div class="slot-info-item">
-                            <div class="slot-info-label">Duration</div>
-                            <div class="slot-info-value" id="form-duration"></div>
-                        </div>
-                        <div class="slot-info-item">
-                            <div class="slot-info-label">Price</div>
-                            <div class="slot-info-value" id="form-price"></div>
-                        </div>
-                    </div>
-                </div>
 
                 <form action="{{ route('counseling.book') }}" method="POST" id="bookingForm">
                     @csrf
@@ -982,7 +971,7 @@
         selectedDate = dateStr;
         selectedSlotId = null;
         selectedSlotData = null;
-        hideBookingForm();
+        document.getElementById('booking-form-section').classList.add('form-hidden');
         renderCalendar();
         loadSlots(dateStr);
     }
@@ -1038,7 +1027,7 @@
     }
 
     function showBookingForm(slot, dateFormatted) {
-        const formCard = document.getElementById('booking-form-card');
+        const section = document.getElementById('booking-form-section');
         const slotIdInput = document.getElementById('slot_id');
         const formDate = document.getElementById('form-date');
         const formTime = document.getElementById('form-time');
@@ -1051,17 +1040,15 @@
         formDuration.textContent = slot.duration + ' min';
         formPrice.textContent = slot.formatted_price;
         
-        formCard.classList.remove('form-hidden');
+        section.classList.remove('form-hidden');
         
         // Scroll to form
         setTimeout(() => {
-            formCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            section.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }, 100);
     }
 
-    function hideBookingForm() {
-        document.getElementById('booking-form-card').classList.add('form-hidden');
-    }
+
 
     // Form submission
     document.getElementById('bookingForm').addEventListener('submit', function(e) {
