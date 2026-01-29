@@ -34,7 +34,7 @@
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle {{ request()->routeIs('counseling*') || request()->routeIs('management-session*') ? 'active' : '' }}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Book a Session
+              Appointment Booking
             </a>
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="{{ route('counseling') }}">Counseling Session</a></li>
