@@ -23,7 +23,21 @@
                             </div>
                         </div>
                         <div class="service-content p-4 text-center">
-                            <p class="text-muted small mb-4">{{ Str::limit($type->description, 100) }}</p>
+                            <p class="text-muted small mb-4">{{ Str::limit(strip_tags($type->description), 100) }}</p>
+                            
+                            <ul class="service-features text-start mb-4">
+                              @if($type->pricingTiers->isNotEmpty() && !empty($type->pricingTiers->first()->features))
+                                @foreach(array_slice($type->pricingTiers->first()->features, 0, 4) as $feature)
+                                <li><i class="fas fa-check"></i> {{ $feature }}</li>
+                                @endforeach
+                              @else
+                                <li><i class="fas fa-check"></i> Custom Planning</li>
+                                <li><i class="fas fa-check"></i> Venue Selection</li>
+                                <li><i class="fas fa-check"></i> Decoration</li>
+                                <li><i class="fas fa-check"></i> Coordination</li>
+                              @endif
+                            </ul>
+
                             <a href="{{ route('events.show', $type->slug) }}" class="btn-primary-custom py-2 px-4 fs-6">View Details</a>
                         </div>
                     </div>
@@ -56,5 +70,38 @@
     .service-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.7)); display: flex; align-items: flex-end; padding: 25px; }
     .service-overlay h3 { color: #fff; font-size: 1.8rem; margin: 0; text-shadow: 1px 1px 3px rgba(0,0,0,0.5); }
     .border-dashed { border-style: dashed !important; border-color: var(--primary-color) !important; border-width: 2px !important; }
+
+    /* Service Features Styles */
+    .service-features {
+        list-style: none;
+        padding: 0;
+        margin: 0 auto;
+        display: inline-block;
+        width: 100%;
+    }
+    .service-features li {
+        padding: 8px 0;
+        color: #666;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        text-align: left;
+    }
+    .service-features li:last-child {
+        border-bottom: none;
+    }
+    .service-features li i {
+        color: var(--primary-color);
+        font-size: 0.8rem;
+        min-width: 20px;
+        height: 20px;
+        background: rgba(201, 162, 39, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 </style>
 @endsection

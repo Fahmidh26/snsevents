@@ -15,7 +15,11 @@ class EventController extends Controller
 {
     public function index()
     {
-        $eventTypes = EventType::where('status', true)->orderBy('display_order')->get();
+        $eventTypes = EventType::where('status', true)
+            ->with(['pricingTiers' => function($q) {
+                $q->where('status', true)->orderBy('display_order');
+            }])
+            ->orderBy('display_order')->get();
         return view('events.index', compact('eventTypes'));
     }
 
