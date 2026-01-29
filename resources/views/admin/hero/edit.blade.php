@@ -96,8 +96,8 @@
                                </div>
                             @endif
 
-                            <input type="url" name="background_video_url" id="background_video_url" value="{{ old('background_video_url', filter_var($hero->background_video_path, FILTER_VALIDATE_URL) ? $hero->background_video_path : '') }}" placeholder="https://example.com/video.mp4 or YouTube URL" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary/50 focus:ring-opacity-50">
-                            <p class="mt-1 text-xs text-gray-500">Enter a direct link to a video file (MP4/WebM) or a YouTube link. Using an external URL allows for faster loading.</p>
+                            <input type="url" name="background_video_url" id="background_video_url" value="{{ old('background_video_url', filter_var($hero->background_video_path, FILTER_VALIDATE_URL) ? $hero->background_video_path : '') }}" placeholder="https://example.com/video.mp4, YouTube URL, or Cloudinary Player URL" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary/50 focus:ring-opacity-50">
+                            <p class="mt-1 text-xs text-gray-500">Enter a direct link to a video file (MP4/WebM), a YouTube link, or a Cloudinary Player URL. Using an external URL allows for faster loading.</p>
                         </div>
                         
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">

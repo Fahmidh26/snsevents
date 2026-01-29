@@ -2391,6 +2391,18 @@
                                     </iframe>
                                 </div>
                             @endif
+                        @elseif(Str::contains($slide->background_video_path, 'player.cloudinary.com'))
+                             <!-- Cloudinary Player Video -->
+                            <div class="position-absolute w-100 h-100 hero-video" style="z-index: -1; overflow: hidden;">
+                                <iframe
+                                    src="{{ $slide->background_video_path }}{{ Str::contains($slide->background_video_path, '?') ? '&' : '?' }}autoplay=true&muted=true&loop=true&controls=false&hide_share=true&hide_title=true"
+                                    style="pointer-events: none;"
+                                    allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+                                    allowfullscreen
+                                    frameborder="0"
+                                    class="youtube-bg" 
+                                ></iframe>
+                            </div>
                         @elseif(Str::contains($slide->background_video_path, 'dropbox.com'))
                             <!-- Dropbox Direct Video -->
                             @php
