@@ -57,12 +57,12 @@
 
                          <!-- Video -->
                          <div class="mb-6">
-                            <label for="background_video_path" class="block text-gray-700 text-sm font-bold mb-2 uppercase tracking-wider">Background Video (Optional)</label>
+                            <label for="background_video_path" class="block text-gray-700 text-sm font-bold mb-2 uppercase tracking-wider">Background Video File</label>
                             
-                            @if($hero->background_video_path)
+                            @if($hero->background_video_path && !filter_var($hero->background_video_path, FILTER_VALIDATE_URL))
                                 <div class="mb-3 p-2 border border-gray-200 rounded-lg bg-gray-50 inline-block">
                                     <video src="{{ asset('storage/' . $hero->background_video_path) }}" class="h-32 object-cover rounded" controls></video>
-                                    <p class="text-xs text-gray-500 mt-1">Current Video</p>
+                                    <p class="text-xs text-gray-500 mt-1">Current Uploaded Video</p>
                                 </div>
                             @endif
 
@@ -75,6 +75,25 @@
                                 cursor-pointer
                             ">
                             <p class="mt-1 text-xs text-gray-500">Max size: 100MB. Supported formats: MP4, MOV, OGG, WEBM.</p>
+                        </div>
+
+                        <div class="mb-6 relative flex py-2 items-center">
+                            <div class="flex-grow border-t border-gray-300"></div>
+                            <span class="flex-shrink-0 mx-4 text-gray-400 text-sm">OR</span>
+                            <div class="flex-grow border-t border-gray-300"></div>
+                        </div>
+
+                        <div class="mb-6">
+                            <label for="background_video_url" class="block text-gray-700 text-sm font-bold mb-2 uppercase tracking-wider">Background Video URL (External)</label>
+                            
+                            @if($hero->background_video_path && filter_var($hero->background_video_path, FILTER_VALIDATE_URL))
+                               <div class="mb-3">
+                                   <p class="text-sm text-gray-600 mb-1">Current URL: <a href="{{ $hero->background_video_path }}" target="_blank" class="text-primary hover:underline">{{ $hero->background_video_path }}</a></p>
+                               </div>
+                            @endif
+
+                            <input type="url" name="background_video_url" id="background_video_url" value="{{ old('background_video_url', filter_var($hero->background_video_path, FILTER_VALIDATE_URL) ? $hero->background_video_path : '') }}" placeholder="https://example.com/video.mp4 or YouTube URL" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary/50 focus:ring-opacity-50">
+                            <p class="mt-1 text-xs text-gray-500">Enter a direct link to a video file (MP4/WebM) or a YouTube link. Using an external URL allows for faster loading.</p>
                         </div>
                         
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">

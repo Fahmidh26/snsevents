@@ -24,6 +24,7 @@ class HeroSectionController extends Controller
         $request->validate([
             'background_image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'background_video_path' => 'nullable|mimes:mp4,mov,ogg,qt,webm|max:100000', // 100MB max
+            'background_video_url' => 'nullable|url',
             'heading' => 'nullable|string|max:255',
         ]);
 
@@ -38,6 +39,8 @@ class HeroSectionController extends Controller
         if ($request->hasFile('background_video_path')) {
             $path = $request->file('background_video_path')->store('hero-videos', 'public');
             $data['background_video_path'] = $path;
+        } elseif ($request->filled('background_video_url')) {
+            $data['background_video_path'] = $request->background_video_url;
         }
 
         HeroSection::create($data);
@@ -55,6 +58,7 @@ class HeroSectionController extends Controller
         $request->validate([
             'background_image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'background_video_path' => 'nullable|mimes:mp4,mov,ogg,qt,webm|max:100000', // 100MB max
+            'background_video_url' => 'nullable|url',
             'heading' => 'nullable|string|max:255',
         ]);
 
@@ -71,12 +75,18 @@ class HeroSectionController extends Controller
         }
 
         if ($request->hasFile('background_video_path')) {
-            // Delete old video
-            if ($hero->background_video_path) {
+            // Delete old video if it was a file (not a URL)
+            if ($hero->background_video_path && !filter_var($hero->background_video_path, FILTER_VALIDATE_URL)) {
                 Storage::delete('public/' . $hero->background_video_path);
             }
             $path = $request->file('background_video_path')->store('hero-videos', 'public');
             $data['background_video_path'] = $path;
+        } elseif ($request->filled('background_video_url')) {
+             // If switching to URL from a file, optionally delete the old file
+            if ($hero->background_video_path && !filter_var($hero->background_video_path, FILTER_VALIDATE_URL)) {
+                Storage::delete('public/' . $hero->background_video_path);
+            }
+            $data['background_video_path'] = $request->background_video_url;
         }
 
         $hero->update($data);
@@ -89,7 +99,8 @@ class HeroSectionController extends Controller
         if ($hero->background_image_path) {
             Storage::delete('public/' . $hero->background_image_path);
         }
-        if ($hero->background_video_path) {
+        // Only delete video file if it's NOT a URL
+        if ($hero->background_video_path && !filter_var($hero->background_video_path, FILTER_VALIDATE_URL)) {
             Storage::delete('public/' . $hero->background_video_path);
         }
         $hero->delete();

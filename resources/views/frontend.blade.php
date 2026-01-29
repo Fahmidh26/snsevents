@@ -2351,18 +2351,54 @@
                 @foreach($heroSlides as $key => $slide)
                 <div class="carousel-item {{ $key == 0 ? 'active' : '' }}" style="height: 100vh;">
                     @if($slide->background_video_path)
-                        <video 
-                            id="hero-video-{{ $key }}"
-                            class="position-absolute w-100 h-100 hero-video" 
-                            style="object-fit: cover; z-index: -1;"
-                            muted 
-                            loop 
-                            playsinline
-                            poster="{{ $slide->background_image_path ? asset('storage/' . $slide->background_image_path) : '' }}"
-                            @if($key == 0) autoplay preload="auto" @else preload="none" @endif
-                        >
-                             <source src="{{ asset('storage/' . $slide->background_video_path) }}" type="video/{{ pathinfo($slide->background_video_path, PATHINFO_EXTENSION) == 'mov' ? 'quicktime' : pathinfo($slide->background_video_path, PATHINFO_EXTENSION) }}">
-                        </video>
+                        @if(Str::contains($slide->background_video_path, ['youtube.com', 'youtu.be']))
+                            @php
+                                // Extract YouTube ID
+                                $videoId = '';
+                                if (preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $slide->background_video_path, $match)) {
+                                    $videoId = $match[1];
+                                }
+                            @endphp
+                            @if($videoId)
+                                <div class="position-absolute w-100 h-100 hero-video" style="z-index: -1; overflow: hidden;">
+                                    <iframe 
+                                        src="https://www.youtube.com/embed/{{ $videoId }}?autoplay=1&mute=1&controls=0&loop=1&playlist={{ $videoId }}&showinfo=0&rel=0&iv_load_policy=3&disablekb=1" 
+                                        frameborder="0" 
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                        class="position-absolute w-100 h-100" 
+                                        style="object-fit: cover; transform: scale(1.5); pointer-events: none;">
+                                    </iframe>
+                                </div>
+                            @endif
+                        @elseif(filter_var($slide->background_video_path, FILTER_VALIDATE_URL))
+                             <!-- External Direct Video URL -->
+                            <video 
+                                id="hero-video-{{ $key }}"
+                                class="position-absolute w-100 h-100 hero-video" 
+                                style="object-fit: cover; z-index: -1;"
+                                muted 
+                                loop 
+                                playsinline
+                                poster="{{ $slide->background_image_path ? asset('storage/' . $slide->background_image_path) : '' }}"
+                                @if($key == 0) autoplay preload="auto" @else preload="none" @endif
+                            >
+                                <source src="{{ $slide->background_video_path }}" type="video/{{ pathinfo(parse_url($slide->background_video_path, PHP_URL_PATH), PATHINFO_EXTENSION) ?: 'mp4' }}">
+                            </video>
+                        @else
+                            <!-- Local Video File -->
+                            <video 
+                                id="hero-video-{{ $key }}"
+                                class="position-absolute w-100 h-100 hero-video" 
+                                style="object-fit: cover; z-index: -1;"
+                                muted 
+                                loop 
+                                playsinline
+                                poster="{{ $slide->background_image_path ? asset('storage/' . $slide->background_image_path) : '' }}"
+                                @if($key == 0) autoplay preload="auto" @else preload="none" @endif
+                            >
+                                 <source src="{{ asset('storage/' . $slide->background_video_path) }}" type="video/{{ pathinfo($slide->background_video_path, PATHINFO_EXTENSION) == 'mov' ? 'quicktime' : pathinfo($slide->background_video_path, PATHINFO_EXTENSION) }}">
+                            </video>
+                        @endif
                         <div class="position-absolute w-100 h-100" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)); z-index: 0;"></div>
                     @else
                         <div class="position-absolute w-100 h-100" style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{{ Str::startsWith($slide->background_image_path, 'http') ? $slide->background_image_path : ($slide->background_image_path ? asset('storage/' . $slide->background_image_path) : 'https://images.unsplash.com/photo-1519167758481-83f29da8c8f0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') }}'); background-size: cover; background-position: center; z-index: -1;"></div>
