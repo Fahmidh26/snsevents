@@ -18,8 +18,10 @@ class SitemapController extends Controller
             '/events',
             '/counseling',
             '/management-session',
-            '/contact-info',
             '/custom-package',
+            '/privacy-policy',
+            '/terms-and-conditions',
+            '/counseling-terms',
         ];
 
         // Dynamic Event Pages
