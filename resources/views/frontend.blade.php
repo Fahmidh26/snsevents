@@ -2362,7 +2362,7 @@
                             @if($videoId)
                                 <div class="position-absolute w-100 h-100 hero-video" style="z-index: -1; overflow: hidden;">
                                     <iframe 
-                                        src="https://www.youtube.com/embed/{{ $videoId }}?autoplay=1&mute=1&controls=0&loop=1&playlist={{ $videoId }}&showinfo=0&rel=0&iv_load_policy=3&disablekb=1" 
+                                        src="https://www.youtube.com/embed/{{ $videoId }}?autoplay=1&mute=1&controls=0&loop=1&playlist={{ $videoId }}&showinfo=0&rel=0&iv_load_policy=3&disablekb=1&vq=hd1080" 
                                         frameborder="0" 
                                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                                         class="position-absolute w-100 h-100" 
