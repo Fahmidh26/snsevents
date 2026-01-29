@@ -141,6 +141,21 @@
         </div>
 
         <div class="footer-section">
+            <h3>Contact Us</h3>
+            <ul class="footer-links">
+                @if(isset($contactInfo->address))
+                <li><i class="fas fa-map-marker-alt me-2" style="color: var(--primary-color);"></i> {{ $contactInfo->address }}</li>
+                @endif
+                @if(isset($contactInfo->phone))
+                <li><a href="tel:{{ $contactInfo->phone }}"><i class="fas fa-phone me-2" style="color: var(--primary-color);"></i> {{ $contactInfo->phone }}</a></li>
+                @endif
+                @if(isset($contactInfo->email))
+                <li><a href="mailto:{{ $contactInfo->email }}"><i class="fas fa-envelope me-2" style="color: var(--primary-color);"></i> {{ $contactInfo->email }}</a></li>
+                @endif
+            </ul>
+        </div>
+
+        <div class="footer-section">
         <h3>Quick Links</h3>
         <ul class="footer-links">
             <li><a href="{{ url('/#home') }}">Home</a></li>

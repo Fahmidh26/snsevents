@@ -107,6 +107,7 @@ Route::get('/about-us', function () {
 Route::get('/privacy-policy', [FrontendPrivacyPolicyController::class, 'index'])->name('privacy-policy');
 Route::get('/terms-and-conditions', [FrontendTermsAndConditionController::class, 'index'])->name('terms-and-conditions');
 Route::get('/counseling-terms', [CounselingTermController::class, 'index'])->name('counseling-terms');
+Route::get('/sitemap.xml', [App\Http\Controllers\SitemapController::class, 'index']);
 
 // Frontend Event Routes
 Route::get('/events', [EventController::class, 'index'])->name('events.index');

@@ -7,16 +7,30 @@
     <meta name="description" content="{{ $seo->meta_description ?? ($siteSettings->site_description ?? 'SNS Events provides premium event planning and decoration services in Texas.') }}" />
     <meta name="keywords" content="{{ $seo->meta_keywords ?? 'event planning, decorations, texas, weddings, corporate events' }}" />
     
+    <!-- Canonical URL -->
+    <link rel="canonical" href="{{ url()->current() }}" />
+
     <!-- Favicon -->
     @if($siteSettings->favicon_path)
     <link rel="icon" type="image/x-icon" href="{{ asset('storage/' . $siteSettings->favicon_path) }}">
+    <link rel="apple-touch-icon" href="{{ asset('storage/' . $siteSettings->favicon_path) }}">
     @endif
     
     <!-- Open Graph / Social Media -->
     <meta property="og:title" content="{{ $seo->og_title ?? ($seo->title ?? ($siteSettings->site_title ?? 'SNS Events')) }}" />
     <meta property="og:description" content="{{ $seo->og_description ?? ($seo->meta_description ?? ($siteSettings->site_description ?? 'Premium Event Planning')) }}" />
+    <meta property="og:url" content="{{ url()->current() }}" />
+    <meta property="og:type" content="website" />
     @if(isset($seo->og_image) && $seo->og_image)
         <meta property="og:image" content="{{ $seo->og_image }}" />
+    @endif
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $seo->og_title ?? ($seo->title ?? ($siteSettings->site_title ?? 'SNS Events')) }}">
+    <meta name="twitter:description" content="{{ $seo->og_description ?? ($seo->meta_description ?? ($siteSettings->site_description ?? 'Premium Event Planning')) }}">
+    @if(isset($seo->og_image) && $seo->og_image)
+        <meta name="twitter:image" content="{{ $seo->og_image }}">
     @endif
     <script type="application/ld+json">
     {
