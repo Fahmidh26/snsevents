@@ -83,6 +83,7 @@ class CounselingController extends Controller
             'email' => 'required|email|max:255',
             'phone' => 'required|string|max:50',
             'message' => 'nullable|string|max:2000',
+            'terms' => 'required|accepted',
         ]);
 
         // Check if slot is still available

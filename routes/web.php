@@ -24,6 +24,8 @@ use App\Http\Controllers\CounselingController;
 use App\Http\Controllers\Admin\CounselingController as AdminCounselingController;
 use App\Http\Controllers\ManagementSessionController;
 use App\Http\Controllers\Admin\ManagementSessionController as AdminManagementSessionController;
+use App\Http\Controllers\CounselingTermController;
+use App\Http\Controllers\Admin\CounselingTermController as AdminCounselingTermController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -104,6 +106,7 @@ Route::get('/about-us', function () {
 
 Route::get('/privacy-policy', [FrontendPrivacyPolicyController::class, 'index'])->name('privacy-policy');
 Route::get('/terms-and-conditions', [FrontendTermsAndConditionController::class, 'index'])->name('terms-and-conditions');
+Route::get('/counseling-terms', [CounselingTermController::class, 'index'])->name('counseling-terms');
 
 // Frontend Event Routes
 Route::get('/events', [EventController::class, 'index'])->name('events.index');
@@ -183,6 +186,10 @@ Route::middleware('auth')->group(function () {
         // Terms & Conditions
         Route::get('terms-and-conditions', [TermsAndConditionController::class, 'edit'])->name('terms-and-condition.edit');
         Route::post('terms-and-conditions', [TermsAndConditionController::class, 'update'])->name('terms-and-condition.update');
+
+        // Counseling Terms
+        Route::get('counseling-terms', [AdminCounselingTermController::class, 'edit'])->name('counseling-terms.edit');
+        Route::post('counseling-terms', [AdminCounselingTermController::class, 'update'])->name('counseling-terms.update');
 
         // Counseling Management
         Route::get('counseling/settings', [AdminCounselingController::class, 'settings'])->name('counseling.settings');

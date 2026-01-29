@@ -876,6 +876,15 @@
                         <textarea class="form-control" id="message" name="message" placeholder="Share what's on your mind... This is confidential and helps prepare for our session."></textarea>
                     </div>
 
+                    <div class="form-group" style="margin-bottom: 25px;">
+                        <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; font-weight: normal;">
+                            <input type="checkbox" name="terms" required style="width: 18px; height: 18px; accent-color: var(--primary-color);">
+                            <span style="font-size: 0.9rem; color: var(--text-light);">
+                                I accept the <a href="{{ route('counseling-terms') }}" target="_blank" style="color: var(--primary-color); text-decoration: underline;">Terms and Conditions</a> for counseling sessions.
+                            </span>
+                        </label>
+                    </div>
+
                     <button type="submit" class="btn-submit" id="submitBtn">
                         <i class="fas fa-check-circle me-2"></i> Confirm My Session
                     </button>
