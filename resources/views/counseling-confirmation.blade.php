@@ -369,6 +369,10 @@
             </div>
 
             @if($settings->contact_email || $settings->contact_phone)
+            <div class="disclaimer-note" style="text-align: left; margin-bottom: 30px; padding: 15px; background: rgba(0,0,0,0.03); border-radius: 10px; font-size: 0.9rem; color: var(--text-muted); border-left: 3px solid var(--primary-color);">
+                <strong>Note:</strong> This session is for coaching and guidance only and is not a substitute for professional mental health, medical, or legal services.
+            </div>
+
             <div class="contact-info">
                 <h4><i class="fas fa-headset"></i> Need to Reschedule?</h4>
                 @if($settings->contact_email)
