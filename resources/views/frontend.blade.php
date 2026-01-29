@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="google-site-verification" content="_oq2e_Dd4BVweLR0JFMSW_YmAiy3Sr5PFSpBn0QUbpE" />
     <title>{{ $seo->title ?? ($siteSettings->site_title ?? 'SNS Events - Premium Event Planning') }}</title>
     <meta name="description" content="{{ $seo->meta_description ?? ($siteSettings->site_description ?? 'SNS Events provides premium event planning and decoration services in Texas.') }}" />
     <meta name="keywords" content="{{ $seo->meta_keywords ?? 'event planning, decorations, texas, weddings, corporate events' }}" />
