@@ -2393,10 +2393,22 @@
                             @endif
                         @elseif(Str::contains($slide->background_video_path, 'player.cloudinary.com'))
                              <!-- Cloudinary Player Video -->
-                            <div class="position-absolute w-100 h-100 hero-video" style="z-index: -1; overflow: hidden;">
+                            <div class="position-absolute w-100 h-100 hero-video" style="z-index: -1; overflow: hidden; background-color: #0f0f0f;">
+                                {{-- Placeholder Image --}}
+                                @if($slide->background_image_path)
+                                    <img src="{{ asset('storage/' . $slide->background_image_path) }}" class="position-absolute w-100 h-100" style="object-fit: cover; z-index: 0; opacity: 0.6;" alt="Background">
+                                @endif
+                                
+                                {{-- Loading Animation --}}
+                                <div class="position-absolute top-50 start-50 translate-middle" style="z-index: 0;">
+                                    <div class="spinner-border text-warning" role="status" style="width: 3rem; height: 3rem; border-width: 0.25em;">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </div>
+
                                 <iframe
                                     src="{{ $slide->background_video_path }}{{ Str::contains($slide->background_video_path, '?') ? '&' : '?' }}autoplay=true&muted=true&loop=true&controls=false&hide_share=true&hide_title=true"
-                                    style="pointer-events: none;"
+                                    style="pointer-events: none; position: relative; z-index: 1;"
                                     allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
                                     allowfullscreen
                                     frameborder="0"
