@@ -2337,6 +2337,28 @@
           font-size: 1.8rem;
         }
       }
+      /* YouTube Background Fix */
+      .youtube-bg {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100vw;
+        height: 100vh;
+        transform: translate(-50%, -50%) scale(1.3); /* Scale 1.3 to hide minimal UI/bars */
+        pointer-events: none;
+      }
+
+      @media (min-aspect-ratio: 16/9) {
+        .youtube-bg {
+          height: 56.25vw;
+        }
+      }
+
+      @media (max-aspect-ratio: 16/9) {
+        .youtube-bg {
+          width: 177.78vh;
+        }
+      }
     </style>
   </head>
   <body>
@@ -2362,11 +2384,10 @@
                             @if($videoId)
                                 <div class="position-absolute w-100 h-100 hero-video" style="z-index: -1; overflow: hidden;">
                                     <iframe 
-                                        src="https://www.youtube.com/embed/{{ $videoId }}?autoplay=1&mute=1&controls=0&loop=1&playlist={{ $videoId }}&showinfo=0&rel=0&iv_load_policy=3&disablekb=1&vq=hd1080" 
+                                        src="https://www.youtube.com/embed/{{ $videoId }}?autoplay=1&mute=1&controls=0&loop=1&playlist={{ $videoId }}&showinfo=0&rel=0&iv_load_policy=3&disablekb=1&vq=hd1080&modestbranding=1" 
                                         frameborder="0" 
                                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                        class="position-absolute w-100 h-100" 
-                                        style="object-fit: cover; transform: scale(1.5); pointer-events: none;">
+                                        class="youtube-bg">
                                     </iframe>
                                 </div>
                             @endif
