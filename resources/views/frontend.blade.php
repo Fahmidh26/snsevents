@@ -2351,7 +2351,16 @@
                 @foreach($heroSlides as $key => $slide)
                 <div class="carousel-item {{ $key == 0 ? 'active' : '' }}" style="height: 100vh;">
                     @if($slide->background_video_path)
-                        <video autoplay muted loop playsinline class="position-absolute w-100 h-100" style="object-fit: cover; z-index: -1;">
+                        <video 
+                            id="hero-video-{{ $key }}"
+                            class="position-absolute w-100 h-100 hero-video" 
+                            style="object-fit: cover; z-index: -1;"
+                            muted 
+                            loop 
+                            playsinline
+                            poster="{{ $slide->background_image_path ? asset('storage/' . $slide->background_image_path) : '' }}"
+                            @if($key == 0) autoplay preload="auto" @else preload="none" @endif
+                        >
                              <source src="{{ asset('storage/' . $slide->background_video_path) }}" type="video/{{ pathinfo($slide->background_video_path, PATHINFO_EXTENSION) == 'mov' ? 'quicktime' : pathinfo($slide->background_video_path, PATHINFO_EXTENSION) }}">
                         </video>
                         <div class="position-absolute w-100 h-100" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)); z-index: 0;"></div>
@@ -3206,6 +3215,44 @@
 
       document.querySelectorAll(".stat-box h4").forEach((stat) => {
         observer.observe(stat);
+      });
+    </script>
+
+    <!-- Carousel Video Optimization Script -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        var myCarousel = document.getElementById('heroCarousel');
+        
+        if (myCarousel) {
+          myCarousel.addEventListener('slide.bs.carousel', function (e) {
+            // e.relatedTarget is the slide that is sliding into view
+            // e.from is the index of the slide that is sliding out of view
+            
+            // Pause the current video
+            var currentSlide = e.target.querySelectorAll('.carousel-item')[e.from];
+            var currentVideo = currentSlide.querySelector('video');
+            if (currentVideo) {
+              currentVideo.pause();
+            }
+            
+            // Play the next video
+            var nextSlide = e.relatedTarget;
+            var nextVideo = nextSlide.querySelector('video');
+            if (nextVideo) {
+              // Reset time to 0 to ensure it plays from start
+              nextVideo.currentTime = 0;
+              // Add a small delay to ensure transition is smooth
+              setTimeout(() => {
+                  var playPromise = nextVideo.play();
+                  if (playPromise !== undefined) {
+                    playPromise.catch(error => {
+                      console.log("Auto-play was prevented");
+                    });
+                  }
+              }, 500);
+            }
+          });
+        }
       });
     </script>
     <!-- WhatsApp Floating Button -->
