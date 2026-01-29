@@ -997,13 +997,30 @@
             .then(data => {
                 dateDisplay.textContent = data.date;
                 
-                if (data.slots.length === 0) {
+                let slots = data.slots;
+
+                // Filter past slots if date is today
+                const now = new Date();
+                const todayStr = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
+
+                if (dateStr === todayStr) {
+                    const currentTotalMinutes = now.getHours() * 60 + now.getMinutes();
+                    
+                    slots = slots.filter(slot => {
+                        if (!slot.raw_start_time) return true; // Safety check
+                        const [hours, minutes] = slot.raw_start_time.split(':').map(Number);
+                        const slotTotalMinutes = hours * 60 + minutes;
+                        return slotTotalMinutes > currentTotalMinutes;
+                    });
+                }
+                
+                if (slots.length === 0) {
                     container.innerHTML = '<div class="no-slots-message"><i class="fas fa-calendar-times"></i><p>No available slots for this date</p></div>';
                     return;
                 }
                 
                 container.innerHTML = '';
-                data.slots.forEach(slot => {
+                slots.forEach(slot => {
                     const btn = document.createElement('button');
                     btn.type = 'button';
                     btn.className = 'slot-btn';

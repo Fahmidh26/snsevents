@@ -57,6 +57,7 @@ class CounselingController extends Controller
                 return [
                     'id' => $slot->id,
                     'start_time' => Carbon::parse($slot->start_time)->format('g:i A'),
+                    'raw_start_time' => Carbon::parse($slot->start_time)->format('H:i'),
                     'end_time' => Carbon::parse($slot->end_time)->format('g:i A'),
                     'formatted_time' => $slot->formatted_time,
                     'duration' => $slot->duration,
