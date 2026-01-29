@@ -2344,7 +2344,7 @@
         left: 50%;
         width: 100vw;
         height: 100vh;
-        transform: translate(-50%, -50%) scale(1.3); /* Scale 1.3 to hide minimal UI/bars */
+        transform: translate(-50%, -50%) scale(1.05); /* Reduced scale from 1.3 to 1.05 to minimize zoom */
         pointer-events: none;
       }
 
@@ -2384,13 +2384,38 @@
                             @if($videoId)
                                 <div class="position-absolute w-100 h-100 hero-video" style="z-index: -1; overflow: hidden;">
                                     <iframe 
-                                        src="https://www.youtube.com/embed/{{ $videoId }}?autoplay=1&mute=1&controls=0&loop=1&playlist={{ $videoId }}&showinfo=0&rel=0&iv_load_policy=3&disablekb=1&vq=hd1080&modestbranding=1" 
+                                        src="https://www.youtube.com/embed/{{ $videoId }}?autoplay=1&mute=1&controls=0&loop=1&playlist={{ $videoId }}&showinfo=0&rel=0&iv_load_policy=3&disablekb=1&modestbranding=1&playsinline=1" 
                                         frameborder="0" 
-                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                                         class="youtube-bg">
                                     </iframe>
                                 </div>
                             @endif
+                        @elseif(Str::contains($slide->background_video_path, 'dropbox.com'))
+                            <!-- Dropbox Direct Video -->
+                            @php
+                                $dropboxUrl = $slide->background_video_path;
+                                if (Str::contains($dropboxUrl, '?')) {
+                                    $dropboxUrl = str_replace('dl=0', 'raw=1', $dropboxUrl);
+                                    if (!Str::contains($dropboxUrl, 'raw=1')) {
+                                        $dropboxUrl .= '&raw=1';
+                                    }
+                                } else {
+                                    $dropboxUrl .= '?raw=1';
+                                }
+                            @endphp
+                             <video 
+                                id="hero-video-{{ $key }}"
+                                class="position-absolute w-100 h-100 hero-video" 
+                                style="object-fit: cover; z-index: -1;"
+                                muted 
+                                loop 
+                                playsinline
+                                poster="{{ $slide->background_image_path ? asset('storage/' . $slide->background_image_path) : '' }}"
+                                @if($key == 0) autoplay preload="auto" @else preload="none" @endif
+                            >
+                                <source src="{{ $dropboxUrl }}" type="video/{{ pathinfo(parse_url($slide->background_video_path, PHP_URL_PATH), PATHINFO_EXTENSION) ?: 'mp4' }}">
+                            </video>
                         @elseif(filter_var($slide->background_video_path, FILTER_VALIDATE_URL))
                              <!-- External Direct Video URL -->
                             <video 

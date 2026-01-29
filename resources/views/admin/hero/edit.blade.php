@@ -42,6 +42,10 @@
                                 <div class="mb-3 p-2 border border-gray-200 rounded-lg bg-gray-50 inline-block">
                                     <img src="{{ asset('storage/' . $hero->background_image_path) }}" alt="Current Slide" class="h-32 object-cover rounded">
                                     <p class="text-xs text-gray-500 mt-1">Current Image</p>
+                                    <label class="inline-flex items-center mt-2">
+                                        <input type="checkbox" name="remove_background_image" value="1" class="form-checkbox h-4 w-4 text-red-600 rounded border-gray-300 focus:ring-red-500">
+                                        <span class="ml-2 text-sm text-red-600 font-medium">Remove Image</span>
+                                    </label>
                                 </div>
                             @endif
 

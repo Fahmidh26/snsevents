@@ -65,6 +65,13 @@ class HeroSectionController extends Controller
         $data = $request->all();
         $data['is_active'] = $request->has('is_active');
 
+        if ($request->has('remove_background_image')) {
+            if ($hero->background_image_path) {
+                Storage::delete('public/' . $hero->background_image_path);
+            }
+            $data['background_image_path'] = null;
+        }
+
         if ($request->hasFile('background_image_path')) {
             // Delete old image
             if ($hero->background_image_path) {
