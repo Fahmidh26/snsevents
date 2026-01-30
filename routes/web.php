@@ -62,7 +62,6 @@ Route::get('/', function () {
             $q->orderBy('display_order');
         }])
         ->orderBy('display_order')
-        ->take(9)
         ->get();
 
     // SEO and Service Areas
