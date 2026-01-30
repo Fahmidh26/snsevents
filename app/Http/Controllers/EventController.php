@@ -20,7 +20,28 @@ class EventController extends Controller
                 $q->where('status', true)->orderBy('display_order');
             }])
             ->orderBy('display_order')->get();
-        return view('events.index', compact('eventTypes'));
+        
+        // Get all unique categories that are not null
+        $categories = EventType::where('status', true)
+            ->whereNotNull('category')
+            ->distinct()
+            ->pluck('category')
+            ->sort()
+            ->values();
+
+        // Common Data for Layout
+        $siteSettings = SiteSetting::first();
+        $companyProfile = \App\Models\CompanyProfile::first();
+        $contactInfo = \App\Models\ContactInfo::first();
+        
+        // SEO for Events Page
+        $seo = new \stdClass();
+        $seo->title = 'Our Services - SNS Events';
+        $seo->meta_description = 'Explore our comprehensive list of event planning and decoration services.';
+        $seo->meta_keywords = 'event planning, services, weddings, corporate events, sns events';
+        $seo->og_image = $siteSettings->logo_path ? asset('storage/'.$siteSettings->logo_path) : null;
+
+        return view('events.index', compact('eventTypes', 'categories', 'siteSettings', 'companyProfile', 'contactInfo', 'seo'));
     }
 
     public function show($slug)

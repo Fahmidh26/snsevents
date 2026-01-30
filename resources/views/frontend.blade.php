@@ -2586,51 +2586,7 @@
     </div>
 
     <!-- Pricing Section -->
-    <section id="pricing" class="pricing-section">
-      <div class="container">
-        <div class="section-title" data-aos="fade-up">
-          <h2>Our Packages</h2>
-          <p>Choose the Perfect Package for Your Event</p>
-        </div>
 
-        <div class="pricing-tabs" data-aos="fade-up" data-aos-delay="100">
-          @foreach($eventTypes as $type)
-          <div class="pricing-tab {{ $loop->first ? 'active' : '' }}" onclick="showPricing('{{ $type->slug }}')">
-             {{ $type->name }}
-          </div>
-           @endforeach
-        </div>
-
-        @foreach($eventTypes as $type)
-        <!-- {{ $type->name }} Packages -->
-        <div class="pricing-content {{ $loop->first ? 'active' : '' }}" id="{{ $type->slug }}-pricing">
-          <div class="row">
-            @forelse($type->pricingTiers as $tier)
-            <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
-              <div class="pricing-card {{ $loop->index == 1 ? 'featured' : '' }}">
-                @if($loop->index == 1)
-                <span class="pricing-badge">Most Popular</span>
-                @endif
-                <h3>{{ $tier->tier_name }}</h3>
-                <div class="pricing-price">${{ number_format($tier->price, 0) }}<span>/event</span></div>
-                <ul class="pricing-features">
-                  @foreach($tier->features as $feature)
-                  <li><i class="fas fa-check"></i> {{ $feature }}</li>
-                  @endforeach
-                </ul>
-                <button class="btn-pricing" onclick="window.location.href='{{ route('events.show', $type->slug) }}'">Choose Plan</button>
-              </div>
-            </div>
-            @empty
-            <div class="col-12 text-center">
-                <p>No packages defined for this event type yet.</p>
-            </div>
-            @endforelse
-          </div>
-        </div>
-        @endforeach
-      </div>
-    </section>
 
     <!-- Gallery Section -->
     <section id="gallery" class="gallery-section">
@@ -2644,9 +2600,12 @@
           <div class="gallery-filter active" onclick="filterGallery('all')">
             All
           </div>
-          @foreach($eventTypes as $type)
-          <div class="gallery-filter" onclick="filterGallery('{{ $type->slug }}')">
-             {{ $type->name }}
+          @php
+              $categories = $eventTypes->pluck('category')->unique()->filter()->values();
+          @endphp
+          @foreach($categories as $category)
+          <div class="gallery-filter" onclick="filterGallery('{{ Str::slug($category) }}')">
+             {{ $category }}
           </div>
           @endforeach
         </div>
@@ -2654,7 +2613,7 @@
         <div class="gallery-grid" data-aos="fade-up" data-aos-delay="200">
           @foreach($eventTypes as $type)
              @foreach($type->galleries as $gallery)
-              <div class="gallery-item" data-category="{{ $type->slug }}" onclick="viewGalleryImage('{{ asset($gallery->image_path) }}')">
+              <div class="gallery-item" data-category="{{ Str::slug($type->category) }}" onclick="viewGalleryImage('{{ asset($gallery->image_path) }}')">
                 <img
                   src="{{ asset($gallery->image_path) }}"
                   alt="{{ $gallery->caption ?: $type->name }}"
