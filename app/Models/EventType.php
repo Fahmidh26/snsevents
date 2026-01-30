@@ -22,11 +22,13 @@ class EventType extends Model
         'meta_keywords',
         'og_title',
         'og_description',
-        'og_image'
+        'og_image',
+        'show_on_home'
     ];
 
     protected $casts = [
         'status' => 'boolean',
+        'show_on_home' => 'boolean',
     ];
 
     public function galleries()

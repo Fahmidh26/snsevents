@@ -39,6 +39,7 @@ class EventTypeController extends Controller
         $data = $request->except(['featured_image', 'og_image']);
         $data['slug'] = Str::slug($request->name);
         $data['status'] = $request->has('status');
+        $data['show_on_home'] = $request->has('show_on_home');
 
         if ($request->hasFile('featured_image')) {
             $imageName = time() . '.' . $request->featured_image->extension();
@@ -80,6 +81,7 @@ class EventTypeController extends Controller
         $data = $request->except(['featured_image', 'og_image']);
         $data['slug'] = Str::slug($request->name);
         $data['status'] = $request->has('status');
+        $data['show_on_home'] = $request->has('show_on_home');
 
         if ($request->hasFile('featured_image')) {
             // Delete old image

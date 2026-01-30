@@ -64,6 +64,11 @@
                         <input type="checkbox" name="status" id="status" {{ old('status', $eventType->status) ? 'checked' : '' }} class="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary">
                         <label for="status" class="text-sm font-semibold text-gray-700">Active (Visible on website)</label>
                     </div>
+
+                    <div class="flex items-center gap-2">
+                        <input type="checkbox" name="show_on_home" id="show_on_home" {{ old('show_on_home', $eventType->show_on_home) ? 'checked' : '' }} class="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary">
+                        <label for="show_on_home" class="text-sm font-semibold text-gray-700">Show on Home Page</label>
+                    </div>
                 </div>
             </div>
 

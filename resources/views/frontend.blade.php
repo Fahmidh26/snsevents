@@ -2544,7 +2544,7 @@
         </div>
 
         <div class="row">
-          @foreach($eventTypes->take(9) as $type)
+          @foreach($eventTypes->where('show_on_home', true)->take(9) as $type)
           <div
             class="col-md-6 col-lg-4 mb-4"
             data-aos="fade-up"
