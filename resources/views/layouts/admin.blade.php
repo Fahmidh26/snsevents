@@ -69,6 +69,7 @@
             scrollbar-color: rgba(212, 175, 55, 0.3) rgba(0, 0, 0, 0.1);
         }
     </style>
+    @stack('styles')
 </head>
 <body class="font-sans antialiased bg-gray-50 text-secondary">
     <div x-data="{ sidebarOpen: false }" class="flex h-screen overflow-hidden">
@@ -279,5 +280,6 @@
         <!-- Overlay for mobile -->
         <div x-show="sidebarOpen" @click="sidebarOpen = false" x-transition:enter="transition-opacity ease-linear duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition-opacity ease-linear duration-300" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden" x-cloak></div>
     </div>
+    @stack('scripts')
 </body>
 </html>
