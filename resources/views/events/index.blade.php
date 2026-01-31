@@ -296,11 +296,10 @@
                 </div>
             </div>
 
-            <!-- Services Grid -->
-            <div class="row g-4" id="services-grid" x-cloak>
+        <div class="row g-4" id="services-grid" x-cloak>
                 <template x-for="(item, index) in paginatedItems" :key="item.slug">
                     <div class="col-lg-4 col-md-6" data-aos="fade-up" :data-aos-delay="index * 50">
-                        <div class="service-card shadow-sm" @click="window.location.href='/events/' + item.slug" style="cursor: pointer;">
+                        <div class="service-card shadow-sm" @click="window.location.href=item.url" style="cursor: pointer;">
                             <div class="service-image">
                                 <img :src="item.image" :alt="item.name">
                                 <div class="category-badge" x-show="item.category" x-text="item.category"></div>
@@ -384,17 +383,26 @@
 <script>
     document.addEventListener('alpine:init', () => {
         Alpine.data('eventsList', () => ({
-            items: {!! $eventTypes->map(function($item) {
+            items: {!! collect([[
+                'name' => 'Coaching Session',
+                'category' => 'Counseling',
+                'description' => 'Book a professional counseling or coaching session to guide your personal or professional journey.',
+                'image' => $counselingSettings->hero_image ? asset('storage/' . $counselingSettings->hero_image) : 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+                'slug' => 'counseling',
+                'price' => null,
+                'url' => route('counseling')
+            ]])->concat($eventTypes->map(function($item) {
                 return [
                     'name' => $item->name,
                     'category' => $item->category,
                     'description' => \Illuminate\Support\Str::limit($item->description, 100),
                     'image' => $item->featured_image ? asset($item->featured_image) : 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
                     'slug' => $item->slug,
-                    'price' => $item->pricingTiers->min('price') ?? null
+                    'price' => $item->pricingTiers->min('price') ?? null,
+                    'url' => route('events.show', $item->slug)
                 ];
-            })->toJson() !!},
-            originalCategories: {!! $categories->toJson() !!},
+            }))->toJson() !!},
+            originalCategories: {!! $categories->concat(['Counseling'])->unique()->sort()->values()->toJson() !!},
             activeCategory: 'All Services',
             serviceSearchQuery: '',
             searchQuery: '', // For category dropdown

@@ -41,7 +41,9 @@ class EventController extends Controller
         $seo->meta_keywords = 'event planning, services, weddings, corporate events, sns events';
         $seo->og_image = $siteSettings->logo_path ? asset('storage/'.$siteSettings->logo_path) : null;
 
-        return view('events.index', compact('eventTypes', 'categories', 'siteSettings', 'companyProfile', 'contactInfo', 'seo'));
+        $counselingSettings = \App\Models\CounselingSettings::getSettings();
+
+        return view('events.index', compact('eventTypes', 'categories', 'siteSettings', 'companyProfile', 'contactInfo', 'seo', 'counselingSettings'));
     }
 
     public function show($slug)

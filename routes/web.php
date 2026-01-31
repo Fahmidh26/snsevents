@@ -72,8 +72,9 @@ Route::get('/', function () {
     $testimonials = \App\Models\Testimonial::active()->orderBy('display_order')->get();
     $faqs = \App\Models\FAQ::active()->orderBy('display_order')->get();
     $contactInfo = \App\Models\ContactInfo::first();
+    $counselingSettings = \App\Models\CounselingSettings::getSettings();
 
-    return view('frontend', compact('companyProfile', 'aboutUs', 'heroSlides', 'eventTypes', 'seo', 'serviceAreas', 'testimonials', 'faqs', 'contactInfo'));
+    return view('frontend', compact('companyProfile', 'aboutUs', 'heroSlides', 'eventTypes', 'seo', 'serviceAreas', 'testimonials', 'faqs', 'contactInfo', 'counselingSettings'));
 });
 
 Route::get('/service-areas', function () {

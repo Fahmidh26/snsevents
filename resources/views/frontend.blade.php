@@ -2544,11 +2544,30 @@
         </div>
 
         <div class="row">
-          @foreach($eventTypes->where('show_on_home', true)->take(9) as $type)
+          <!-- Counseling/Coaching Service Card -->
           <div
             class="col-md-6 col-lg-4 mb-4"
             data-aos="fade-up"
-            data-aos-delay="{{ $loop->index * 100 }}"
+            data-aos-delay="0"
+          >
+            <div class="service-card h-100" onclick="window.location.href='{{ route('counseling') }}'">
+              <div class="service-image" style="height: 350px;">
+                <img
+                  src="{{ $counselingSettings->hero_image ? asset('storage/' . $counselingSettings->hero_image) : 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80' }}"
+                  alt="Coaching Session"
+                />
+                <div class="service-overlay">
+                  <h3>Coaching Session</h3>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          @foreach($eventTypes->where('show_on_home', true)->take(8) as $type)
+          <div
+            class="col-md-6 col-lg-4 mb-4"
+            data-aos="fade-up"
+            data-aos-delay="{{ ($loop->index + 1) * 100 }}"
           >
             <div class="service-card h-100" onclick="window.location.href='{{ route('events.show', $type->slug) }}'">
               <div class="service-image" style="height: 350px;">
