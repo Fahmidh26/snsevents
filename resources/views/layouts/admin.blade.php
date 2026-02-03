@@ -102,6 +102,11 @@
                     Homepage Sections
                 </a>
 
+                <a href="{{ route('admin.navbar-items.index') }}" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg {{ request()->routeIs('admin.navbar-items.*') ? 'bg-primary/20 text-primary' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }} transition-colors">
+                    <i class="fas fa-bars w-5 h-5 mr-3"></i>
+                    Navbar Items
+                </a>
+
                 <a href="{{ route('about-us.edit') }}" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg {{ request()->routeIs('about-us.edit') ? 'bg-primary/20 text-primary' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }} transition-colors">
                     <i class="fas fa-info-circle w-5 h-5 mr-3"></i>
                     About Us

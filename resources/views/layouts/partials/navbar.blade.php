@@ -20,37 +20,45 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url('/#home') }}">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link {{ request()->routeIs('about-us') ? 'active' : '' }}" href="{{ route('about-us') }}">About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link {{ request()->routeIs('events.*') ? 'active' : '' }}" href="{{ route('events.index') }}">Services</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link {{ request()->routeIs('custom-package') ? 'active' : '' }}" href="{{ route('custom-package') }}">Custom Package</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link {{ request()->routeIs('counseling*') ? 'active' : '' }}" href="{{ route('counseling') }}">Book a Coaching Session</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link {{ request()->routeIs('management-session*') ? 'active' : '' }}" href="{{ route('management-session') }}">Book a Session with Management</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Explore
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="{{ url('/#gallery') }}">Gallery</a></li>
-              <li><a class="dropdown-item" href="{{ url('/#testimonials') }}">Testimonials</a></li>
-              <li><a class="dropdown-item" href="{{ url('/#faq') }}">FAQ</a></li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url('/#contact') }}">Contact</a>
-          </li>
+          @if(isset($navbarItems))
+              @foreach($navbarItems as $item)
+                @php
+                    $isActive = false;
+                    if ($item->type === 'route' && $item->route_name) {
+                        $isActive = request()->routeIs($item->route_name . '*');
+                    } else if ($item->url) {
+                         $isActive = request()->is(ltrim($item->url, '/'));
+                    }
+                @endphp
+                
+                @if($item->children->count() > 0)
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          {{ $item->label }}
+                        </a>
+                        <ul class="dropdown-menu">
+                            @foreach($item->children as $child)
+                                <li>
+                                    <a class="dropdown-item" href="{{ $child->type === 'route' ? route($child->route_name) : url($child->url) }}">
+                                        {{ $child->label }}
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </li>
+                @else
+                    <li class="nav-item">
+                        <a class="nav-link {{ $isActive ? 'active' : '' }}" href="{{ $item->type === 'route' ? route($item->route_name) : url($item->url) }}">
+                            {{ $item->label }}
+                        </a>
+                    </li>
+                @endif
+              @endforeach
+          @else
+              <!-- Fallback if variable is missing (e.g. error in provider) -->
+              <li class="nav-item"><a class="nav-link" href="{{ url('/') }}">Home</a></li>
+              <li class="nav-item"><a class="nav-link" href="{{ route('events.index') }}">Services</a></li>
+          @endif
         </ul>
       </div>
     </div>

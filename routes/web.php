@@ -227,6 +227,9 @@ Route::middleware('auth')->group(function () {
         Route::get('homepage-sections', [App\Http\Controllers\Admin\HomepageSectionController::class, 'index'])->name('homepage-sections.index');
         Route::post('homepage-sections/update-order', [App\Http\Controllers\Admin\HomepageSectionController::class, 'updateOrder'])->name('homepage-sections.update-order');
         Route::post('homepage-sections/toggle-visibility', [App\Http\Controllers\Admin\HomepageSectionController::class, 'toggleVisibility'])->name('homepage-sections.toggle-visibility');
+        
+        // Navbar Management
+        Route::resource('navbar-items', App\Http\Controllers\Admin\NavbarItemController::class);
     });
 
     // Contact Info Routes

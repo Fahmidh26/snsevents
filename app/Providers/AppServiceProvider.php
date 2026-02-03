@@ -30,6 +30,15 @@ class AppServiceProvider extends ServiceProvider
             
             \Illuminate\Support\Facades\View::share('siteSettings', $siteSettings);
             \Illuminate\Support\Facades\View::share('contactInfo', $contactInfo);
+            
+            $navbarItems = \App\Models\NavbarItem::whereNull('parent_id')
+                ->where('is_active', true)
+                ->orderBy('order')
+                ->with(['children' => function($q) {
+                    $q->where('is_active', true)->orderBy('order');
+                }])
+                ->get();
+            \Illuminate\Support\Facades\View::share('navbarItems', $navbarItems);
         } catch (\Exception $e) {
             // Handle migration or DB connection issues
         }
