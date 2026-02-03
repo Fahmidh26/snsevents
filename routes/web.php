@@ -74,7 +74,10 @@ Route::get('/', function () {
     $contactInfo = \App\Models\ContactInfo::first();
     $counselingSettings = \App\Models\CounselingSettings::getSettings();
 
-    return view('frontend', compact('companyProfile', 'aboutUs', 'heroSlides', 'eventTypes', 'seo', 'serviceAreas', 'testimonials', 'faqs', 'contactInfo', 'counselingSettings'));
+    // Fetch homepage sections order and visibility
+    $homepageSections = \App\Models\HomepageSection::where('is_visible', true)->orderBy('order')->get();
+
+    return view('frontend', compact('companyProfile', 'aboutUs', 'heroSlides', 'eventTypes', 'seo', 'serviceAreas', 'testimonials', 'faqs', 'contactInfo', 'counselingSettings', 'homepageSections'));
 });
 
 Route::get('/service-areas', function () {
@@ -219,6 +222,11 @@ Route::middleware('auth')->group(function () {
         Route::get('management-session/bookings', [AdminManagementSessionController::class, 'bookings'])->name('management-session.bookings');
         Route::patch('management-session/bookings/{id}/status', [AdminManagementSessionController::class, 'updateBookingStatus'])->name('management-session.bookings.status');
         Route::delete('management-session/bookings/{id}', [AdminManagementSessionController::class, 'deleteBooking'])->name('management-session.bookings.destroy');
+        
+        // Homepage Sections
+        Route::get('homepage-sections', [App\Http\Controllers\Admin\HomepageSectionController::class, 'index'])->name('homepage-sections.index');
+        Route::post('homepage-sections/update-order', [App\Http\Controllers\Admin\HomepageSectionController::class, 'updateOrder'])->name('homepage-sections.update-order');
+        Route::post('homepage-sections/toggle-visibility', [App\Http\Controllers\Admin\HomepageSectionController::class, 'toggleVisibility'])->name('homepage-sections.toggle-visibility');
     });
 
     // Contact Info Routes
