@@ -97,7 +97,7 @@ class CounselingController extends Controller
         $validated = $request->validate([
             'date' => 'required|date|after_or_equal:today',
             'start_time' => 'required|date_format:H:i',
-            'duration' => 'required|integer|in:30,45,60,90,120',
+            'duration' => 'required|integer|min:1',
             'price' => 'required|numeric|min:0',
             'notes' => 'nullable|string|max:500',
             'create_recurring' => 'nullable|boolean',
@@ -168,7 +168,7 @@ class CounselingController extends Controller
         $validated = $request->validate([
             'date' => 'required|date',
             'start_time' => 'required|date_format:H:i',
-            'duration' => 'required|integer|in:30,45,60,90,120',
+            'duration' => 'required|integer|min:1',
             'price' => 'required|numeric|min:0',
             'notes' => 'nullable|string|max:500',
         ]);

@@ -53,13 +53,31 @@
                         <!-- Duration -->
                         <div>
                             <label for="duration" class="block text-sm font-medium text-gray-700 mb-2">Session Duration</label>
-                            <select name="duration" id="duration" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50" required onchange="calculateEndTime()">
-                                <option value="30" {{ old('duration', $slot->duration) == 30 ? 'selected' : '' }}>30 minutes</option>
-                                <option value="45" {{ old('duration', $slot->duration) == 45 ? 'selected' : '' }}>45 minutes</option>
-                                <option value="60" {{ old('duration', $slot->duration) == 60 ? 'selected' : '' }}>60 minutes</option>
-                                <option value="90" {{ old('duration', $slot->duration) == 90 ? 'selected' : '' }}>90 minutes</option>
-                                <option value="120" {{ old('duration', $slot->duration) == 120 ? 'selected' : '' }}>2 hours</option>
+                            
+                            <!-- Actual submitted value -->
+                            <input type="hidden" name="duration" id="duration" value="{{ old('duration', $slot->duration) }}">
+                            
+                            <!-- UI Selector -->
+                            <select id="duration_select" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50" onchange="handleDurationChange()">
+                                <option value="30">30 minutes</option>
+                                <option value="45">45 minutes</option>
+                                <option value="60">60 minutes</option>
+                                <option value="75">75 minutes</option>
+                                <option value="90">90 minutes</option>
+                                <option value="custom">Custom Duration...</option>
                             </select>
+                            
+                            <!-- Custom Input -->
+                            <div id="custom_duration_container" class="mt-2 hidden">
+                                <label class="text-xs text-gray-500 mb-1 block">Enter duration in minutes:</label>
+                                <div class="relative">
+                                    <input type="number" id="custom_duration_input" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 pr-12" placeholder="e.g. 120" oninput="updateCustomDuration()">
+                                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                        <span class="text-gray-500 sm:text-sm">min</span>
+                                    </div>
+                                </div>
+                            </div>
+
                             @error('duration')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror
@@ -164,7 +182,47 @@
 
         // Calculate on page load
         document.addEventListener('DOMContentLoaded', function() {
+            initDuration();
             calculateEndTime();
         });
+
+        function handleDurationChange() {
+            const select = document.getElementById('duration_select');
+            const customContainer = document.getElementById('custom_duration_container');
+            const hiddenInput = document.getElementById('duration');
+            const customInput = document.getElementById('custom_duration_input');
+            
+            if (select.value === 'custom') {
+                customContainer.classList.remove('hidden');
+                hiddenInput.value = customInput.value || ''; 
+            } else {
+                customContainer.classList.add('hidden');
+                hiddenInput.value = select.value;
+            }
+            calculateEndTime();
+        }
+
+        function updateCustomDuration() {
+            const hiddenInput = document.getElementById('duration');
+            const customInput = document.getElementById('custom_duration_input');
+            hiddenInput.value = customInput.value;
+            calculateEndTime();
+        }
+
+        function initDuration() {
+            const hiddenInput = document.getElementById('duration');
+            const select = document.getElementById('duration_select');
+            const customInput = document.getElementById('custom_duration_input');
+            
+            const standardValues = ['30', '45', '60', '75', '90'];
+            
+            if (standardValues.includes(hiddenInput.value)) {
+                select.value = hiddenInput.value;
+            } else {
+                select.value = 'custom';
+                customInput.value = hiddenInput.value;
+                document.getElementById('custom_duration_container').classList.remove('hidden');
+            }
+        }
     </script>
 </x-admin-layout>
