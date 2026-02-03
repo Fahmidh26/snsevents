@@ -21,6 +21,11 @@ class SiteSetting extends Model
         'instagram_url',
         'twitter_url',
         'linkedin_url',
+        'primary_color',
+        'secondary_color',
+        'accent_color',
+        'text_color',
+        'background_color',
     ];
 
     public static function current()

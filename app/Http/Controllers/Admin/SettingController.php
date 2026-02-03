@@ -29,6 +29,11 @@ class SettingController extends Controller
             'instagram_url' => 'nullable|url',
             'twitter_url' => 'nullable|url',
             'linkedin_url' => 'nullable|url',
+            'primary_color' => 'nullable|string',
+            'secondary_color' => 'nullable|string',
+            'accent_color' => 'nullable|string',
+            'text_color' => 'nullable|string',
+            'background_color' => 'nullable|string',
         ]);
 
         $settings = SiteSetting::current();

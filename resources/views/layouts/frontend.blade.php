@@ -23,18 +23,22 @@
     <style>
         :root {
             /* Enhanced Premium Color Palette */
-            --primary-color: #c9a227;
-            --primary-light: #e8d48a;
-            --primary-dark: #a88b1f;
-            --primary-gradient: linear-gradient(135deg, #c9a227 0%, #d4af37 50%, #e8d48a 100%);
-            --secondary-color: #0f0f0f;
-            --accent-color: #d4af37;
-            --accent-dark: #1a1a1a;
+            --primary-color: {{ $siteSettings->primary_color ?? '#c9a227' }};
+            --secondary-color: {{ $siteSettings->secondary_color ?? '#0f0f0f' }};
+            --accent-color: {{ $siteSettings->accent_color ?? '#d4af37' }};
+            --surface-white: {{ $siteSettings->background_color ?? '#ffffff' }};
+            --text-dark: {{ $siteSettings->text_color ?? '#1a1a1a' }};
+            
+            /* Derived Colors using CSS color-mix */
+            --primary-light: color-mix(in srgb, var(--primary-color), white 30%);
+            --primary-dark: color-mix(in srgb, var(--primary-color), black 20%);
+            --accent-dark: color-mix(in srgb, var(--accent-color), black 20%);
+            --text-light: color-mix(in srgb, var(--text-dark), white 30%);
+            --text-muted: color-mix(in srgb, var(--text-dark), white 50%);
+            
+            --primary-gradient: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 50%, var(--primary-light) 100%);
+            
             --light-bg: #fafafa;
-            --surface-white: #ffffff;
-            --text-dark: #1a1a1a;
-            --text-light: #5a5a5a;
-            --text-muted: #8a8a8a;
             
             /* Refined Shadows */
             --shadow-xs: 0 1px 3px rgba(0,0,0,0.04);
@@ -42,11 +46,11 @@
             --shadow-md: 0 8px 24px rgba(0,0,0,0.08);
             --shadow-lg: 0 16px 48px rgba(0,0,0,0.12);
             --shadow-xl: 0 24px 64px rgba(0,0,0,0.16);
-            --shadow-gold: 0 8px 32px rgba(201, 162, 39, 0.25);
+            --shadow-gold: 0 8px 32px color-mix(in srgb, var(--primary-color), transparent 75%);
             
             /* Glass Effect */
-            --glass-bg: rgba(255, 255, 255, 0.9);
-            --glass-border: rgba(255, 255, 255, 0.2);
+            --glass-bg: color-mix(in srgb, var(--surface-white), transparent 10%);
+            --glass-border: color-mix(in srgb, var(--surface-white), transparent 80%);
             
             /* Smooth Transitions */
             --transition-fast: all 0.2s ease;
@@ -87,7 +91,7 @@
         }
 
         .navbar.scrolled {
-            background: rgba(10, 10, 10, 0.85);
+            background: color-mix(in srgb, var(--secondary-color) 90%, black);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             padding: 10px 0;
@@ -107,7 +111,7 @@
 
         .navbar-brand:hover {
             transform: scale(1.02);
-            text-shadow: 0 0 20px rgba(201, 162, 39, 0.3);
+            text-shadow: 0 0 20px color-mix(in srgb, var(--primary-color) 30%, transparent);
         }
 
         .navbar-nav .nav-link {
@@ -154,7 +158,7 @@
 
         /* Dropdown Menu */
         .dropdown-menu {
-            background: rgba(15, 15, 15, 0.95);
+            background: color-mix(in srgb, var(--secondary-color) 95%, transparent);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.08);
@@ -197,7 +201,7 @@
         /* Mobile Navbar */
         @media (max-width: 991.98px) {
             .navbar-collapse {
-                background: rgba(15, 15, 15, 0.98);
+                background: color-mix(in srgb, var(--secondary-color) 98%, transparent);
                 backdrop-filter: blur(20px);
                 -webkit-backdrop-filter: blur(20px);
                 margin-top: 15px;
@@ -223,7 +227,7 @@
                 transition: var(--transition-fast);
             }
             .navbar-toggler:focus {
-                box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.25);
+                box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary-color) 25%, transparent);
             }
             .navbar-brand { font-size: 1.5rem; }
         }
@@ -243,7 +247,7 @@
             display: inline-block;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 8px 30px rgba(201, 162, 39, 0.3);
+            box-shadow: 0 8px 30px color-mix(in srgb, var(--primary-color) 30%, transparent);
         }
         
         .btn-primary-custom::before {
@@ -264,7 +268,7 @@
         .btn-primary-custom:hover {
             color: #fff;
             transform: translateY(-4px) scale(1.02);
-            box-shadow: var(--shadow-gold), 0 0 40px rgba(201, 162, 39, 0.4);
+            box-shadow: var(--shadow-gold), 0 0 40px color-mix(in srgb, var(--primary-color) 40%, transparent);
         }
 
         /* Inner Page Hero - Preserved & Enhanced */

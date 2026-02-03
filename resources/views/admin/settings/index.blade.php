@@ -96,6 +96,64 @@
                     </div>
                 </div>
 
+                <!-- Theme Configuration -->
+                <div class="mb-8 border-b border-gray-100 pb-8">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-6 flex items-center">
+                        <i class="fas fa-palette text-primary mr-2"></i> Theme Configuration
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- Primary Color -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Primary Color</label>
+                            <div class="flex items-center gap-3">
+                                <input type="color" name="primary_color" value="{{ old('primary_color', $settings->primary_color ?? '#c9a227') }}" class="h-10 w-20 rounded border border-gray-200 cursor-pointer">
+                                <input type="text" value="{{ old('primary_color', $settings->primary_color ?? '#c9a227') }}" class="flex-1 px-4 py-2 rounded-lg border border-gray-200 text-sm" readonly>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-1">Main brand color (Gold)</p>
+                        </div>
+
+                        <!-- Secondary Color -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Secondary Color</label>
+                            <div class="flex items-center gap-3">
+                                <input type="color" name="secondary_color" value="{{ old('secondary_color', $settings->secondary_color ?? '#0f0f0f') }}" class="h-10 w-20 rounded border border-gray-200 cursor-pointer">
+                                <input type="text" value="{{ old('secondary_color', $settings->secondary_color ?? '#0f0f0f') }}" class="flex-1 px-4 py-2 rounded-lg border border-gray-200 text-sm" readonly>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-1">Dark/Black background areas</p>
+                        </div>
+
+                        <!-- Accent Color -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Accent Color</label>
+                            <div class="flex items-center gap-3">
+                                <input type="color" name="accent_color" value="{{ old('accent_color', $settings->accent_color ?? '#d4af37') }}" class="h-10 w-20 rounded border border-gray-200 cursor-pointer">
+                                <input type="text" value="{{ old('accent_color', $settings->accent_color ?? '#d4af37') }}" class="flex-1 px-4 py-2 rounded-lg border border-gray-200 text-sm" readonly>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-1">Highlights & Hover states</p>
+                        </div>
+
+                        <!-- Text Color -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Text Color</label>
+                            <div class="flex items-center gap-3">
+                                <input type="color" name="text_color" value="{{ old('text_color', $settings->text_color ?? '#1a1a1a') }}" class="h-10 w-20 rounded border border-gray-200 cursor-pointer">
+                                <input type="text" value="{{ old('text_color', $settings->text_color ?? '#1a1a1a') }}" class="flex-1 px-4 py-2 rounded-lg border border-gray-200 text-sm" readonly>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-1">Body text color</p>
+                        </div>
+
+                         <!-- Background Color -->
+                         <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Background Color</label>
+                            <div class="flex items-center gap-3">
+                                <input type="color" name="background_color" value="{{ old('background_color', $settings->background_color ?? '#ffffff') }}" class="h-10 w-20 rounded border border-gray-200 cursor-pointer">
+                                <input type="text" value="{{ old('background_color', $settings->background_color ?? '#ffffff') }}" class="flex-1 px-4 py-2 rounded-lg border border-gray-200 text-sm" readonly>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-1">Page background color</p>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Social Media -->
                  <div class="mb-8">
                     <h3 class="text-lg font-semibold text-gray-800 mb-6 flex items-center">

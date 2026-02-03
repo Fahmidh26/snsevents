@@ -3,7 +3,7 @@
 @endphp
 <style>
     .footer {
-        background: #1a1a1a;
+        background: var(--secondary-color);
         color: #fff;
         padding: 40px 0 20px; /* Reduced padding */
         font-size: 0.9rem; /* Smaller global font size */
@@ -19,7 +19,7 @@
     .footer-section h3 {
         font-size: 1.1rem; /* Reduced heading size */
         margin-bottom: 15px;
-        color: #d4af37;
+        color: var(--primary-color);
         font-family: "Playfair Display", serif;
         font-weight: 600;
         letter-spacing: 0.5px;
@@ -49,7 +49,7 @@
     }
 
     .footer-links a:hover {
-        color: #d4af37;
+        color: var(--primary-color);
     }
 
     .social-links {
@@ -73,7 +73,7 @@
     }
 
     .social-links a:hover {
-        background: #d4af37;
+        background: var(--primary-color);
         transform: translateY(-2px);
     }
 
@@ -86,7 +86,7 @@
     }
     
     .btn-submit {
-        background: #d4af37;
+        background: var(--primary-color);
         color: #fff;
         padding: 10px 20px; /* Smaller button */
         border: none;
@@ -100,7 +100,7 @@
     }
 
     .btn-submit:hover {
-        background: #c9a961;
+        background: var(--accent-color);
         transform: translateY(-2px);
     }
 
@@ -108,7 +108,7 @@
         display: inline-block;
         margin-top: 5px;
         font-size: 0.8rem;
-        color: #d4af37;
+        color: var(--primary-color);
         cursor: pointer;
         text-decoration: none;
     }

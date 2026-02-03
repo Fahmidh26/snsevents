@@ -149,10 +149,10 @@
         color: var(--primary-color);
     }
     .dropdown-item-custom.selected {
-        background: rgba(201, 162, 39, 0.1);
+        background: color-mix(in srgb, var(--primary-color) 10%, transparent);
         color: var(--primary-color);
         font-weight: 600;
-        background-color: rgba(201, 162, 39, 0.05); /* Highlight selected */
+        background-color: color-mix(in srgb, var(--primary-color) 5%, transparent); /* Highlight selected */
     }
     [x-cloak] { display: none !important; }
 
@@ -181,7 +181,7 @@
     .pagination-custom .page-item.active .page-link {
         background: var(--primary-gradient);
         color: #fff;
-        box-shadow: 0 4px 10px rgba(201, 162, 39, 0.3);
+        box-shadow: 0 4px 10px color-mix(in srgb, var(--primary-color) 30%, transparent);
     }
     .pagination-custom .page-item.disabled .page-link {
         color: #ccc;
@@ -200,7 +200,7 @@
     .btn-view-details:hover {
         background: var(--primary-color); /* Gold background on hover */
         color: #fff; /* White text on hover */
-        box-shadow: 0 4px 15px rgba(201, 162, 39, 0.4); /* Golden glow */
+        box-shadow: 0 4px 15px color-mix(in srgb, var(--primary-color) 40%, transparent); /* Golden glow */
         transform: translateY(-2px);
     }
     /* Service Search Input */
@@ -217,7 +217,7 @@
     }
     .service-search-input:focus {
         border-color: var(--primary-color);
-        box-shadow: 0 4px 15px rgba(201, 162, 39, 0.15);
+        box-shadow: 0 4px 15px color-mix(in srgb, var(--primary-color) 15%, transparent);
         outline: none;
     }
     .search-icon {
@@ -365,7 +365,7 @@
     <!-- Custom Package CTA -->
     <section class="py-5">
         <div class="container text-center">
-            <div class="p-5 rounded-4 border-2 border-dashed" style="border: 2px dashed #c9a227; background-color: rgba(201, 162, 39, 0.05);">
+            <div class="p-5 rounded-4 border-2 border-dashed" style="border: 2px dashed var(--primary-color); background-color: color-mix(in srgb, var(--primary-color) 5%, transparent);">
                 <h3 class="mb-3">Needs something more specific?</h3>
                 <p class="text-muted mb-4">We can create a completely custom package tailored to your unique vision.</p>
                 <a href="{{ route('custom-package') }}" class="btn-primary-custom">Request Custom Package</a>

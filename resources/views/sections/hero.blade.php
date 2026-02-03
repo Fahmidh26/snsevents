@@ -25,7 +25,7 @@
                         @endif
                     @elseif(Str::contains($slide->background_video_path, 'player.cloudinary.com'))
                          <!-- Cloudinary Player Video -->
-                        <div class="position-absolute w-100 h-100 hero-video" style="z-index: -1; overflow: hidden; background-color: #0f0f0f;">
+                        <div class="position-absolute w-100 h-100 hero-video" style="z-index: -1; overflow: hidden; background-color: var(--secondary-color);">
                             {{-- Placeholder Image --}}
                             @if($slide->background_image_path)
                                 <img src="{{ asset('storage/' . $slide->background_image_path) }}" class="position-absolute w-100 h-100" style="object-fit: cover; z-index: 0; opacity: 0.6;" alt="Background">
