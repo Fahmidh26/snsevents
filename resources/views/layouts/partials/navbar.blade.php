@@ -2,7 +2,7 @@
     <div class="container">
       <a class="navbar-brand" href="{{ url('/') }}">
         @if(isset($siteSettings) && $siteSettings->logo_path)
-            <img src="{{ asset('storage/' . $siteSettings->logo_path) }}" alt="SNS Events" style="height: 36px;">
+            <img src="{{ asset('storage/' . $siteSettings->logo_path) }}" alt="SNS Events" style="height: 70px;">
         @else
             SNS Events
         @endif
