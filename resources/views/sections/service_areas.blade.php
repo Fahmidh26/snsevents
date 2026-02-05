@@ -201,7 +201,7 @@
 
     <div class="row">
         <!-- Locations List -->
-        <div class="col-lg-5" data-aos="fade-right">
+        <div class="col-lg-5" data-aos="fade-right" data-aos-duration="700">
             <div class="locations-wrapper">
                 <div class="location-grid">
                     @forelse($serviceAreas as $index => $area)
@@ -235,7 +235,7 @@
         </div>
 
         <!-- Leaflet Map -->
-        <div class="col-lg-7" data-aos="fade-left">
+        <div class="col-lg-7" data-aos="fade-left" data-aos-duration="700">
             <div class="map-container-wrapper">
                 <div id="service-area-map"></div>
             </div>

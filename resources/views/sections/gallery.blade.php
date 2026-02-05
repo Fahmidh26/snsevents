@@ -19,10 +19,17 @@
       @endforeach
     </div>
 
-    <div class="gallery-grid" data-aos="fade-up" data-aos-delay="200">
-      @foreach($eventTypes as $type)
-         @foreach($type->galleries as $gallery)
-          <div class="gallery-item" data-category="{{ Str::slug($type->category) }}" onclick="viewGalleryImage('{{ asset($gallery->image_path) }}')">
+    <div class="gallery-grid">
+      @foreach($eventTypes as $typeIndex => $type)
+         @foreach($type->galleries as $galleryIndex => $gallery)
+          <div 
+            class="gallery-item" 
+            data-category="{{ Str::slug($type->category) }}" 
+            onclick="viewGalleryImage('{{ asset($gallery->image_path) }}')"
+            data-aos="zoom-in"
+            data-aos-delay="{{ ($typeIndex * 50) + ($galleryIndex * 30) }}"
+            data-aos-duration="500"
+          >
             <img
               src="{{ asset($gallery->image_path) }}"
               alt="{{ $gallery->caption ?: $type->name }}"

@@ -189,6 +189,42 @@
         100% { transform: rotate(360deg); }
       }
 
+      /* Enhanced Scroll Animations */
+      @keyframes bounce-in {
+        0% { transform: scale(0.3); opacity: 0; }
+        50% { transform: scale(1.05); }
+        70% { transform: scale(0.9); }
+        100% { transform: scale(1); opacity: 1; }
+      }
+
+      @keyframes slide-in-left {
+        0% { transform: translateX(-50px); opacity: 0; }
+        100% { transform: translateX(0); opacity: 1; }
+      }
+
+      @keyframes slide-in-right {
+        0% { transform: translateX(50px); opacity: 0; }
+        100% { transform: translateX(0); opacity: 1; }
+      }
+
+      @keyframes fade-in-scale {
+        0% { transform: scale(0.9); opacity: 0; }
+        100% { transform: scale(1); opacity: 1; }
+      }
+
+      /* Smooth transitions for all AOS elements */
+      [data-aos] {
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      /* Add subtle hover lift to animated cards */
+      [data-aos].service-card,
+      [data-aos].gallery-item,
+      [data-aos].vision-card,
+      [data-aos].stat-box {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
       /* Navbar */
       .navbar {
         position: fixed;
@@ -2570,11 +2606,18 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
     <script>
-      // Initialize AOS
+      // Initialize AOS with Enhanced Settings
       AOS.init({
-        duration: 1000,
-        once: true,
-        offset: 100,
+        duration: 800, // Slightly faster for snappier feel
+        easing: 'ease-out-cubic', // Smooth easing
+        once: true, // Animation happens only once
+        offset: 120, // Trigger animations earlier
+        delay: 0, // No global delay
+        anchorPlacement: 'top-bottom', // Trigger when element's top hits bottom of viewport
+        disable: function() {
+          // Disable on mobile if performance is a concern
+          return window.innerWidth < 768 ? false : false;
+        }
       });
 
       // Navbar scroll effect

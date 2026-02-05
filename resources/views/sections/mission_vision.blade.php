@@ -7,9 +7,9 @@
     </div>
     <div class="row justify-content-center">
          <div class="col-lg-10">
-            <div class="vision-mission-grid" data-aos="fade-up" data-aos-delay="100">
+            <div class="vision-mission-grid">
               @if($companyProfile->mission)
-              <div class="vision-card mission-card">
+              <div class="vision-card mission-card" data-aos="fade-right" data-aos-delay="100" data-aos-duration="700">
                 <div class="vision-icon dark">
                   <i class="fas fa-bullseye"></i>
                 </div>
@@ -19,7 +19,7 @@
               @endif
 
               @if($companyProfile->vision)
-              <div class="vision-card">
+              <div class="vision-card" data-aos="fade-left" data-aos-delay="200" data-aos-duration="700">
                 <div class="vision-icon gold">
                   <i class="fas fa-eye"></i>
                 </div>

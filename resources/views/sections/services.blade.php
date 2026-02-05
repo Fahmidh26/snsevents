@@ -11,6 +11,7 @@
         class="col-md-6 col-lg-3 mb-4"
         data-aos="fade-up"
         data-aos-delay="0"
+        data-aos-duration="600"
       >
         <div class="service-card" onclick="window.location.href='{{ route('counseling') }}'">
           <div class="service-image">
@@ -34,6 +35,7 @@
         class="col-md-6 col-lg-3 mb-4"
         data-aos="fade-up"
         data-aos-delay="100"
+        data-aos-duration="600"
       >
         <div class="service-card" onclick="window.location.href='{{ route('management-session') }}'">
           <div class="service-image">
@@ -56,7 +58,8 @@
       <div
         class="col-md-6 col-lg-3 mb-4"
         data-aos="fade-up"
-        data-aos-delay="{{ ($loop->index + 2) * 50 }}"
+        data-aos-delay="{{ ($loop->index + 2) * 100 }}"
+        data-aos-duration="600"
       >
         <div class="service-card" onclick="window.location.href='{{ route('services.show', $type->slug) }}'">
           <div class="service-image">

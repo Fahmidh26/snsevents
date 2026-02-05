@@ -6,7 +6,7 @@
     </div>
 
     <div class="contact-container">
-      <div class="contact-info" data-aos="fade-right">
+      <div class="contact-info" data-aos="fade-right" data-aos-duration="700">
         <h3>Contact Information</h3>
         @if($contactInfo && $contactInfo->description)
           <p>{{ $contactInfo->description }}</p>
@@ -83,7 +83,7 @@
         @endif
       </div>
 
-      <div class="contact-form" data-aos="fade-left">
+      <div class="contact-form" data-aos="fade-left" data-aos-duration="700">
         <form id="contactForm" onsubmit="submitForm(event)">
           <div class="form-group">
             <label for="name">Your Name *</label>
