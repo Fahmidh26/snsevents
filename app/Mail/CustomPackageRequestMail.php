@@ -3,6 +3,7 @@
 namespace App\Mail;
 
 use App\Models\CustomPackageRequest;
+use App\Models\SiteSetting;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -29,8 +30,9 @@ class CustomPackageRequestMail extends Mailable
      */
     public function envelope(): Envelope
     {
+        $siteTitle = SiteSetting::current()->site_title ?? 'SNS Events';
         return new Envelope(
-            subject: 'New Custom Package Request - ' . $this->request->name,
+            subject: "[{$siteTitle}] New Custom Package Request - {$this->request->name}",
         );
     }
 

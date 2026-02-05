@@ -3,6 +3,7 @@
 namespace App\Mail;
 
 use App\Models\PackageInquiry;
+use App\Models\SiteSetting;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -29,8 +30,10 @@ class PackageInquiryMail extends Mailable
      */
     public function envelope(): Envelope
     {
+        $siteTitle = SiteSetting::current()->site_title ?? 'SNS Events';
+        $eventName = $this->inquiry->eventType ? $this->inquiry->eventType->name : ($this->inquiry->pricingTier ? $this->inquiry->pricingTier->tier_name : 'Unknown');
         return new Envelope(
-            subject: 'New Package Inquiry - ' . $this->inquiry->event_type,
+            subject: "[{$siteTitle}] New Package Inquiry - {$eventName}",
         );
     }
 

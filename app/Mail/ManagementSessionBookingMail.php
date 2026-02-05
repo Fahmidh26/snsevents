@@ -3,6 +3,7 @@
 namespace App\Mail;
 
 use App\Models\ManagementSessionBooking;
+use App\Models\SiteSetting;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
@@ -28,8 +29,9 @@ class ManagementSessionBookingMail extends Mailable
      */
     public function envelope(): Envelope
     {
+        $siteTitle = SiteSetting::current()->site_title ?? 'SNS Events';
         return new Envelope(
-            subject: 'New Management Session Booking - ' . $this->booking->name,
+            subject: "[{$siteTitle}] New Management Session Booking - {$this->booking->name}",
         );
     }
 
