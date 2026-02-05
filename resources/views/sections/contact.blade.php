@@ -102,7 +102,7 @@
 
           <div class="form-group">
             <label for="event-type">Event Type *</label>
-            <select id="event-type" name="event-type" required>
+            <select id="event-type" name="event_type" required>
               <option value="">Select an event type</option>
               <option value="birthday">Birthday</option>
               <option value="holud">Holud</option>
@@ -116,7 +116,7 @@
 
           <div class="form-group">
             <label for="date">Preferred Event Date</label>
-            <input type="date" id="date" name="date" />
+            <input type="date" id="date" name="preferred_date" />
           </div>
 
           <div class="form-group">

@@ -2787,19 +2787,46 @@
         e.preventDefault();
 
         // Get form data
-        const formData = new FormData(e.target);
-        const data = Object.fromEntries(formData);
+        const form = e.target;
+        const formData = new FormData(form);
+        const submitButton = form.querySelector('button[type="submit"]');
+        const originalButtonText = submitButton.innerHTML;
+        
+        // Disable submit button and show loading state
+        submitButton.disabled = true;
+        submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
 
-        // Show success message
-        alert(
-          "Thank you for contacting us! We will get back to you within 24 hours."
-        );
-
-        // Reset form
-        e.target.reset();
-
-        // In a real application, you would send this data to your server
-        console.log("Form submitted:", data);
+        // Send data to server
+        fetch('{{ route("contact.submit") }}', {
+          method: 'POST',
+          headers: {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            'Accept': 'application/json',
+          },
+          body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            // Show success message
+            alert(data.message || 'Thank you for contacting us! We will get back to you soon.');
+            
+            // Reset form
+            form.reset();
+          } else {
+            // Show error message
+            alert(data.message || 'Something went wrong. Please try again.');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('An error occurred while submitting the form. Please try again.');
+        })
+        .finally(() => {
+          // Re-enable submit button
+          submitButton.disabled = false;
+          submitButton.innerHTML = originalButtonText;
+        });
       }
 
       // Scroll to top function

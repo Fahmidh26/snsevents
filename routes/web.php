@@ -28,6 +28,8 @@ use App\Http\Controllers\CounselingTermController;
 use App\Http\Controllers\Admin\CounselingTermController as AdminCounselingTermController;
 use App\Http\Controllers\NewsletterSubscriptionController;
 use App\Http\Controllers\Admin\NewsletterController;
+use App\Http\Controllers\ContactSubmissionController;
+use App\Http\Controllers\Admin\ContactSubmissionController as AdminContactSubmissionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -144,6 +146,9 @@ Route::get('/management-session/confirmation/{code}', [ManagementSessionControll
 // Newsletter Subscription Route
 Route::post('/newsletter/subscribe', [NewsletterSubscriptionController::class, 'subscribe'])->name('newsletter.subscribe');
 
+// Contact Form Submission Route
+Route::post('/contact/submit', [ContactSubmissionController::class, 'submit'])->name('contact.submit');
+
 // Dashboard route moved to admin.php
 
 
@@ -248,6 +253,14 @@ Route::middleware('auth')->group(function () {
         Route::post('newsletter/{id}/toggle', [NewsletterController::class, 'toggleStatus'])->name('newsletter.toggle');
         Route::delete('newsletter/{id}', [NewsletterController::class, 'destroy'])->name('newsletter.destroy');
         Route::get('newsletter/export', [NewsletterController::class, 'export'])->name('newsletter.export');
+        
+        // Contact Submissions Management
+        Route::get('contact-submissions', [AdminContactSubmissionController::class, 'index'])->name('contact-submissions.index');
+        Route::get('contact-submissions/{id}', [AdminContactSubmissionController::class, 'show'])->name('contact-submissions.show');
+        Route::post('contact-submissions/{id}/status', [AdminContactSubmissionController::class, 'updateStatus'])->name('contact-submissions.update-status');
+        Route::post('contact-submissions/{id}/notes', [AdminContactSubmissionController::class, 'updateNotes'])->name('contact-submissions.update-notes');
+        Route::delete('contact-submissions/{id}', [AdminContactSubmissionController::class, 'destroy'])->name('contact-submissions.destroy');
+        Route::get('contact-submissions-export', [AdminContactSubmissionController::class, 'export'])->name('contact-submissions.export');
     });
 
     // Contact Info Routes
