@@ -1,68 +1,55 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-        .header { background-color: #f8f9fa; padding: 15px; text-align: center; border-bottom: 2px solid #e9ecef; }
-        .content { padding: 20px 0; }
-        .field { margin-bottom: 10px; }
-        .label { font-weight: bold; }
-        .footer { margin-top: 30px; font-size: 12px; color: #666; text-align: center; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h2>New Custom Package Request</h2>
-        </div>
-        <div class="content">
-            <p>You have received a new custom package request:</p>
-            
-            <div class="field">
-                <span class="label">Event Type:</span> {{ ucfirst($request->event_type) }}
-            </div>
-            
-            <div class="field">
-                <span class="label">Customer Name:</span> {{ $request->name }}
-            </div>
-            
-            <div class="field">
-                <span class="label">Email:</span> {{ $request->email }}
-            </div>
-            
-            <div class="field">
-                <span class="label">Phone:</span> {{ $request->phone }}
-            </div>
-            
-            <div class="field">
-                <span class="label">Event Date:</span> {{ $request->event_date ? $request->event_date->format('Y-m-d') : 'Not specified' }}
-            </div>
+@extends('emails.layout')
 
-            <div class="field">
-                <span class="label">Guest Count:</span> {{ $request->guest_count ?? 'Not specified' }}
-            </div>
+@section('content')
+    <h2>New Custom Package Request</h2>
+    <p>You have received a new custom package request from the website:</p>
 
-            <div class="field">
-                <span class="label">Budget:</span> {{ $request->budget ? '$'.number_format($request->budget, 2) : 'Not specified' }}
-            </div>
+    <table class="details-table">
+        <tr>
+            <td class="label">Event Type:</td>
+            <td class="value">{{ ucfirst($request->event_type) }}</td>
+        </tr>
+        <tr>
+            <td class="label">Customer Name:</td>
+            <td class="value">{{ $request->name }}</td>
+        </tr>
+        <tr>
+            <td class="label">Email Address:</td>
+            <td class="value">{{ $request->email }}</td>
+        </tr>
+        <tr>
+            <td class="label">Phone Number:</td>
+            <td class="value">{{ $request->phone }}</td>
+        </tr>
+        <tr>
+            <td class="label">Event Date:</td>
+            <td class="value">{{ $request->event_date ? (is_string($request->event_date) ? $request->event_date : $request->event_date->format('Y-m-d')) : 'Not specified' }}</td>
+        </tr>
+        <tr>
+            <td class="label">Guest Count:</td>
+            <td class="value">{{ $request->guest_count ?? 'Not specified' }}</td>
+        </tr>
+        <tr>
+            <td class="label">Budget:</td>
+            <td class="value highlight">{{ $request->budget ? '$'.number_format($request->budget, 2) : 'Not specified' }}</td>
+        </tr>
+        <tr>
+            <td class="label">Venue:</td>
+            <td class="value">{{ $request->venue ?? 'Not specified' }}</td>
+        </tr>
+        @if($request->requirements)
+        <tr>
+            <td class="label">Requirements:</td>
+            <td class="value">{{ $request->requirements }}</td>
+        </tr>
+        @endif
+    </table>
 
-            <div class="field">
-                <span class="label">Venue:</span> {{ $request->venue ?? 'Not specified' }}
-            </div>
-            
-            @if($request->requirements)
-            <div class="field">
-                <span class="label">Requirements/Vision:</span><br>
-                {{ $request->requirements }}
-            </div>
-            @endif
-            
-            <p>Please login to the admin panel to manage this request.</p>
-        </div>
-        <div class="footer">
-            <p>This email was sent from your website.</p>
-        </div>
+    <div class="button-container">
+        <a href="{{ route('admin.custom-requests.index') }}" class="button">View Requests</a>
     </div>
-</body>
-</html>
+
+    <p style="margin-top: 30px; font-size: 14px; color: #666;">
+        Please login to the admin panel to manage this request.
+    </p>
+@endsection

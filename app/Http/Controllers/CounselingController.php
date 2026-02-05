@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\CounselingSettings;
 use App\Models\CounselingSlot;
 use App\Models\CounselingBooking;
+use App\Models\SiteSetting;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\CoachingBookingMail;
 
 class CounselingController extends Controller
 {
@@ -103,6 +106,16 @@ class CounselingController extends Controller
             'message' => $validated['message'] ?? null,
             'status' => 'pending',
         ]);
+
+        // Send Email to Admin
+        try {
+            $adminEmail = SiteSetting::current()->admin_email;
+            if ($adminEmail) {
+                Mail::to($adminEmail)->send(new CoachingBookingMail($booking));
+            }
+        } catch (\Exception $e) {
+            // Log error or ignore to not break the user experience
+        }
 
         return redirect()->route('counseling.confirmation', ['code' => $booking->confirmation_code]);
     }

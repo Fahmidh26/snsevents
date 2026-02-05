@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\ManagementSessionSettings;
 use App\Models\ManagementSessionSlot;
 use App\Models\ManagementSessionBooking;
+use App\Models\SiteSetting;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ManagementSessionBookingMail;
 
 class ManagementSessionController extends Controller
 {
@@ -106,6 +109,16 @@ class ManagementSessionController extends Controller
             'message' => $validated['message'] ?? null,
             'status' => 'pending',
         ]);
+
+        // Send Email to Admin
+        try {
+            $adminEmail = SiteSetting::current()->admin_email;
+            if ($adminEmail) {
+                Mail::to($adminEmail)->send(new ManagementSessionBookingMail($booking));
+            }
+        } catch (\Exception $e) {
+            // Log error or ignore to not break the user experience
+        }
 
         return redirect()->route('management-session.confirmation', ['code' => $booking->confirmation_code]);
     }
