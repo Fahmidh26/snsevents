@@ -28,7 +28,7 @@ class NavbarItemSeeder extends Seeder
             [
                 'label' => 'Services',
                 'type' => 'route',
-                'route_name' => 'events.index',
+                'route_name' => 'services.index',
                 'order' => 3,
             ],
             [

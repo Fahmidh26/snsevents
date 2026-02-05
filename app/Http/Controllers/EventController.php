@@ -42,8 +42,9 @@ class EventController extends Controller
         $seo->og_image = $siteSettings->logo_path ? asset('storage/'.$siteSettings->logo_path) : null;
 
         $counselingSettings = \App\Models\CounselingSettings::getSettings();
+        $managementSessionSettings = \App\Models\ManagementSessionSettings::getSettings();
 
-        return view('events.index', compact('eventTypes', 'categories', 'siteSettings', 'companyProfile', 'contactInfo', 'seo', 'counselingSettings'));
+        return view('events.index', compact('eventTypes', 'categories', 'siteSettings', 'companyProfile', 'contactInfo', 'seo', 'counselingSettings', 'managementSessionSettings'));
     }
 
     public function show($slug)

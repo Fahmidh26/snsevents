@@ -119,8 +119,8 @@ Route::get('/counseling-terms', [CounselingTermController::class, 'index'])->nam
 Route::get('/sitemap.xml', [App\Http\Controllers\SitemapController::class, 'index']);
 
 // Frontend Event Routes
-Route::get('/events', [EventController::class, 'index'])->name('events.index');
-Route::get('/events/{slug}', [EventController::class, 'show'])->name('events.show');
+Route::get('/services', [EventController::class, 'index'])->name('services.index');
+Route::get('/services/{slug}', [EventController::class, 'show'])->name('services.show');
 Route::post('/inquire', [EventController::class, 'inquire'])->name('inquire.store');
 Route::get('/custom-package', function() {
     return view('events.custom');

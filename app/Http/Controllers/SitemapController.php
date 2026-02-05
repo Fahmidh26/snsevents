@@ -15,7 +15,7 @@ class SitemapController extends Controller
             '/',
             '/about-us',
             '/service-areas',
-            '/events',
+            '/services',
             '/counseling',
             '/management-session',
             '/custom-package',

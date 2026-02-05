@@ -399,7 +399,7 @@
                     'image' => $item->featured_image ? asset($item->featured_image) : 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
                     'slug' => $item->slug,
                     'price' => $item->pricingTiers->min('price') ?? null,
-                    'url' => route('events.show', $item->slug)
+                    'url' => route('services.show', $item->slug)
                 ];
             }))->toJson() !!},
             originalCategories: {!! $categories->concat(['Counseling'])->unique()->sort()->values()->toJson() !!},

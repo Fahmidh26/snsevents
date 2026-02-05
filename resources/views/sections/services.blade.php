@@ -31,7 +31,7 @@
         data-aos="fade-up"
         data-aos-delay="{{ ($loop->index + 1) * 100 }}"
       >
-        <div class="service-card h-100" onclick="window.location.href='{{ route('events.show', $type->slug) }}'">
+        <div class="service-card h-100" onclick="window.location.href='{{ route('services.show', $type->slug) }}'">
           <div class="service-image" style="height: 350px;">
             <img
               src="{{ $type->featured_image ? asset($type->featured_image) : 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80' }}"
@@ -47,7 +47,7 @@
     </div>
 
     <div class="text-center mt-5" data-aos="fade-up">
-        <a href="{{ route('events.index') }}" class="btn-view-all">
+        <a href="{{ route('services.index') }}" class="btn-view-all">
             View All Services <i class="fas fa-arrow-right ml-2"></i>
         </a>
     </div>

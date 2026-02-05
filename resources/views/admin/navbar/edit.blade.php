@@ -35,7 +35,7 @@
                             <optgroup label="Pages">
                                 <option value="url|/">Home Page</option>
                                 <option value="route|about-us">About Us</option>
-                                <option value="route|events.index">Services (All)</option>
+                                <option value="route|services.index">Services (All)</option>
                                 <option value="route|custom-package">Custom Package</option>
                                 <option value="route|counseling">Book Coaching Session</option>
                                 <option value="route|management-session">Book Management Session</option>

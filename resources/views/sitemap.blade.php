@@ -13,7 +13,7 @@
     {{-- Dynamic Events --}}
     @foreach ($events as $event)
         <url>
-            <loc>{{ route('events.show', $event->slug) }}</loc>
+            <loc>{{ route('services.show', $event->slug) }}</loc>
             <lastmod>{{ $event->updated_at->toAtomString() }}</lastmod>
             <changefreq>weekly</changefreq>
             <priority>0.9</priority>
