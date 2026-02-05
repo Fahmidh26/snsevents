@@ -2379,6 +2379,137 @@
           width: 177.78vh;
         }
       }
+
+      /* Enhanced Service Card Styles - Compact Hover Reveal */
+      .service-card {
+        border-radius: 12px;
+        overflow: hidden;
+        position: relative;
+        box-shadow: var(--shadow-sm);
+        height: 300px; /* Reduced fixed height */
+        background: #000;
+        margin-bottom: 20px;
+      }
+      
+      .service-image {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+      
+      .service-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s cubic-bezier(0.2, 1, 0.2, 1);
+        opacity: 0.95;
+      }
+      
+      .service-card:hover .service-image img {
+        transform: scale(1.1);
+        opacity: 0.7;
+      }
+      
+      .service-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 50%, transparent 100%);
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 24px;
+        transition: background 0.3s ease;
+        z-index: 2;
+      }
+      
+      .service-card:hover .service-overlay {
+        background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.7) 60%, rgba(0,0,0,0.2) 100%);
+      }
+      
+      .service-content-overlay {
+        transform: translateY(35px); /* Start lower to show just title */
+        transition: transform 0.4s cubic-bezier(0.2, 1, 0.2, 1);
+        width: 100%;
+      }
+      
+      .service-card:hover .service-content-overlay {
+        transform: translateY(0);
+      }
+      
+      .service-content-overlay h3 {
+        color: #fff;
+        font-family: "Playfair Display", serif;
+        font-size: 1.5rem;
+        margin-bottom: 4px;
+        text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+        font-weight: 600;
+        transform-origin: left;
+        transition: transform 0.3s ease;
+      }
+      
+      .service-card:hover .service-content-overlay h3 {
+        transform: translateY(-2px);
+        color: var(--primary-color);
+      }
+      
+      .service-content-overlay p {
+        color: rgba(255,255,255,0.85);
+        font-size: 0.9rem;
+        line-height: 1.5;
+        margin-bottom: 12px;
+        opacity: 0;
+        max-height: 0;
+        display: -webkit-box;
+        -webkit-line-clamp: 2; /* Limit to 2 lines */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        transition: all 0.4s ease;
+      }
+      
+      .service-card:hover .service-content-overlay p {
+        opacity: 1;
+        max-height: 50px; /* Approximately 2 lines */
+        margin-bottom: 15px;
+      }
+      
+      .service-link-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        color: var(--primary-color);
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        opacity: 0;
+        transform: translateY(10px);
+        transition: all 0.3s ease 0.1s;
+        text-decoration: none;
+      }
+      
+      .service-card:hover .service-link-btn {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      
+      .service-link-btn i {
+        font-size: 0.8rem;
+        transition: transform 0.3s ease;
+      }
+      
+      .service-link-btn:hover {
+        color: #fff;
+      }
+      
+      .service-link-btn:hover i {
+        transform: translateX(3px);
+      }
+
     </style>
   </head>
   <body>
