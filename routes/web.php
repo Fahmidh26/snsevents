@@ -26,6 +26,8 @@ use App\Http\Controllers\ManagementSessionController;
 use App\Http\Controllers\Admin\ManagementSessionController as AdminManagementSessionController;
 use App\Http\Controllers\CounselingTermController;
 use App\Http\Controllers\Admin\CounselingTermController as AdminCounselingTermController;
+use App\Http\Controllers\NewsletterSubscriptionController;
+use App\Http\Controllers\Admin\NewsletterController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -139,6 +141,9 @@ Route::get('/management-session/slots', [ManagementSessionController::class, 'ge
 Route::post('/management-session/book', [ManagementSessionController::class, 'book'])->name('management-session.book');
 Route::get('/management-session/confirmation/{code}', [ManagementSessionController::class, 'confirmation'])->name('management-session.confirmation');
 
+// Newsletter Subscription Route
+Route::post('/newsletter/subscribe', [NewsletterSubscriptionController::class, 'subscribe'])->name('newsletter.subscribe');
+
 // Dashboard route moved to admin.php
 
 
@@ -237,6 +242,12 @@ Route::middleware('auth')->group(function () {
         
         // Navbar Management
         Route::resource('navbar-items', App\Http\Controllers\Admin\NavbarItemController::class);
+        
+        // Newsletter Management
+        Route::get('newsletter', [NewsletterController::class, 'index'])->name('newsletter.index');
+        Route::post('newsletter/{id}/toggle', [NewsletterController::class, 'toggleStatus'])->name('newsletter.toggle');
+        Route::delete('newsletter/{id}', [NewsletterController::class, 'destroy'])->name('newsletter.destroy');
+        Route::get('newsletter/export', [NewsletterController::class, 'export'])->name('newsletter.export');
     });
 
     // Contact Info Routes

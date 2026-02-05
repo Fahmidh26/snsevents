@@ -183,26 +183,51 @@
 
         <div class="footer-section">
         <h3>Newsletter</h3>
-        <p style="margin-bottom: 15px;">
-            Subscribe to our newsletter for exclusive offers!
+        <p style="margin-bottom: 20px; font-size: 0.8rem; color: rgba(255,255,255,0.5);">
+            Join our exclusive inner circle for trend updates and premium offers.
         </p>
-        <form>
-            <input
-            type="email"
-            placeholder="Your email"
-            style="
-                width: 100%;
-                padding: 10px;
+        <form id="newsletterForm" class="newsletter-form">
+            @csrf
+            <div style="position: relative; margin-bottom: 12px;">
+                <span style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: rgba(255,255,255,0.4); font-size: 0.8rem;">
+                    <i class="fas fa-at"></i>
+                </span>
+                <input
+                    type="email"
+                    name="email"
+                    id="newsletter-email"
+                    placeholder="Enter your email address"
+                    required
+                    style="
+                        width: 100%;
+                        padding: 12px 12px 12px 35px;
+                        border: 1px solid rgba(255,255,255,0.1);
+                        border-radius: 12px;
+                        background: rgba(255,255,255,0.05);
+                        color: white;
+                        font-size: 0.85rem;
+                        transition: all 0.3s ease;
+                        outline: none;
+                    "
+                    onfocus="this.style.background='rgba(255,255,255,0.1)'; this.style.borderColor='var(--primary-color)';"
+                    onblur="this.style.background='rgba(255,255,255,0.05)'; this.style.borderColor='rgba(255,255,255,0.1)';"
+                />
+            </div>
+            <div id="newsletter-message" style="margin-bottom: 10px; font-size: 0.8rem; font-weight: 500;"></div>
+            <button type="submit" class="btn-submit" id="newsletter-submit-btn" style="
+                width: 100%; 
+                padding: 12px; 
+                border-radius: 12px; 
+                background: var(--primary-gradient);
                 border: none;
-                border-radius: 4px;
-                margin-bottom: 8px;
-                background: rgba(255,255,255,0.1);
-                color: white;
-                font-size: 0.85rem;
-            "
-            />
-            <button type="submit" class="btn-submit" style="width: 100%">
-            Subscribe
+                box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+            ">
+                <span>Subscribe Now</span>
+                <i class="fas fa-paper-plane" style="font-size: 0.7rem;"></i>
             </button>
         </form>
         </div>
@@ -235,4 +260,48 @@
             btn.innerHTML = 'Show More <i class="fas fa-chevron-down"></i>';
         }
     }
+
+    // Newsletter subscription AJAX
+    document.getElementById('newsletterForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const form = this;
+        const email = document.getElementById('newsletter-email').value;
+        const messageDiv = document.getElementById('newsletter-message');
+        const submitBtn = document.getElementById('newsletter-submit-btn');
+        
+        // Disable button and show loading
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Subscribing...';
+        messageDiv.innerHTML = '';
+        
+        // Get CSRF token
+        const csrfToken = document.querySelector('input[name="_token"]').value;
+        
+        fetch('{{ route("newsletter.subscribe") }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken,
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({ email: email })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                messageDiv.innerHTML = '<span style="color: #4CAF50;"><i class="fas fa-check-circle"></i> ' + data.message + '</span>';
+                form.reset();
+            } else {
+                messageDiv.innerHTML = '<span style="color: #f44336;"><i class="fas fa-exclamation-circle"></i> ' + data.message + '</span>';
+            }
+        })
+        .catch(error => {
+            messageDiv.innerHTML = '<span style="color: #f44336;"><i class="fas fa-exclamation-circle"></i> An error occurred. Please try again.</span>';
+        })
+        .finally(() => {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = 'Subscribe';
+        });
+    });
 </script>
