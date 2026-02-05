@@ -66,7 +66,8 @@ Route::get('/', function () {
 
     // SEO and Service Areas
     $seo = \App\Models\SeoDetail::getByPage('homepage');
-    $serviceAreas = \App\Models\ServiceArea::active()->take(6)->get();
+    // REMOVED ->take(6) TO SHOW ALL SERVICE AREAS
+    $serviceAreas = \App\Models\ServiceArea::active()->get();
 
     // Dynamic sections
     $testimonials = \App\Models\Testimonial::active()->orderBy('display_order')->get();
