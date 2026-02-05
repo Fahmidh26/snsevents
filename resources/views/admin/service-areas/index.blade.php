@@ -14,11 +14,19 @@
                     </div>
                 @endif
 
-                <div class="flex justify-between items-center mb-6">
-                    <p class="text-gray-600">Manage the locations where you offer your services. Adding specific Texas cities helps with local SEO.</p>
-                    <a href="{{ route('admin.service-areas.create') }}" class="bg-primary hover:bg-accent text-white font-bold py-2 px-6 rounded-full shadow-md transform transition hover:-translate-y-1 hover:shadow-lg text-sm">
-                        <i class="fas fa-plus mr-2"></i>Add New Location
-                    </a>
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+                    <div class="md:w-1/2">
+                        <h3 class="text-lg font-bold text-gray-800">Locations List</h3>
+                        <p class="text-gray-500 text-sm mt-1">Manage specific locations for local SEO. Use the settings button to customize the page header.</p>
+                    </div>
+                    <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+                        <a href="{{ route('admin.service-areas.settings') }}" class="inline-flex justify-center items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition ease-in-out duration-150">
+                            <i class="fas fa-cog mr-2 text-gray-400"></i> Page Settings
+                        </a>
+                        <a href="{{ route('admin.service-areas.create') }}" class="inline-flex justify-center items-center px-4 py-2 bg-primary border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-accent focus:bg-accent active:bg-accent focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition ease-in-out duration-150 shadow-md">
+                            <i class="fas fa-plus mr-2"></i> Add Location
+                        </a>
+                    </div>
                 </div>
 
                 <div class="overflow-x-auto">

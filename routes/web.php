@@ -84,15 +84,19 @@ Route::get('/', function () {
 Route::get('/service-areas', function () {
     $companyProfile = \App\Models\CompanyProfile::first();
     $serviceAreas = \App\Models\ServiceArea::active()->get();
+    $pageSettings = \App\Models\ServiceAreaPageSetting::firstOrCreate([], [
+        'heading' => 'Areas We Serve',
+        'subheading' => 'Bringing The Magic To Your Neighborhood',
+    ]);
     
-    // Create a dummy SEO object for this page
+    // SEO object
     $seo = new \stdClass();
-    $seo->title = 'Areas We Serve - SNS Events';
-    $seo->meta_description = 'Explore the locations we serve across Texas. SNS Events brings premium event decoration to Dallas, Fort Worth, Austin, and beyond.';
-    $seo->meta_keywords = 'service areas, texas event locations, dallas, fort worth, austin, san antonio';
-    $seo->og_image = null;
+    $seo->title = $pageSettings->seo_title ?? 'Areas We Serve - SNS Events';
+    $seo->meta_description = $pageSettings->seo_description ?? 'Explore the locations we serve across Texas. SNS Events brings premium event decoration to Dallas, Fort Worth, Austin, and beyond.';
+    $seo->meta_keywords = $pageSettings->seo_keywords ?? 'service areas, texas event locations, dallas, fort worth, austin, san antonio';
+    $seo->og_image = $pageSettings->hero_image_path ? asset('storage/' . $pageSettings->hero_image_path) : null;
     
-    return view('service-areas', compact('companyProfile', 'serviceAreas', 'seo'));
+    return view('service-areas', compact('companyProfile', 'serviceAreas', 'seo', 'pageSettings'));
 })->name('service-areas');
 
 Route::get('/about-us', function () {
@@ -177,6 +181,8 @@ Route::middleware('auth')->group(function () {
         Route::post('seo/{id}/update', [SeoDetailController::class, 'update'])->name('seo.update');
         
         // Service Areas Management
+        Route::get('service-areas/settings', [ServiceAreaController::class, 'settings'])->name('service-areas.settings');
+        Route::post('service-areas/settings', [ServiceAreaController::class, 'updateSettings'])->name('service-areas.settings.update');
         Route::resource('service-areas', ServiceAreaController::class);
         
         // Testimonials Management

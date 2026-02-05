@@ -7,8 +7,56 @@ use App\Models\ServiceArea;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
+use App\Models\ServiceAreaPageSetting;
+use Illuminate\Support\Facades\Storage;
+
 class ServiceAreaController extends Controller
 {
+    public function settings()
+    {
+        $settings = ServiceAreaPageSetting::firstOrCreate([], [
+            'heading' => 'Areas We Serve',
+            'subheading' => 'Bringing The Magic To Your Neighborhood',
+        ]);
+        return view('admin.service-areas.settings', compact('settings'));
+    }
+
+    public function updateSettings(Request $request)
+    {
+        $validated = $request->validate([
+            'hero_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'remove_hero_image' => 'nullable|boolean',
+            'seo_title' => 'nullable|string|max:255',
+            'seo_description' => 'nullable|string',
+            'seo_keywords' => 'nullable|string',
+            'heading' => 'nullable|string|max:255',
+            'subheading' => 'nullable|string|max:255',
+        ]);
+
+        $settings = ServiceAreaPageSetting::firstOrCreate([]);
+
+        if ($request->hasFile('hero_image')) {
+            if ($settings->hero_image_path) {
+                Storage::disk('public')->delete($settings->hero_image_path);
+            }
+            $path = $request->file('hero_image')->store('service-areas', 'public');
+            $settings->hero_image_path = $path;
+        } elseif ($request->filled('remove_hero_image') && $request->remove_hero_image) {
+            if ($settings->hero_image_path) {
+                Storage::disk('public')->delete($settings->hero_image_path);
+            }
+            $settings->hero_image_path = null;
+        }
+
+        $settings->seo_title = $validated['seo_title'];
+        $settings->seo_description = $validated['seo_description'];
+        $settings->seo_keywords = $validated['seo_keywords'];
+        $settings->heading = $validated['heading'];
+        $settings->subheading = $validated['subheading'];
+        $settings->save();
+
+        return back()->with('success', 'Page settings updated successfully.');
+    }
     public function index()
     {
         $serviceAreas = ServiceArea::orderBy('display_order')->get();
