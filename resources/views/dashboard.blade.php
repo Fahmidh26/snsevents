@@ -106,22 +106,22 @@
             </div>
         </a>
 
-        <!-- Testimonials -->
-        <a href="{{ route('admin.testimonials.index') }}" class="block bg-gradient-to-br from-pink-50 to-pink-100 rounded-xl shadow-sm p-6 border border-pink-200 hover:shadow-md transition-shadow">
+        <!-- Management Session Bookings -->
+        <a href="{{ route('admin.management-session.bookings') }}" class="block bg-gradient-to-br from-pink-50 to-pink-100 rounded-xl shadow-sm p-6 border border-pink-200 hover:shadow-md transition-shadow">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm text-pink-700 font-medium uppercase tracking-wider">Testimonials</p>
-                    <h3 class="text-2xl font-bold text-pink-900 mt-1">{{ $stats['total_testimonials'] }}</h3>
+                    <p class="text-sm text-pink-700 font-medium uppercase tracking-wider">Management</p>
+                    <h3 class="text-2xl font-bold text-pink-900 mt-1">{{ $stats['total_management_bookings'] }}</h3>
                 </div>
                 <div class="w-10 h-10 bg-pink-200 rounded-full flex items-center justify-center text-pink-700">
-                    <i class="fas fa-quote-right text-lg"></i>
+                    <i class="fas fa-briefcase text-lg"></i>
                 </div>
             </div>
         </a>
     </div>
 
     <!-- Inquiry Status Breakdown -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-8">
         <div class="bg-white rounded-xl shadow-sm p-6">
             <h3 class="font-serif text-lg font-bold text-secondary mb-4 border-b pb-2 flex items-center">
                 <i class="fas fa-chart-pie text-primary mr-2"></i> Inquiry Status
@@ -197,7 +197,7 @@
 
         <div class="bg-white rounded-xl shadow-sm p-6">
             <h3 class="font-serif text-lg font-bold text-secondary mb-4 border-b pb-2 flex items-center">
-                <i class="fas fa-calendar-alt text-green-500 mr-2"></i> Counseling Sessions
+                <i class="fas fa-user-friends text-green-500 mr-2"></i> Counseling
             </h3>
             <div class="space-y-3">
                 <div class="flex items-center justify-between">
@@ -224,6 +224,38 @@
             </div>
             <div class="mt-4 pt-4 border-t">
                 <div class="text-xs text-gray-500">Upcoming: <span class="font-bold text-secondary">{{ $stats['upcoming_counseling'] }}</span></div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-sm p-6">
+            <h3 class="font-serif text-lg font-bold text-secondary mb-4 border-b pb-2 flex items-center">
+                <i class="fas fa-briefcase text-pink-500 mr-2"></i> Management
+            </h3>
+            <div class="space-y-3">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <div class="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div>
+                        <span class="text-sm text-gray-600">Pending</span>
+                    </div>
+                    <span class="text-sm font-bold text-secondary">{{ $stats['pending_management'] }}</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <div class="w-3 h-3 rounded-full bg-blue-500 mr-2"></div>
+                        <span class="text-sm text-gray-600">Confirmed</span>
+                    </div>
+                    <span class="text-sm font-bold text-secondary">{{ $stats['confirmed_management'] }}</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <div class="w-3 h-3 rounded-full bg-green-500 mr-2"></div>
+                        <span class="text-sm text-gray-600">Completed</span>
+                    </div>
+                    <span class="text-sm font-bold text-secondary">{{ $stats['completed_management'] }}</span>
+                </div>
+            </div>
+            <div class="mt-4 pt-4 border-t">
+                <div class="text-xs text-gray-500">Upcoming: <span class="font-bold text-secondary">{{ $stats['upcoming_management'] }}</span></div>
             </div>
         </div>
     </div>
@@ -393,6 +425,7 @@
         </div>
     </div>
 
+
     <!-- Recent Counseling Bookings -->
     <div class="bg-white rounded-xl shadow-sm p-6 mb-8">
         <h3 class="font-serif text-xl font-bold text-secondary mb-4 border-b pb-2 flex items-center">
@@ -443,6 +476,64 @@
         <div class="mt-4 pt-4 border-t">
             <a href="{{ route('admin.counseling.bookings') }}" class="text-sm text-green-600 hover:text-green-700 font-medium flex items-center justify-center">
                 View All Counseling Bookings <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+        </div>
+        @endif
+    </div>
+
+    <!-- Recent Management Session Bookings -->
+    <div class="bg-white rounded-xl shadow-sm p-6 mb-8">
+        <h3 class="font-serif text-xl font-bold text-secondary mb-4 border-b pb-2 flex items-center">
+            <i class="fas fa-briefcase text-pink-500 mr-2"></i> Recent Management Session Bookings
+        </h3>
+        <div class="overflow-x-auto">
+            <table class="min-w-full">
+                <thead>
+                    <tr class="border-b bg-gray-50">
+                        <th class="text-left py-3 px-4 text-sm font-semibold text-gray-600">Name</th>
+                        <th class="text-left py-3 px-4 text-sm font-semibold text-gray-600">Email</th>
+                        <th class="text-left py-3 px-4 text-sm font-semibold text-gray-600">Event Type</th>
+                        <th class="text-center py-3 px-4 text-sm font-semibold text-gray-600">Session Date</th>
+                        <th class="text-center py-3 px-4 text-sm font-semibold text-gray-600">Status</th>
+                        <th class="text-center py-3 px-4 text-sm font-semibold text-gray-600">Booked</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($recent_management as $booking)
+                    <tr class="border-b hover:bg-gray-50 transition-colors">
+                        <td class="py-3 px-4 text-sm font-medium text-secondary">{{ $booking->name }}</td>
+                        <td class="py-3 px-4 text-sm text-gray-600">{{ $booking->email }}</td>
+                        <td class="py-3 px-4 text-sm text-gray-600">{{ $booking->event_type }}</td>
+                        <td class="py-3 px-4 text-center text-sm text-gray-600">
+                            {{ $booking->slot ? \Carbon\Carbon::parse($booking->slot->date)->format('M d, Y') : 'N/A' }}<br>
+                            <span class="text-xs text-gray-400">{{ $booking->slot ? \Carbon\Carbon::parse($booking->slot->start_time)->format('h:i A') : '' }}</span>
+                        </td>
+                        <td class="py-3 px-4 text-center">
+                            <span class="text-xs px-2 py-1 rounded-full
+                                {{ $booking->status === 'pending' ? 'bg-yellow-100 text-yellow-700' : '' }}
+                                {{ $booking->status === 'confirmed' ? 'bg-blue-100 text-blue-700' : '' }}
+                                {{ $booking->status === 'completed' ? 'bg-green-100 text-green-700' : '' }}
+                                {{ $booking->status === 'cancelled' ? 'bg-red-100 text-red-700' : '' }}">
+                                {{ ucfirst($booking->status) }}
+                            </span>
+                        </td>
+                        <td class="py-3 px-4 text-center text-xs text-gray-400">{{ $booking->created_at->diffForHumans() }}</td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="6" class="text-center py-8 text-gray-400">
+                            <i class="fas fa-inbox text-3xl mb-2"></i>
+                            <p>No recent management bookings</p>
+                        </td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+        @if($recent_management->count() > 0)
+        <div class="mt-4 pt-4 border-t">
+            <a href="{{ route('admin.management-session.bookings') }}" class="text-sm text-pink-600 hover:text-pink-700 font-medium flex items-center justify-center">
+                View All Management Bookings <i class="fas fa-arrow-right ml-2"></i>
             </a>
         </div>
         @endif

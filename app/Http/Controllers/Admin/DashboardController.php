@@ -7,7 +7,7 @@ use App\Models\EventGallery;
 use App\Models\ServiceArea;
 use App\Models\PackageInquiry;
 use App\Models\CustomPackageRequest;
-use App\Models\Testimonial;
+use App\Models\ManagementSessionBooking;
 use App\Models\FAQ;
 use App\Models\EventType;
 use App\Models\CounselingBooking;
@@ -26,7 +26,6 @@ class DashboardController extends Controller
             'total_services' => ServiceArea::count(),
             'total_event_types' => EventType::count(),
             'total_gallery_images' => EventGallery::count(), // Count individual gallery images
-            'total_testimonials' => Testimonial::count(),
             'total_faqs' => FAQ::count(),
             'total_users' => User::count(),
             
@@ -59,6 +58,17 @@ class DashboardController extends Controller
                     $q->where('date', '>=', Carbon::today());
                 })
                 ->count(),
+
+            // Management Session Bookings
+            'total_management_bookings' => ManagementSessionBooking::count(),
+            'pending_management' => ManagementSessionBooking::where('status', 'pending')->count(),
+            'confirmed_management' => ManagementSessionBooking::where('status', 'confirmed')->count(),
+            'completed_management' => ManagementSessionBooking::where('status', 'completed')->count(),
+            'upcoming_management' => ManagementSessionBooking::where('status', 'confirmed')
+                ->whereHas('slot', function($q) {
+                    $q->where('date', '>=', Carbon::today());
+                })
+                ->count(),
         ];
         
         // Recent activities
@@ -72,6 +82,11 @@ class DashboardController extends Controller
             ->get();
             
         $recent_counseling = CounselingBooking::with('slot')
+            ->latest()
+            ->take(5)
+            ->get();
+
+        $recent_management = ManagementSessionBooking::with('slot')
             ->latest()
             ->take(5)
             ->get();
@@ -108,6 +123,7 @@ class DashboardController extends Controller
             'recent_inquiries',
             'recent_custom_requests',
             'recent_counseling',
+            'recent_management',
             'popular_event_types',
             'monthly_trends',
             'inquiry_growth'
