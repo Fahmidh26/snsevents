@@ -93,6 +93,19 @@
         letter-spacing: 2px;
       }
 
+      @media (max-width: 991.98px) {
+        .navbar > .container {
+          position: relative;
+          justify-content: flex-end;
+        }
+        .navbar-brand {
+          position: absolute;
+          left: 50%;
+          transform: translateX(-50%);
+          margin: 0;
+        }
+      }
+
       /* Page Hero */
       .page-hero {
         position: relative;

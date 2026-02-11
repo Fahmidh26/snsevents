@@ -345,6 +345,19 @@
 
       /* Mobile Navbar */
       @media (max-width: 991.98px) {
+        /* Center Logo Styles */
+        .navbar > .container {
+          position: relative;
+          justify-content: flex-end;
+        }
+
+        .navbar-brand {
+          position: absolute;
+          left: 50%;
+          transform: translateX(-50%);
+          margin: 0;
+        }
+
         .navbar-collapse {
           background: color-mix(in srgb, var(--secondary-color) 98%, transparent);
           backdrop-filter: blur(20px);
