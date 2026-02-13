@@ -123,6 +123,14 @@ Route::get('/terms-and-conditions', [FrontendTermsAndConditionController::class,
 Route::get('/counseling-terms', [CounselingTermController::class, 'index'])->name('counseling-terms');
 Route::get('/sitemap.xml', [App\Http\Controllers\SitemapController::class, 'index']);
 
+// SEO Redirects: Old /events/* URLs to new /services/* URLs (301 Permanent Redirect)
+Route::get('/events', function() {
+    return redirect('/services', 301);
+});
+Route::get('/events/{slug}', function($slug) {
+    return redirect('/services/' . $slug, 301);
+});
+
 // Frontend Event Routes
 Route::get('/services', [EventController::class, 'index'])->name('services.index');
 Route::get('/services/{slug}', [EventController::class, 'show'])->name('services.show');

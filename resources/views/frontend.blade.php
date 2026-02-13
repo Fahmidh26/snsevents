@@ -2909,7 +2909,7 @@
             </div>
             <div class="detail-cta">
                 <h3>Ready to Plan?</h3>
-                <button class="btn-primary-custom" onclick="window.location.href='/events/${serviceType}'">View Full Details</button>
+                <button class="btn-primary-custom" onclick="window.location.href='/services/${serviceType}'">View Full Details</button>
             </div>
         `;
 
