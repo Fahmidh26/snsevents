@@ -2,6 +2,10 @@
 
 @section('title', 'Custom Planning - SNS Events')
 
+@section('meta')
+    @include('layouts.partials.schema')
+@endsection
+
 @section('content')
 <section class="inner-page-hero">
     <div class="container">

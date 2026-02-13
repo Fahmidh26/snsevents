@@ -9,6 +9,7 @@
     @if($settings->seo_keywords)
         <meta name="keywords" content="{{ $settings->seo_keywords }}">
     @endif
+    @include('layouts.partials.schema')
 @endsection
 
 @section('styles')

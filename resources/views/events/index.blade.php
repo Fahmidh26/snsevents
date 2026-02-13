@@ -5,6 +5,7 @@
 @section('meta')
     <meta name="description" content="{{ $seo->meta_description ?? '' }}" />
     <meta name="keywords" content="{{ $seo->meta_keywords ?? '' }}" />
+    @include('layouts.partials.schema')
 @endsection
 
 @section('styles')

@@ -9,6 +9,7 @@
     <title>{{ $privacyPolicy->meta_title ?? 'Privacy Policy - ' . $siteSettings->site_title }}</title>
     <meta name="description" content="{{ $privacyPolicy->meta_description ?? 'Privacy Policy for ' . $siteSettings->site_title . '. Learn about how we handle your data.' }}" />
     <meta name="keywords" content="{{ $privacyPolicy->meta_keywords ?? 'privacy policy, terms, data protection' }}">
+    @include('layouts.partials.schema')
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">

@@ -39,6 +39,12 @@ class AppServiceProvider extends ServiceProvider
                 }])
                 ->get();
             \Illuminate\Support\Facades\View::share('navbarItems', $navbarItems);
+
+            // Share Company Profile and Service Areas globally for Schema Markup
+            $companyProfile = \App\Models\CompanyProfile::first();
+            $serviceAreas = \App\Models\ServiceArea::active()->get();
+            \Illuminate\Support\Facades\View::share('companyProfile', $companyProfile);
+            \Illuminate\Support\Facades\View::share('serviceAreas', $serviceAreas);
         } catch (\Exception $e) {
             // Handle migration or DB connection issues
         }

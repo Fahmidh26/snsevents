@@ -6,6 +6,7 @@
     <title>{{ $seo->title ?? 'Areas We Serve - SNS Events' }}</title>
     <meta name="description" content="{{ $seo->meta_description ?? 'Explore the locations we serve across Texas.' }}" />
     <meta name="keywords" content="{{ $seo->meta_keywords ?? 'service areas, texas event locations' }}" />
+    @include('layouts.partials.schema')
     
     <!-- Favicon -->
     @if(isset($siteSettings) && $siteSettings->favicon_path)

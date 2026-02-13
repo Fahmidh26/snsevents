@@ -18,22 +18,7 @@
     @if(isset($seo->og_image) && $seo->og_image)
         <meta property="og:image" content="{{ $seo->og_image }}" />
     @endif
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "LocalBusiness",
-      "name": "SNS Events",
-      "image": "{{ $siteSettings->logo_path ? asset('storage/'.$siteSettings->logo_path) : '' }}",
-      "description": "{{ $companyProfile->mission ?? 'Premium event decoration services in Texas.' }}",
-      "address": {
-        "@type": "PostalAddress",
-        "addressRegion": "Texas",
-        "addressCountry": "US"
-      },
-
-      "url": "{{ url('/') }}"
-    }
-    </script>
+    @include('layouts.partials.schema')
 
     <!-- Bootstrap CSS -->
     <link

@@ -11,6 +11,7 @@
         @else
             <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
         @endif
+        @include('layouts.partials.schema')
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">

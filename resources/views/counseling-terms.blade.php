@@ -12,6 +12,7 @@
     <title>{{ $title }} - {{ $siteSettings->site_title }}</title>
     <meta name="description" content="{{ $desc }}" />
     <meta name="keywords" content="{{ $seo->meta_keywords ?? 'counseling, terms, conditions' }}">
+    @include('layouts.partials.schema')
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">

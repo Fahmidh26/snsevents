@@ -41,6 +41,7 @@
       @endif
     }
     </script>
+    @include('layouts.partials.schema')
 @endsection
 
 @section('content')

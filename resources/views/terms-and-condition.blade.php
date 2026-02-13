@@ -9,6 +9,7 @@
     <title>{{ $terms->meta_title ?? 'Terms & Conditions - ' . $siteSettings->site_title }}</title>
     <meta name="description" content="{{ $terms->meta_description ?? 'Terms & Conditions for ' . $siteSettings->site_title . '. Our contractual agreement.' }}" />
     <meta name="keywords" content="{{ $terms->meta_keywords ?? 'terms and conditions, legal, agreement' }}">
+    @include('layouts.partials.schema')
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
