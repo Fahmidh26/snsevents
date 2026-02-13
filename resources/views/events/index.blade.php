@@ -391,6 +391,14 @@
                 'slug' => 'counseling',
                 'price' => null,
                 'url' => route('counseling')
+            ], [
+                'name' => 'Management Session',
+                'category' => 'Counseling',
+                'description' => 'Strategic consultation for high-level event coordination and management planning.',
+                'image' => $managementSessionSettings->hero_image ? asset('storage/' . $managementSessionSettings->hero_image) : 'https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+                'slug' => 'management-session',
+                'price' => null,
+                'url' => route('management-session')
             ]])->concat($eventTypes->map(function($item) {
                 return [
                     'name' => $item->name,
