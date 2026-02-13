@@ -78,11 +78,12 @@ Route::get('/', function () {
     $faqs = \App\Models\FAQ::active()->orderBy('display_order')->get();
     $contactInfo = \App\Models\ContactInfo::first();
     $counselingSettings = \App\Models\CounselingSettings::getSettings();
+    $managementSessionSettings = \App\Models\ManagementSessionSettings::getSettings();
 
     // Fetch homepage sections order and visibility
     $homepageSections = \App\Models\HomepageSection::where('is_visible', true)->orderBy('order')->get();
 
-    return view('frontend', compact('companyProfile', 'aboutUs', 'heroSlides', 'eventTypes', 'seo', 'serviceAreas', 'testimonials', 'faqs', 'contactInfo', 'counselingSettings', 'homepageSections'));
+    return view('frontend', compact('companyProfile', 'aboutUs', 'heroSlides', 'eventTypes', 'seo', 'serviceAreas', 'testimonials', 'faqs', 'contactInfo', 'counselingSettings', 'managementSessionSettings', 'homepageSections'));
 });
 
 Route::get('/service-areas', function () {

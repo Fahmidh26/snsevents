@@ -383,23 +383,26 @@
 <script>
     document.addEventListener('alpine:init', () => {
         Alpine.data('eventsList', () => ({
-            items: {!! collect([[
-                'name' => 'Coaching Session',
-                'category' => 'Counseling',
-                'description' => 'Book a professional counseling or coaching session to guide your personal or professional journey.',
-                'image' => $counselingSettings->hero_image ? asset('storage/' . $counselingSettings->hero_image) : 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-                'slug' => 'counseling',
-                'price' => null,
-                'url' => route('counseling')
-            ], [
-                'name' => 'Management Session',
-                'category' => 'Counseling',
-                'description' => 'Strategic consultation for high-level event coordination and management planning.',
-                'image' => $managementSessionSettings->hero_image ? asset('storage/' . $managementSessionSettings->hero_image) : 'https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-                'slug' => 'management-session',
-                'price' => null,
-                'url' => route('management-session')
-            ]])->concat($eventTypes->map(function($item) {
+            items: {!! collect(array_filter([
+                ($counselingSettings->show_on_services_page ?? true) ? [
+                    'name' => $counselingSettings->card_name ?? 'Coaching Session',
+                    'category' => $counselingSettings->card_category ?? 'Counseling',
+                    'description' => $counselingSettings->card_description ?? 'Book a professional counseling or coaching session to guide your personal or professional journey.',
+                    'image' => $counselingSettings->hero_image ? asset('storage/' . $counselingSettings->hero_image) : 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+                    'slug' => 'counseling',
+                    'price' => null,
+                    'url' => route('counseling')
+                ] : null,
+                ($managementSessionSettings->show_on_services_page ?? true) ? [
+                    'name' => $managementSessionSettings->card_name ?? 'Management Session',
+                    'category' => $managementSessionSettings->card_category ?? 'Counseling',
+                    'description' => $managementSessionSettings->card_description ?? 'Strategic consultation for high-level event coordination and management planning.',
+                    'image' => $managementSessionSettings->hero_image ? asset('storage/' . $managementSessionSettings->hero_image) : 'https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+                    'slug' => 'management-session',
+                    'price' => null,
+                    'url' => route('management-session')
+                ] : null
+            ]))->concat($eventTypes->map(function($item) {
                 return [
                     'name' => $item->name,
                     'category' => $item->category,
@@ -410,7 +413,10 @@
                     'url' => route('services.show', $item->slug)
                 ];
             }))->toJson() !!},
-            originalCategories: {!! $categories->concat(['Counseling'])->unique()->sort()->values()->toJson() !!},
+            originalCategories: {!! collect(array_filter([
+                ($counselingSettings->show_on_services_page ?? true) ? ($counselingSettings->card_category ?? 'Counseling') : null,
+                ($managementSessionSettings->show_on_services_page ?? true) ? ($managementSessionSettings->card_category ?? 'Counseling') : null
+            ]))->concat($categories)->unique()->sort()->values()->toJson() !!},
             activeCategory: 'All Services',
             serviceSearchQuery: '',
             searchQuery: '', // For category dropdown

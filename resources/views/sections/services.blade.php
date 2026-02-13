@@ -7,6 +7,7 @@
 
     <div class="row">
       <!-- Counseling/Coaching Service Card -->
+      @if($counselingSettings->show_on_homepage ?? true)
       <div
         class="col-md-6 col-lg-3 mb-4"
         data-aos="fade-up"
@@ -17,21 +18,23 @@
           <div class="service-image">
             <img
               src="{{ $counselingSettings->hero_image ? asset('storage/' . $counselingSettings->hero_image) : 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80' }}"
-              alt="Coaching Session"
+              alt="{{ $counselingSettings->card_name ?? 'Coaching Session' }}"
             />
           </div>
           <div class="service-overlay">
             <div class="service-content-overlay">
-                <h3>Coaching Session</h3>
-                <p>Expert advice and personalized coaching for DIY planners.</p>
+                <h3>{{ $counselingSettings->card_name ?? 'Coaching Session' }}</h3>
+                <p>{{ $counselingSettings->card_description ?? 'Expert advice and personalized coaching for DIY planners.' }}</p>
                 <span class="service-link-btn">Learn More <i class="fas fa-arrow-right"></i></span>
             </div>
           </div>
         </div>
       </div>
+      @endif
 
        <!-- Management Session Card -->
-      <div
+       @if($managementSessionSettings->show_on_homepage ?? true)
+       <div
         class="col-md-6 col-lg-3 mb-4"
         data-aos="fade-up"
         data-aos-delay="100"
@@ -40,19 +43,20 @@
         <div class="service-card" onclick="window.location.href='{{ route('management-session') }}'">
           <div class="service-image">
             <img
-              src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-              alt="Management Session"
+              src="{{ $managementSessionSettings->hero_image ? asset('storage/' . $managementSessionSettings->hero_image) : 'https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80' }}"
+              alt="{{ $managementSessionSettings->card_name ?? 'Management Session' }}"
             />
           </div>
           <div class="service-overlay">
              <div class="service-content-overlay">
-                <h3>Management Session</h3>
-                <p>Strategic consultation for high-level event coordination.</p>
+                <h3>{{ $managementSessionSettings->card_name ?? 'Management Session' }}</h3>
+                <p>{{ $managementSessionSettings->card_description ?? 'Strategic consultation for high-level event coordination.' }}</p>
                 <span class="service-link-btn">Learn More <i class="fas fa-arrow-right"></i></span>
              </div>
           </div>
         </div>
       </div>
+      @endif
 
       @foreach($eventTypes->where('show_on_home', true)->take(6) as $type)
       <div

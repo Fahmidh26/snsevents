@@ -30,6 +30,9 @@ class CounselingController extends Controller
             'intro_title' => 'nullable|string|max:255',
             'page_title' => 'required|string|max:255',
             'page_subtitle' => 'nullable|string|max:255',
+            'card_name' => 'required|string|max:255',
+            'card_category' => 'required|string|max:255',
+            'card_description' => 'nullable|string|max:500',
             'session_duration' => 'required|integer|min:15|max:480',
             'price' => 'nullable|numeric|min:0',
             'price_label' => 'nullable|string|max:100',
@@ -44,6 +47,8 @@ class CounselingController extends Controller
         ]);
 
         $validated['is_active'] = $request->has('is_active');
+        $validated['show_on_homepage'] = $request->has('show_on_homepage');
+        $validated['show_on_services_page'] = $request->has('show_on_services_page');
 
         $settings = CounselingSettings::getSettings();
 

@@ -50,6 +50,68 @@
                         @enderror
                     </div>
 
+                    <hr class="my-6">
+
+                    <!-- Card Display Settings -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-medium text-gray-900 mb-4">Service Card Display Settings</h3>
+                        <p class="text-sm text-gray-600 mb-4">These settings control how this service appears on the homepage and services page.</p>
+                        
+                        <!-- Card Name -->
+                        <div class="mb-4">
+                            <label for="card_name" class="block text-sm font-medium text-gray-700 mb-2">Card Name</label>
+                            <input type="text" name="card_name" id="card_name" value="{{ old('card_name', $settings->card_name ?? 'Management Session') }}" 
+                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50" required>
+                            <p class="text-xs text-gray-500 mt-1">The name displayed on the service card (e.g., "Management Session")</p>
+                            @error('card_name')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <!-- Card Category -->
+                        <div class="mb-4">
+                            <label for="card_category" class="block text-sm font-medium text-gray-700 mb-2">Card Category</label>
+                            <input type="text" name="card_category" id="card_category" value="{{ old('card_category', $settings->card_category ?? 'Counseling') }}" 
+                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50" required>
+                            <p class="text-xs text-gray-500 mt-1">The category badge shown on the card (e.g., "Counseling")</p>
+                            @error('card_category')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <!-- Card Description -->
+                        <div class="mb-4">
+                            <label for="card_description" class="block text-sm font-medium text-gray-700 mb-2">Card Description</label>
+                            <textarea name="card_description" id="card_description" rows="3" 
+                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50">{{ old('card_description', $settings->card_description ?? 'Strategic consultation for high-level event coordination and management planning.') }}</textarea>
+                            <p class="text-xs text-gray-500 mt-1">Short description shown on the service card (max 500 characters)</p>
+                            @error('card_description')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <!-- Visibility Toggles -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                            <div class="border border-gray-200 rounded-lg p-4">
+                                <label class="flex items-center cursor-pointer">
+                                    <input type="checkbox" name="show_on_homepage" value="1" {{ ($settings->show_on_homepage ?? true) ? 'checked' : '' }} class="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary">
+                                    <span class="ml-3 text-sm font-medium text-gray-700">Show on Homepage</span>
+                                </label>
+                                <p class="text-xs text-gray-500 mt-1 ml-8">Display this service in the "Our Services" section on the homepage</p>
+                            </div>
+
+                            <div class="border border-gray-200 rounded-lg p-4">
+                                <label class="flex items-center cursor-pointer">
+                                    <input type="checkbox" name="show_on_services_page" value="1" {{ ($settings->show_on_services_page ?? true) ? 'checked' : '' }} class="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary">
+                                    <span class="ml-3 text-sm font-medium text-gray-700">Show on Services Page</span>
+                                </label>
+                                <p class="text-xs text-gray-500 mt-1 ml-8">Display this service on the /services listing page</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="my-6">
+
                     <!-- Intro Title -->
                     <div class="mb-6">
                         <label for="intro_title" class="block text-sm font-medium text-gray-700 mb-2">Introduction Title</label>
