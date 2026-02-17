@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ManagementSessionBookingMail;
+use App\Mail\ManagementSessionBookingUserConfirmation;
 
 class ManagementSessionController extends Controller
 {
@@ -115,6 +116,11 @@ class ManagementSessionController extends Controller
             $adminEmail = SiteSetting::current()->admin_email;
             if ($adminEmail) {
                 Mail::to($adminEmail)->send(new ManagementSessionBookingMail($booking));
+            }
+            
+            // Send Email to User
+            if ($booking->email) {
+                Mail::to($booking->email)->send(new ManagementSessionBookingUserConfirmation($booking));
             }
         } catch (\Exception $e) {
             // Log error or ignore to not break the user experience

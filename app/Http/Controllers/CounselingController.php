@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\CoachingBookingMail;
+use App\Mail\CoachingBookingUserConfirmation;
 
 class CounselingController extends Controller
 {
@@ -112,6 +113,11 @@ class CounselingController extends Controller
             $adminEmail = SiteSetting::current()->admin_email;
             if ($adminEmail) {
                 Mail::to($adminEmail)->send(new CoachingBookingMail($booking));
+            }
+            
+            // Send Email to User
+            if ($booking->email) {
+                Mail::to($booking->email)->send(new CoachingBookingUserConfirmation($booking));
             }
         } catch (\Exception $e) {
             // Log error or ignore to not break the user experience
