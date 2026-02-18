@@ -163,6 +163,7 @@
             <li><a href="{{ url('/#services') }}">Services</a></li>
             <li><a href="{{ url('/#pricing') }}">Packages</a></li>
             <li><a href="{{ url('/#gallery') }}">Gallery</a></li>
+            <li><a href="{{ route('bookings.track') }}">Track Booking</a></li>
         </ul>
         </div>
 

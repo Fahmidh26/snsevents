@@ -140,6 +140,10 @@ Route::get('/custom-package', function() {
 })->name('custom-package');
 Route::post('/custom-package/submit', [EventController::class, 'submitCustomRequest'])->name('custom-package.submit');
 
+// Booking Tracking Routes
+Route::get('/track-booking', [App\Http\Controllers\BookingLookupController::class, 'index'])->name('bookings.track');
+Route::post('/track-booking', [App\Http\Controllers\BookingLookupController::class, 'lookup'])->name('bookings.lookup');
+
 // Counseling Frontend Routes
 Route::get('/counseling', [CounselingController::class, 'index'])->name('counseling');
 Route::get('/counseling/slots', [CounselingController::class, 'getSlots'])->name('counseling.slots');
