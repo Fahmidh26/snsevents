@@ -30,6 +30,7 @@ use App\Http\Controllers\NewsletterSubscriptionController;
 use App\Http\Controllers\Admin\NewsletterController;
 use App\Http\Controllers\ContactSubmissionController;
 use App\Http\Controllers\Admin\ContactSubmissionController as AdminContactSubmissionController;
+use App\Http\Controllers\StripeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -147,14 +148,21 @@ Route::post('/track-booking', [App\Http\Controllers\BookingLookupController::cla
 // Counseling Frontend Routes
 Route::get('/counseling', [CounselingController::class, 'index'])->name('counseling');
 Route::get('/counseling/slots', [CounselingController::class, 'getSlots'])->name('counseling.slots');
-Route::post('/counseling/book', [CounselingController::class, 'book'])->name('counseling.book');
+Route::post('/counseling/book', [StripeController::class, 'checkoutCounseling'])->name('counseling.book');
 Route::get('/counseling/confirmation/{code}', [CounselingController::class, 'confirmation'])->name('counseling.confirmation');
+Route::get('/counseling/payment/success/{code}', [StripeController::class, 'successCounseling'])->name('counseling.payment.success');
+Route::get('/counseling/payment/cancel/{code}', [StripeController::class, 'cancelCounseling'])->name('counseling.payment.cancel');
 
 // Management Session Frontend Routes
 Route::get('/management-session', [ManagementSessionController::class, 'index'])->name('management-session');
 Route::get('/management-session/slots', [ManagementSessionController::class, 'getSlots'])->name('management-session.slots');
-Route::post('/management-session/book', [ManagementSessionController::class, 'book'])->name('management-session.book');
+Route::post('/management-session/book', [StripeController::class, 'checkoutManagement'])->name('management-session.book');
 Route::get('/management-session/confirmation/{code}', [ManagementSessionController::class, 'confirmation'])->name('management-session.confirmation');
+Route::get('/management-session/payment/success/{code}', [StripeController::class, 'successManagement'])->name('management-session.payment.success');
+Route::get('/management-session/payment/cancel/{code}', [StripeController::class, 'cancelManagement'])->name('management-session.payment.cancel');
+
+// Stripe Webhook (CSRF excluded via VerifyCsrfToken middleware)
+Route::post('/stripe/webhook', [StripeController::class, 'webhook'])->name('stripe.webhook');
 
 // Newsletter Subscription Route
 Route::post('/newsletter/subscribe', [NewsletterSubscriptionController::class, 'subscribe'])->name('newsletter.subscribe');

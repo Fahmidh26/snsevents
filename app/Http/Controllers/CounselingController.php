@@ -5,12 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\CounselingSettings;
 use App\Models\CounselingSlot;
 use App\Models\CounselingBooking;
-use App\Models\SiteSetting;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\CoachingBookingMail;
-use App\Mail\CoachingBookingUserConfirmation;
 
 class CounselingController extends Controller
 {
@@ -59,71 +55,22 @@ class CounselingController extends Controller
             ->get()
             ->map(function ($slot) {
                 return [
-                    'id' => $slot->id,
-                    'start_time' => Carbon::parse($slot->start_time)->format('g:i A'),
-                    'raw_start_time' => Carbon::parse($slot->start_time)->format('H:i'),
-                    'end_time' => Carbon::parse($slot->end_time)->format('g:i A'),
-                    'formatted_time' => $slot->formatted_time,
-                    'duration' => $slot->duration,
-                    'price' => $slot->price,
+                    'id'              => $slot->id,
+                    'start_time'      => Carbon::parse($slot->start_time)->format('g:i A'),
+                    'raw_start_time'  => Carbon::parse($slot->start_time)->format('H:i'),
+                    'end_time'        => Carbon::parse($slot->end_time)->format('g:i A'),
+                    'formatted_time'  => $slot->formatted_time,
+                    'duration'        => $slot->duration,
+                    'price'           => $slot->price,
                     'formatted_price' => '$' . number_format($slot->price, 2),
                 ];
             });
 
         return response()->json([
             'success' => true,
-            'date' => $date->format('l, F j, Y'),
-            'slots' => $slots,
+            'date'    => $date->format('l, F j, Y'),
+            'slots'   => $slots,
         ]);
-    }
-
-    /**
-     * Handle booking submission
-     */
-    public function book(Request $request)
-    {
-        $validated = $request->validate([
-            'slot_id' => 'required|exists:counseling_slots,id',
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'phone' => 'required|string|max:50',
-            'message' => 'nullable|string|max:2000',
-            'terms' => 'required|accepted',
-        ]);
-
-        // Check if slot is still available
-        $slot = CounselingSlot::find($validated['slot_id']);
-        
-        if (!$slot || !$slot->canBeBooked()) {
-            return back()->with('error', 'Sorry, this slot is no longer available. Please select another time.');
-        }
-
-        // Create the booking
-        $booking = CounselingBooking::create([
-            'slot_id' => $validated['slot_id'],
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'phone' => $validated['phone'],
-            'message' => $validated['message'] ?? null,
-            'status' => 'pending',
-        ]);
-
-        // Send Email to Admin
-        try {
-            $adminEmail = SiteSetting::current()->admin_email;
-            if ($adminEmail) {
-                Mail::to($adminEmail)->send(new CoachingBookingMail($booking));
-            }
-            
-            // Send Email to User
-            if ($booking->email) {
-                Mail::to($booking->email)->send(new CoachingBookingUserConfirmation($booking));
-            }
-        } catch (\Exception $e) {
-            // Log error or ignore to not break the user experience
-        }
-
-        return redirect()->route('counseling.confirmation', ['code' => $booking->confirmation_code]);
     }
 
     /**

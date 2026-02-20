@@ -18,6 +18,10 @@ class CounselingBooking extends Model
         'message',
         'status',
         'confirmation_code',
+        'stripe_session_id',
+        'stripe_payment_intent_id',
+        'amount_paid',
+        'payment_status',
     ];
 
     protected $casts = [

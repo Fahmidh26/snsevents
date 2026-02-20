@@ -26,6 +26,7 @@
                         <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-gray-500">Client</th>
                         <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-gray-500">Session</th>
                         <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-gray-500">Status</th>
+                        <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-gray-500">Payment</th>
                         <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-gray-500 text-right">Actions</th>
                     </tr>
                 </thead>
@@ -69,6 +70,14 @@
                                     <option value="cancelled" {{ $booking->status == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
                                 </select>
                             </form>
+                        </td>
+                        <td class="px-6 py-4">
+                            @php $ps = $booking->payment_status ?? 'unpaid'; @endphp
+                            <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold
+                                {{ $ps === 'paid' ? 'bg-green-100 text-green-700' : ($ps === 'failed' ? 'bg-red-100 text-red-700' : 'bg-yellow-100 text-yellow-700') }}">
+                                <i class="fas {{ $ps === 'paid' ? 'fa-check-circle' : ($ps === 'failed' ? 'fa-times-circle' : 'fa-clock') }} text-[10px]"></i>
+                                {{ $ps === 'paid' ? '$'.number_format($booking->amount_paid,2) : ucfirst($ps) }}
+                            </span>
                         </td>
                         <td class="px-6 py-4 text-right">
                             <div class="flex justify-end gap-2" x-data="{ showDetails: false }">
@@ -193,6 +202,13 @@
                                                                 <div>
                                                                     <p class="text-[10px] text-gray-500 uppercase">Price</p>
                                                                     <p class="font-bold text-secondary">${{ number_format($booking->slot->price ?? 0, 2) }}</p>
+                                                                </div>
+                                                                <div>
+                                                                    <p class="text-[10px] text-gray-500 uppercase">Payment</p>
+                                                                    @php $ps = $booking->payment_status ?? 'unpaid'; @endphp
+                                                                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold {{ $ps === 'paid' ? 'bg-green-100 text-green-700' : ($ps === 'failed' ? 'bg-red-100 text-red-700' : 'bg-yellow-100 text-yellow-700') }}">
+                                                                        {{ $ps === 'paid' ? 'Paid — $'.number_format($booking->amount_paid,2) : ucfirst($ps) }}
+                                                                    </span>
                                                                 </div>
                                                             </div>
                                                         </div>

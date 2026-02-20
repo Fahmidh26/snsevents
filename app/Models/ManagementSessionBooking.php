@@ -20,6 +20,10 @@ class ManagementSessionBooking extends Model
         'confirmation_code',
         'event_type',
         'event_date',
+        'stripe_session_id',
+        'stripe_payment_intent_id',
+        'amount_paid',
+        'payment_status',
     ];
 
     protected $casts = [

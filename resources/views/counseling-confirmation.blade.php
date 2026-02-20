@@ -318,7 +318,15 @@
             </div>
             
             <h2>Thank You, {{ $booking->name }}!</h2>
-            <p class="subtitle">Your counseling session has been successfully scheduled.</p>
+            <p class="subtitle">Your payment was successful. Your coaching session has been confirmed.</p>
+
+            {{-- Payment Badge --}}
+            @if($booking->payment_status === 'paid')
+            <div style="display:inline-flex;align-items:center;gap:8px;background:#d1fae5;color:#059669;padding:10px 24px;border-radius:50px;margin-bottom:20px;font-weight:600;font-size:0.9rem;">
+                <i class="fas fa-credit-card"></i>
+                Payment Received — ${{ number_format($booking->amount_paid, 2) }}
+            </div>
+            @endif
 
             <div class="confirmation-code">
                 <span>Booking Reference</span>

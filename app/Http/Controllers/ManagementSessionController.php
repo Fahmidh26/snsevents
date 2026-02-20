@@ -5,12 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\ManagementSessionSettings;
 use App\Models\ManagementSessionSlot;
 use App\Models\ManagementSessionBooking;
-use App\Models\SiteSetting;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\ManagementSessionBookingMail;
-use App\Mail\ManagementSessionBookingUserConfirmation;
 
 class ManagementSessionController extends Controller
 {
@@ -59,74 +55,22 @@ class ManagementSessionController extends Controller
             ->get()
             ->map(function ($slot) {
                 return [
-                    'id' => $slot->id,
-                    'start_time' => Carbon::parse($slot->start_time)->format('g:i A'),
-                    'raw_start_time' => Carbon::parse($slot->start_time)->format('H:i'),
-                    'end_time' => Carbon::parse($slot->end_time)->format('g:i A'),
-                    'formatted_time' => $slot->formatted_time,
-                    'duration' => $slot->duration,
-                    'price' => $slot->price,
+                    'id'              => $slot->id,
+                    'start_time'      => Carbon::parse($slot->start_time)->format('g:i A'),
+                    'raw_start_time'  => Carbon::parse($slot->start_time)->format('H:i'),
+                    'end_time'        => Carbon::parse($slot->end_time)->format('g:i A'),
+                    'formatted_time'  => $slot->formatted_time,
+                    'duration'        => $slot->duration,
+                    'price'           => $slot->price,
                     'formatted_price' => $slot->price ? '$' . number_format($slot->price, 2) : 'Free',
                 ];
             });
 
         return response()->json([
             'success' => true,
-            'date' => $date->format('l, F j, Y'),
-            'slots' => $slots,
+            'date'    => $date->format('l, F j, Y'),
+            'slots'   => $slots,
         ]);
-    }
-
-    /**
-     * Handle booking submission
-     */
-    public function book(Request $request)
-    {
-        $validated = $request->validate([
-            'slot_id' => 'required|exists:management_session_slots,id',
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'phone' => 'required|string|max:50',
-            'event_type' => 'required|string|max:255',
-            'event_date' => 'nullable|date',
-            'message' => 'nullable|string|max:2000',
-        ]);
-
-        // Check if slot is still available
-        $slot = ManagementSessionSlot::find($validated['slot_id']);
-        
-        if (!$slot || !$slot->canBeBooked()) {
-            return back()->with('error', 'Sorry, this slot is no longer available. Please select another time.');
-        }
-
-        // Create the booking
-        $booking = ManagementSessionBooking::create([
-            'slot_id' => $validated['slot_id'],
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'phone' => $validated['phone'],
-            'event_type' => $validated['event_type'],
-            'event_date' => $validated['event_date'],
-            'message' => $validated['message'] ?? null,
-            'status' => 'pending',
-        ]);
-
-        // Send Email to Admin
-        try {
-            $adminEmail = SiteSetting::current()->admin_email;
-            if ($adminEmail) {
-                Mail::to($adminEmail)->send(new ManagementSessionBookingMail($booking));
-            }
-            
-            // Send Email to User
-            if ($booking->email) {
-                Mail::to($booking->email)->send(new ManagementSessionBookingUserConfirmation($booking));
-            }
-        } catch (\Exception $e) {
-            // Log error or ignore to not break the user experience
-        }
-
-        return redirect()->route('management-session.confirmation', ['code' => $booking->confirmation_code]);
     }
 
     /**
