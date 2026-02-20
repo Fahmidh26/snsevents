@@ -18,6 +18,7 @@ use Stripe\Stripe;
 use Stripe\Checkout\Session as StripeSession;
 use Stripe\Webhook;
 use Stripe\Exception\SignatureVerificationException;
+use Illuminate\Support\Facades\DB;
 
 class StripeController extends Controller
 {
@@ -44,65 +45,72 @@ class StripeController extends Controller
             'terms'   => 'required|accepted',
         ]);
 
-        $slot = CounselingSlot::find($validated['slot_id']);
+        // Use a DB transaction with a pessimistic lock to prevent double-booking
+        return DB::transaction(function () use ($validated) {
+            $slot = CounselingSlot::lockForUpdate()->find($validated['slot_id']);
 
-        if (!$slot || !$slot->canBeBooked()) {
-            return back()->with('error', 'Sorry, this slot is no longer available. Please select another time.');
-        }
+            if (!$slot || !$slot->canBeBooked()) {
+                return back()->with('error', 'Sorry, this slot is no longer available. Please select another time.');
+            }
 
-        if (!$slot->price || $slot->price <= 0) {
-            return back()->with('error', 'This slot does not have a valid price. Please contact us.');
-        }
+            if (!$slot->price || $slot->price <= 0) {
+                return back()->with('error', 'This slot does not have a valid price. Please contact us.');
+            }
 
-        // Create pending booking (slot locked)
-        $booking = CounselingBooking::create([
-            'slot_id'        => $slot->id,
-            'name'           => $validated['name'],
-            'email'          => $validated['email'],
-            'phone'          => $validated['phone'],
-            'message'        => $validated['message'] ?? null,
-            'status'         => 'pending',
-            'payment_status' => 'unpaid',
-        ]);
+            // Lock the slot immediately
+            $slot->update(['is_booked' => true]);
 
-        try {
-            $sessionName = \App\Models\CounselingSettings::getSettings()->name ?? 'Coaching Session';
-
-            $checkoutSession = StripeSession::create([
-                'payment_method_types' => ['card'],
-                'line_items'           => [[
-                    'price_data' => [
-                        'currency'     => 'usd',
-                        'unit_amount'  => (int) round($slot->price * 100),
-                        'product_data' => [
-                            'name'        => $sessionName . ' — ' . $slot->duration . ' min',
-                            'description' => $slot->formatted_date . ' at ' . $slot->formatted_time,
-                        ],
-                    ],
-                    'quantity'   => 1,
-                ]],
-                'mode'              => 'payment',
-                'customer_email'    => $booking->email,
-                'success_url'       => route('counseling.payment.success', ['code' => $booking->confirmation_code]) . '?session_id={CHECKOUT_SESSION_ID}',
-                'cancel_url'        => route('counseling.payment.cancel', ['code' => $booking->confirmation_code]),
-                'metadata'          => [
-                    'booking_type'        => 'counseling',
-                    'booking_id'          => $booking->id,
-                    'confirmation_code'   => $booking->confirmation_code,
-                ],
+            // Create pending booking
+            $booking = CounselingBooking::create([
+                'slot_id'        => $slot->id,
+                'name'           => $validated['name'],
+                'email'          => $validated['email'],
+                'phone'          => $validated['phone'],
+                'message'        => $validated['message'] ?? null,
+                'status'         => 'pending',
+                'payment_status' => 'unpaid',
             ]);
 
-            $booking->update(['stripe_session_id' => $checkoutSession->id]);
+            try {
+                $sessionName = \App\Models\CounselingSettings::getSettings()->name ?? 'Coaching Session';
 
-            return redirect($checkoutSession->url);
+                // Omitting payment_method_types lets Stripe show ALL methods
+                // enabled in your Dashboard (cards, Apple Pay, Google Pay, etc.)
+                $checkoutSession = StripeSession::create([
+                    'line_items' => [[
+                        'price_data' => [
+                            'currency'     => 'usd',
+                            'unit_amount'  => (int) round($slot->price * 100),
+                            'product_data' => [
+                                'name'        => $sessionName . ' — ' . $slot->duration . ' min',
+                                'description' => $slot->formatted_date . ' at ' . $slot->formatted_time,
+                            ],
+                        ],
+                        'quantity' => 1,
+                    ]],
+                    'mode'           => 'payment',
+                    'customer_email' => $booking->email,
+                    'success_url'    => route('counseling.payment.success', ['code' => $booking->confirmation_code]) . '?session_id={CHECKOUT_SESSION_ID}',
+                    'cancel_url'     => route('counseling.payment.cancel', ['code' => $booking->confirmation_code]),
+                    'metadata'       => [
+                        'booking_type'      => 'counseling',
+                        'booking_id'        => $booking->id,
+                        'confirmation_code' => $booking->confirmation_code,
+                    ],
+                ]);
 
-        } catch (\Exception $e) {
-            Log::error('Stripe Checkout (Counseling) error: ' . $e->getMessage());
-            // Free the slot and delete the pending booking
-            $booking->slot->update(['is_booked' => false]);
-            $booking->delete();
-            return back()->with('error', 'Payment initialisation failed. Please try again.');
-        }
+                $booking->update(['stripe_session_id' => $checkoutSession->id]);
+
+                return redirect($checkoutSession->url);
+
+            } catch (\Exception $e) {
+                Log::error('Stripe Checkout (Counseling) error: ' . $e->getMessage());
+                // Rollback slot lock and remove pending booking
+                $slot->update(['is_booked' => false]);
+                $booking->delete();
+                return back()->with('error', 'Payment initialisation failed. Please try again.');
+            }
+        });
     }
 
     /**
@@ -167,65 +175,69 @@ class StripeController extends Controller
             'message'    => 'nullable|string|max:2000',
         ]);
 
-        $slot = ManagementSessionSlot::find($validated['slot_id']);
+        return DB::transaction(function () use ($validated) {
+            $slot = ManagementSessionSlot::lockForUpdate()->find($validated['slot_id']);
 
-        if (!$slot || !$slot->canBeBooked()) {
-            return back()->with('error', 'Sorry, this slot is no longer available. Please select another time.');
-        }
+            if (!$slot || !$slot->canBeBooked()) {
+                return back()->with('error', 'Sorry, this slot is no longer available. Please select another time.');
+            }
 
-        if (!$slot->price || $slot->price <= 0) {
-            return back()->with('error', 'This slot does not have a valid price. Please contact us.');
-        }
+            if (!$slot->price || $slot->price <= 0) {
+                return back()->with('error', 'This slot does not have a valid price. Please contact us.');
+            }
 
-        $booking = ManagementSessionBooking::create([
-            'slot_id'        => $slot->id,
-            'name'           => $validated['name'],
-            'email'          => $validated['email'],
-            'phone'          => $validated['phone'],
-            'event_type'     => $validated['event_type'],
-            'event_date'     => $validated['event_date'],
-            'message'        => $validated['message'] ?? null,
-            'status'         => 'pending',
-            'payment_status' => 'unpaid',
-        ]);
+            // Lock the slot immediately
+            $slot->update(['is_booked' => true]);
 
-        try {
-            $sessionName = \App\Models\ManagementSessionSettings::getSettings()->name ?? 'Management Session';
-
-            $checkoutSession = StripeSession::create([
-                'payment_method_types' => ['card'],
-                'line_items'           => [[
-                    'price_data' => [
-                        'currency'     => 'usd',
-                        'unit_amount'  => (int) round($slot->price * 100),
-                        'product_data' => [
-                            'name'        => $sessionName . ' — ' . $slot->duration . ' min',
-                            'description' => $slot->formatted_date . ' at ' . $slot->formatted_time,
-                        ],
-                    ],
-                    'quantity'   => 1,
-                ]],
-                'mode'           => 'payment',
-                'customer_email' => $booking->email,
-                'success_url'    => route('management-session.payment.success', ['code' => $booking->confirmation_code]) . '?session_id={CHECKOUT_SESSION_ID}',
-                'cancel_url'     => route('management-session.payment.cancel', ['code' => $booking->confirmation_code]),
-                'metadata'       => [
-                    'booking_type'      => 'management',
-                    'booking_id'        => $booking->id,
-                    'confirmation_code' => $booking->confirmation_code,
-                ],
+            $booking = ManagementSessionBooking::create([
+                'slot_id'        => $slot->id,
+                'name'           => $validated['name'],
+                'email'          => $validated['email'],
+                'phone'          => $validated['phone'],
+                'event_type'     => $validated['event_type'],
+                'event_date'     => $validated['event_date'],
+                'message'        => $validated['message'] ?? null,
+                'status'         => 'pending',
+                'payment_status' => 'unpaid',
             ]);
 
-            $booking->update(['stripe_session_id' => $checkoutSession->id]);
+            try {
+                $sessionName = \App\Models\ManagementSessionSettings::getSettings()->name ?? 'Management Session';
 
-            return redirect($checkoutSession->url);
+                $checkoutSession = StripeSession::create([
+                    'line_items' => [[
+                        'price_data' => [
+                            'currency'     => 'usd',
+                            'unit_amount'  => (int) round($slot->price * 100),
+                            'product_data' => [
+                                'name'        => $sessionName . ' — ' . $slot->duration . ' min',
+                                'description' => $slot->formatted_date . ' at ' . $slot->formatted_time,
+                            ],
+                        ],
+                        'quantity' => 1,
+                    ]],
+                    'mode'           => 'payment',
+                    'customer_email' => $booking->email,
+                    'success_url'    => route('management-session.payment.success', ['code' => $booking->confirmation_code]) . '?session_id={CHECKOUT_SESSION_ID}',
+                    'cancel_url'     => route('management-session.payment.cancel', ['code' => $booking->confirmation_code]),
+                    'metadata'       => [
+                        'booking_type'      => 'management',
+                        'booking_id'        => $booking->id,
+                        'confirmation_code' => $booking->confirmation_code,
+                    ],
+                ]);
 
-        } catch (\Exception $e) {
-            Log::error('Stripe Checkout (Management) error: ' . $e->getMessage());
-            $booking->slot->update(['is_booked' => false]);
-            $booking->delete();
-            return back()->with('error', 'Payment initialisation failed. Please try again.');
-        }
+                $booking->update(['stripe_session_id' => $checkoutSession->id]);
+
+                return redirect($checkoutSession->url);
+
+            } catch (\Exception $e) {
+                Log::error('Stripe Checkout (Management) error: ' . $e->getMessage());
+                $slot->update(['is_booked' => false]);
+                $booking->delete();
+                return back()->with('error', 'Payment initialisation failed. Please try again.');
+            }
+        });
     }
 
     public function successManagement(Request $request, $code)
