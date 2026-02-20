@@ -36,6 +36,12 @@ class ManagementSessionBooking extends Model
         return $this->belongsTo(ManagementSessionSlot::class, 'slot_id');
     }
 
+    public function rescheduleRequests()
+    {
+        return $this->hasMany(RescheduleRequest::class, 'booking_id')
+            ->where('booking_type', 'management');
+    }
+
     public static function generateConfirmationCode()
     {
         do {

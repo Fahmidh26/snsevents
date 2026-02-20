@@ -152,6 +152,8 @@ Route::post('/counseling/book', [StripeController::class, 'checkoutCounseling'])
 Route::get('/counseling/confirmation/{code}', [CounselingController::class, 'confirmation'])->name('counseling.confirmation');
 Route::get('/counseling/payment/success/{code}', [StripeController::class, 'successCounseling'])->name('counseling.payment.success');
 Route::get('/counseling/payment/cancel/{code}', [StripeController::class, 'cancelCounseling'])->name('counseling.payment.cancel');
+Route::get('/counseling/reschedule/{code}', [\App\Http\Controllers\RescheduleController::class, 'showCounseling'])->name('counseling.reschedule');
+Route::post('/counseling/reschedule/{code}', [\App\Http\Controllers\RescheduleController::class, 'submitCounseling'])->name('counseling.reschedule.submit');
 
 // Management Session Frontend Routes
 Route::get('/management-session', [ManagementSessionController::class, 'index'])->name('management-session');
@@ -160,6 +162,8 @@ Route::post('/management-session/book', [StripeController::class, 'checkoutManag
 Route::get('/management-session/confirmation/{code}', [ManagementSessionController::class, 'confirmation'])->name('management-session.confirmation');
 Route::get('/management-session/payment/success/{code}', [StripeController::class, 'successManagement'])->name('management-session.payment.success');
 Route::get('/management-session/payment/cancel/{code}', [StripeController::class, 'cancelManagement'])->name('management-session.payment.cancel');
+Route::get('/management-session/reschedule/{code}', [\App\Http\Controllers\RescheduleController::class, 'showManagement'])->name('management-session.reschedule');
+Route::post('/management-session/reschedule/{code}', [\App\Http\Controllers\RescheduleController::class, 'submitManagement'])->name('management-session.reschedule.submit');
 
 // Stripe Webhook (CSRF excluded via VerifyCsrfToken middleware)
 Route::post('/stripe/webhook', [StripeController::class, 'webhook'])->name('stripe.webhook');
@@ -282,6 +286,11 @@ Route::middleware('auth')->group(function () {
         Route::post('contact-submissions/{id}/notes', [AdminContactSubmissionController::class, 'updateNotes'])->name('contact-submissions.update-notes');
         Route::delete('contact-submissions/{id}', [AdminContactSubmissionController::class, 'destroy'])->name('contact-submissions.destroy');
         Route::get('contact-submissions-export', [AdminContactSubmissionController::class, 'export'])->name('contact-submissions.export');
+
+        // Reschedule Requests
+        Route::get('reschedule-requests', [\App\Http\Controllers\Admin\RescheduleRequestController::class, 'index'])->name('reschedule-requests.index');
+        Route::post('reschedule-requests/{id}/approve', [\App\Http\Controllers\Admin\RescheduleRequestController::class, 'approve'])->name('reschedule-requests.approve');
+        Route::post('reschedule-requests/{id}/reject', [\App\Http\Controllers\Admin\RescheduleRequestController::class, 'reject'])->name('reschedule-requests.reject');
     });
 
     // Contact Info Routes

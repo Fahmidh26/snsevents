@@ -121,14 +121,35 @@
                 </ul>
             </div>
 
-            @if($settings->contact_email || $settings->contact_phone)
-            <div class="contact-info">
-                <h4><i class="fas fa-headset"></i> Need to Reschedule?</h4>
-                @if($settings->contact_email)
-                    <p><i class="fas fa-envelope me-2"></i> <a href="mailto:{{ $settings->contact_email }}">{{ $settings->contact_email }}</a></p>
-                @endif
-                @if($settings->contact_phone)
-                    <p><i class="fas fa-phone me-2"></i> <a href="tel:{{ $settings->contact_phone }}">{{ $settings->contact_phone }}</a></p>
+
+            {{-- Reschedule Button --}}
+            @php
+                $sessionStart = \Carbon\Carbon::parse($booking->slot->date->format('Y-m-d') . ' ' . $booking->slot->start_time);
+                $canReschedule = $booking->status === 'confirmed'
+                    && $booking->payment_status === 'paid'
+                    && $sessionStart->diffInHours(now(), false) < -24
+                    && !$booking->rescheduleRequests()->where('status', 'pending')->exists();
+
+                $hasPending = $booking->rescheduleRequests()->where('status', 'pending')->exists();
+            @endphp
+
+            @if($booking->status === 'confirmed' && $booking->payment_status === 'paid')
+            <div style="margin-bottom: 24px; padding: 18px 20px; background: #f8f4ff; border-radius: 12px; border: 1.5px solid #ede9fe;">
+                <h4 style="margin: 0 0 10px; font-size: 1rem; color: #7c3aed;"><i class="fas fa-calendar-alt"></i> Need to Reschedule?</h4>
+                @if($hasPending)
+                    <p style="margin: 0; font-size: 0.88rem; color: #7c3aed; font-weight: 600;">
+                        <i class="fas fa-clock"></i> Your reschedule request is currently <strong>pending review</strong>. We'll notify you once it's processed.
+                    </p>
+                @elseif($canReschedule)
+                    <p style="margin: 0 0 12px; font-size: 0.88rem; color: #64748b;">You can request a new slot up to 24 hours before your session. Admin will confirm the change.</p>
+                    <a href="{{ route('management-session.reschedule', ['code' => $booking->confirmation_code]) }}"
+                       style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#7c3aed,#4f46e5);color:#fff;padding:10px 24px;border-radius:50px;font-weight:600;font-size:0.9rem;text-decoration:none;">
+                        <i class="fas fa-calendar-alt"></i> Request Reschedule
+                    </a>
+                @else
+                    <p style="margin: 0; font-size: 0.88rem; color: #94a3b8;">
+                        <i class="fas fa-lock"></i> Reschedule requests must be made at least 24 hours before the session time.
+                    </p>
                 @endif
             </div>
             @endif

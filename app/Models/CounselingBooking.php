@@ -36,6 +36,12 @@ class CounselingBooking extends Model
         return $this->belongsTo(CounselingSlot::class, 'slot_id');
     }
 
+    public function rescheduleRequests()
+    {
+        return $this->hasMany(RescheduleRequest::class, 'booking_id')
+            ->where('booking_type', 'counseling');
+    }
+
     /**
      * Generate a unique confirmation code
      */
