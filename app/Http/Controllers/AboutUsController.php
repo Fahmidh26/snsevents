@@ -20,7 +20,7 @@ class AboutUsController extends Controller
     public function update(Request $request)
     {
         $request->validate([
-            'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
 
         $aboutUs = AboutUs::first();

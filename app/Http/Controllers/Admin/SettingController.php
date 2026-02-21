@@ -24,7 +24,7 @@ class SettingController extends Controller
             'footer_text' => 'nullable|string|max:255',
             'footer_description' => 'nullable|string',
             'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
-            'favicon' => 'nullable|image|mimes:ico,png,jpg|max:1024',
+            'favicon' => 'nullable|image|mimes:ico,png,jpg,webp|max:1024',
             'facebook_url' => 'nullable|url',
             'instagram_url' => 'nullable|url',
             'twitter_url' => 'nullable|url',
