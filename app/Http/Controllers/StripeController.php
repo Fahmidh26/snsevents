@@ -14,6 +14,8 @@ use App\Mail\CoachingBookingMail;
 use App\Mail\CoachingBookingUserConfirmation;
 use App\Mail\ManagementSessionBookingMail;
 use App\Mail\ManagementSessionBookingUserConfirmation;
+use App\Services\GoogleCalendarService;
+use Carbon\Carbon;
 use Stripe\Stripe;
 use Stripe\Checkout\Session as StripeSession;
 use Stripe\Webhook;
@@ -378,13 +380,38 @@ class StripeController extends Controller
 
     private function confirmCounselingBooking(CounselingBooking $booking, $paymentIntentId, $amountTotal)
     {
-        $booking->update([
-            'status'                   => 'confirmed',
-            'payment_status'           => 'paid',
-            'stripe_payment_intent_id' => $paymentIntentId,
-            'amount_paid'              => $amountTotal / 100,
-        ]);
+        // 1) Generate Google Meet Link First
+        try {
+            if ($booking->slot) {
+                $calendarService = new GoogleCalendarService();
+                $startDateTime = Carbon::parse($booking->slot->date->format('Y-m-d') . ' ' . $booking->slot->start_time);
+                $endDateTime = Carbon::parse($booking->slot->date->format('Y-m-d') . ' ' . $booking->slot->end_time);
+                
+                $meeting = $calendarService->createEventWithMeetLink(
+                    'Coaching Session: ' . $booking->name,
+                    "Client Name: {$booking->name}\nEmail: {$booking->email}\nPhone: {$booking->phone}\nNotes: {$booking->message}",
+                    $startDateTime,
+                    $endDateTime,
+                    $booking->email
+                );
 
+                if (!empty($meeting['meet_link'])) {
+                    $booking->meet_link = $meeting['meet_link'];
+                    $booking->google_event_id = $meeting['event_id'];
+                }
+            }
+        } catch (\Exception $e) {
+            Log::error('Google Calendar Meet Link generation error (Counseling): ' . $e->getMessage());
+        }
+
+        // 2) Update Booking Record
+        $booking->status = 'confirmed';
+        $booking->payment_status = 'paid';
+        $booking->stripe_payment_intent_id = $paymentIntentId;
+        $booking->amount_paid = $amountTotal / 100;
+        $booking->save();
+
+        // 3) Send Emails
         try {
             $adminEmail = SiteSetting::current()->admin_email;
             if ($adminEmail) {
@@ -400,13 +427,38 @@ class StripeController extends Controller
 
     private function confirmManagementBooking(ManagementSessionBooking $booking, $paymentIntentId, $amountTotal)
     {
-        $booking->update([
-            'status'                   => 'confirmed',
-            'payment_status'           => 'paid',
-            'stripe_payment_intent_id' => $paymentIntentId,
-            'amount_paid'              => $amountTotal / 100,
-        ]);
+        // 1) Generate Google Meet Link First
+        try {
+            if ($booking->slot) {
+                $calendarService = new GoogleCalendarService();
+                $startDateTime = Carbon::parse($booking->slot->date->format('Y-m-d') . ' ' . $booking->slot->start_time);
+                $endDateTime = Carbon::parse($booking->slot->date->format('Y-m-d') . ' ' . $booking->slot->end_time);
+                
+                $meeting = $calendarService->createEventWithMeetLink(
+                    'Management Session: ' . $booking->name . ' - ' . $booking->event_type,
+                    "Client Name: {$booking->name}\nEmail: {$booking->email}\nPhone: {$booking->phone}\nEvent Type: {$booking->event_type}\nEvent Date: {$booking->event_date}\nNotes: {$booking->message}",
+                    $startDateTime,
+                    $endDateTime,
+                    $booking->email
+                );
 
+                if (!empty($meeting['meet_link'])) {
+                    $booking->meet_link = $meeting['meet_link'];
+                    $booking->google_event_id = $meeting['event_id'];
+                }
+            }
+        } catch (\Exception $e) {
+            Log::error('Google Calendar Meet Link generation error (Management): ' . $e->getMessage());
+        }
+
+        // 2) Update Booking Record
+        $booking->status = 'confirmed';
+        $booking->payment_status = 'paid';
+        $booking->stripe_payment_intent_id = $paymentIntentId;
+        $booking->amount_paid = $amountTotal / 100;
+        $booking->save();
+
+        // 3) Send Emails
         try {
             $adminEmail = SiteSetting::current()->admin_email;
             if ($adminEmail) {

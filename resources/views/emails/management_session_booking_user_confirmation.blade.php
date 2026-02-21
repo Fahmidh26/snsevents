@@ -11,8 +11,18 @@
             <td class="value" style="padding: 10px; border-bottom: 1px solid #eee;">{{ \Carbon\Carbon::parse($booking->slot->date)->format('l, F j, Y') }}</td>
         </tr>
         <tr>
-            <td class="label" style="padding: 10px; border-bottom: 1px solid #eee; font-weight: bold;">Session Time:</td>
-            <td class="value" style="padding: 10px; border-bottom: 1px solid #eee;">{{ \Carbon\Carbon::parse($booking->slot->start_time)->format('g:i A') }} - {{ \Carbon\Carbon::parse($booking->slot->end_time)->format('g:i A') }} ({{ $booking->slot->duration }} mins)</td>
+            <td class="label" style="padding: 10px; border-bottom: 1px solid #eee; font-weight: bold;">Session Time/Timezone:</td>
+            <td class="value" style="padding: 10px; border-bottom: 1px solid #eee;">{{ \Carbon\Carbon::parse($booking->slot->start_time)->format('g:i A') }} - {{ \Carbon\Carbon::parse($booking->slot->end_time)->format('g:i A') }} ({{ config('app.timezone') }})</td>
+        </tr>
+        <tr>
+            <td class="label" style="padding: 10px; border-bottom: 1px solid #eee; font-weight: bold;">Google Meet Link:</td>
+            <td class="value highlight" style="padding: 10px; border-bottom: 1px solid #eee;">
+                @if($booking->meet_link)
+                    <a href="{{ $booking->meet_link }}">{{ $booking->meet_link }}</a>
+                @else
+                    <i>Link is pending or unavailable.</i>
+                @endif
+            </td>
         </tr>
         <tr>
             <td class="label" style="padding: 10px; border-bottom: 1px solid #eee; font-weight: bold;">Event Type:</td>
@@ -25,8 +35,8 @@
         </tr>
         @endif
         <tr>
-            <td class="label" style="padding: 10px; border-bottom: 1px solid #eee; font-weight: bold;">Price:</td>
-            <td class="value highlight" style="padding: 10px; border-bottom: 1px solid #eee;">{{ $booking->slot->price ? '$' . number_format($booking->slot->price, 2) : 'Free' }}</td>
+            <td class="label" style="padding: 10px; border-bottom: 1px solid #eee; font-weight: bold;">Amount Paid:</td>
+            <td class="value highlight" style="padding: 10px; border-bottom: 1px solid #eee;">{{ $booking->amount_paid ? '$' . number_format($booking->amount_paid, 2) : 'Free' }}</td>
         </tr>
         <tr>
             <td class="label" style="padding: 10px; border-bottom: 1px solid #eee; font-weight: bold;">Booking Code:</td>

@@ -18,6 +18,8 @@ class ManagementSessionBooking extends Model
         'message',
         'status',
         'confirmation_code',
+        'meet_link',
+        'google_event_id',
         'event_type',
         'event_date',
         'stripe_session_id',

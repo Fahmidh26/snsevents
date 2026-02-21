@@ -18,6 +18,8 @@ class CounselingBooking extends Model
         'message',
         'status',
         'confirmation_code',
+        'meet_link',
+        'google_event_id',
         'stripe_session_id',
         'stripe_payment_intent_id',
         'amount_paid',

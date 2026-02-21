@@ -32,12 +32,22 @@
             <td class="value">{{ \Carbon\Carbon::parse($booking->slot->date)->format('l, F j, Y') }}</td>
         </tr>
         <tr>
-            <td class="label">Session Time:</td>
-            <td class="value">{{ \Carbon\Carbon::parse($booking->slot->start_time)->format('g:i A') }} - {{ \Carbon\Carbon::parse($booking->slot->end_time)->format('g:i A') }} ({{ $booking->slot->duration }} mins)</td>
+            <td class="label">Session Time/Timezone:</td>
+            <td class="value">{{ \Carbon\Carbon::parse($booking->slot->start_time)->format('g:i A') }} - {{ \Carbon\Carbon::parse($booking->slot->end_time)->format('g:i A') }} ({{ config('app.timezone') }})</td>
         </tr>
         <tr>
-            <td class="label">Price:</td>
-            <td class="value highlight">{{ $booking->slot->price ? '$' . number_format($booking->slot->price, 2) : 'Free' }}</td>
+            <td class="label">Google Meet Link:</td>
+            <td class="value highlight">
+                @if($booking->meet_link)
+                    <a href="{{ $booking->meet_link }}">{{ $booking->meet_link }}</a>
+                @else
+                    <i>Not Generated</i>
+                @endif
+            </td>
+        </tr>
+        <tr>
+            <td class="label">Amount Paid:</td>
+            <td class="value highlight">{{ $booking->amount_paid ? '$' . number_format($booking->amount_paid, 2) : 'Free' }}</td>
         </tr>
         @if($booking->message)
         <tr>

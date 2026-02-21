@@ -333,6 +333,23 @@
                 <strong>{{ $booking->confirmation_code }}</strong>
             </div>
 
+            @if($booking->meet_link)
+            <div style="background: rgba(72, 187, 120, 0.1); border: 2px solid #48bb78; padding: 25px; border-radius: 16px; margin-bottom: 40px; text-align: left;">
+                <h4 style="margin-top: 0; color: #38a169; font-size: 1.1rem; display: flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-video"></i> Google Meet Link
+                </h4>
+                <p style="margin: 0 0 15px; color: var(--secondary-color);">Your meeting link is ready. Please save this link or add it to your calendar to join the session.</p>
+                <div style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
+                    <a href="{{ $booking->meet_link }}" target="_blank" style="background: #48bb78; color: #fff; padding: 12px 25px; border-radius: 50px; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-external-link-alt"></i> Join Meeting
+                    </a>
+                    <span style="font-family: monospace; background: white; padding: 10px 15px; border-radius: 8px; border: 1px solid #e2e8f0; color: #4a5568;">
+                        {{ $booking->meet_link }}
+                    </span>
+                </div>
+            </div>
+            @endif
+
             <div class="booking-details">
                 <h4><i class="fas fa-calendar-check"></i> Session Details</h4>
                 
@@ -346,7 +363,7 @@
                         <div class="value">{{ $booking->slot->date->format('l') }}</div>
                     </div>
                     <div class="detail-item">
-                        <div class="label">Time</div>
+                        <div class="label">Time ({{ config('app.timezone') }})</div>
                         <div class="value">{{ \Carbon\Carbon::parse($booking->slot->start_time)->format('g:i A') }}</div>
                     </div>
                     <div class="detail-item">

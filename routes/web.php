@@ -299,3 +299,7 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+// Google Calendar OAuth Setup Routes
+Route::get('/google/auth', [\App\Http\Controllers\Admin\GoogleCalendarAuthController::class, 'auth'])->name('google.auth');
+Route::get('/google/callback', [\App\Http\Controllers\Admin\GoogleCalendarAuthController::class, 'callback'])->name('google.callback');
