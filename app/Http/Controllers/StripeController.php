@@ -88,11 +88,14 @@ class StripeController extends Controller
                         ],
                         'quantity' => 1,
                     ]],
-                    'mode'           => 'payment',
-                    'customer_email' => $booking->email,
-                    'success_url'    => route('counseling.payment.success', ['code' => $booking->confirmation_code]) . '?session_id={CHECKOUT_SESSION_ID}',
-                    'cancel_url'     => route('counseling.payment.cancel', ['code' => $booking->confirmation_code]),
-                    'metadata'       => [
+                    'mode'             => 'payment',
+                    'adaptive_pricing' => [
+                        'enabled' => true,
+                    ],
+                    'customer_email'   => $booking->email,
+                    'success_url'      => route('counseling.payment.success', ['code' => $booking->confirmation_code]) . '?session_id={CHECKOUT_SESSION_ID}',
+                    'cancel_url'       => route('counseling.payment.cancel', ['code' => $booking->confirmation_code]),
+                    'metadata'         => [
                         'booking_type'      => 'counseling',
                         'booking_id'        => $booking->id,
                         'confirmation_code' => $booking->confirmation_code,
@@ -216,11 +219,14 @@ class StripeController extends Controller
                         ],
                         'quantity' => 1,
                     ]],
-                    'mode'           => 'payment',
-                    'customer_email' => $booking->email,
-                    'success_url'    => route('management-session.payment.success', ['code' => $booking->confirmation_code]) . '?session_id={CHECKOUT_SESSION_ID}',
-                    'cancel_url'     => route('management-session.payment.cancel', ['code' => $booking->confirmation_code]),
-                    'metadata'       => [
+                    'mode'             => 'payment',
+                    'adaptive_pricing' => [
+                        'enabled' => true,
+                    ],
+                    'customer_email'   => $booking->email,
+                    'success_url'      => route('management-session.payment.success', ['code' => $booking->confirmation_code]) . '?session_id={CHECKOUT_SESSION_ID}',
+                    'cancel_url'       => route('management-session.payment.cancel', ['code' => $booking->confirmation_code]),
+                    'metadata'         => [
                         'booking_type'      => 'management',
                         'booking_id'        => $booking->id,
                         'confirmation_code' => $booking->confirmation_code,
