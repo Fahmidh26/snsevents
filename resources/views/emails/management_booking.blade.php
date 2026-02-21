@@ -33,7 +33,7 @@
         </tr>
         <tr>
             <td class="label">Session Time/Timezone:</td>
-            <td class="value">{{ \Carbon\Carbon::parse($booking->slot->start_time)->format('g:i A') }} - {{ \Carbon\Carbon::parse($booking->slot->end_time)->format('g:i A') }} ({{ config('app.timezone') }})</td>
+            <td class="value">{{ \Carbon\Carbon::parse($booking->slot->start_time)->format('g:i A') }} - {{ \Carbon\Carbon::parse($booking->slot->end_time)->format('g:i A') }} (CST, UTC-6)</td>
         </tr>
         <tr>
             <td class="label">Google Meet Link:</td>

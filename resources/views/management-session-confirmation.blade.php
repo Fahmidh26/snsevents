@@ -104,7 +104,7 @@
                         <div class="value">{{ $booking->slot->date->format('M j, Y') }}</div>
                     </div>
                     <div class="detail-item">
-                        <div class="label">Time ({{ config('app.timezone') }})</div>
+                        <div class="label">Time (CST, UTC-6)</div>
                         <div class="value">{{ \Carbon\Carbon::parse($booking->slot->start_time)->format('g:i A') }}</div>
                     </div>
                     <div class="detail-item">

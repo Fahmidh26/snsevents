@@ -240,6 +240,7 @@
                 <div class="slots-header">
                     <h3>Available Times</h3>
                     <p id="selected-date-display">Select a date to see available times</p>
+                    <p style="font-size: 0.85rem; color: var(--primary-color); margin-top: 8px;"><i class="fas fa-globe-americas"></i> All times are in Central Time (CST, UTC-6)</p>
                 </div>
                 <div class="slots-grid" id="slots-container">
                     <div class="no-slots-message">
@@ -275,7 +276,7 @@
                                 <div class="slot-info-value" id="form-date"></div>
                             </div>
                             <div class="slot-info-item">
-                                <div class="slot-info-label">Time</div>
+                                <div class="slot-info-label">Time (CST, UTC-6)</div>
                                 <div class="slot-info-value" id="form-time"></div>
                             </div>
                             <div class="slot-info-item">
