@@ -90,6 +90,11 @@
                     Dashboard
                 </a>
 
+                <a href="{{ route('admin.calendar.index') }}" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg {{ request()->routeIs('admin.calendar.*') ? 'bg-primary/20 text-primary' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }} transition-colors mt-2">
+                    <i class="fas fa-calendar-alt w-5 h-5 mr-3"></i>
+                    Booking Calendar
+                </a>
+
                 <p class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 mt-6">Content Management</p>
 
                 <a href="{{ route('hero.index') }}" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg {{ request()->routeIs('hero.*') ? 'bg-primary/20 text-primary' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }} transition-colors">

@@ -197,6 +197,9 @@ Route::middleware('auth')->group(function () {
 
     // Admin Event Management Routes
     Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
+        Route::get('calendar', [\App\Http\Controllers\Admin\CalendarController::class, 'index'])->name('calendar.index');
+        Route::get('calendar/events', [\App\Http\Controllers\Admin\CalendarController::class, 'events'])->name('calendar.events');
+        
         Route::resource('event-types', EventTypeController::class);
         Route::resource('pricing-tiers', PricingTierController::class);
         Route::resource('galleries', EventGalleryController::class);
