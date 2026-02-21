@@ -14,8 +14,8 @@ class GoogleCalendarAuthController extends Controller
         $client = new Google_Client();
         $client->setClientId(env('GOOGLE_CLIENT_ID'));
         $client->setClientSecret(env('GOOGLE_CLIENT_SECRET'));
-        // Using url config might add trailing slash or change scheme, so force the exact URI user entered.
-        $client->setRedirectUri('http://localhost:8000/google/callback'); 
+        // Use the route helper to dynamically generate the callback URL based on APP_URL
+        $client->setRedirectUri(route('google.callback')); 
         $client->setScopes([Google_Service_Calendar::CALENDAR_EVENTS]);
         $client->setAccessType('offline');
         $client->setPrompt('select_account consent');
@@ -30,7 +30,7 @@ class GoogleCalendarAuthController extends Controller
             $client = new Google_Client();
             $client->setClientId(env('GOOGLE_CLIENT_ID'));
             $client->setClientSecret(env('GOOGLE_CLIENT_SECRET'));
-            $client->setRedirectUri('http://localhost:8000/google/callback');
+            $client->setRedirectUri(route('google.callback'));
             
             $token = $client->fetchAccessTokenWithAuthCode($request->get('code'));
             

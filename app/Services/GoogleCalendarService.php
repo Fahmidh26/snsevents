@@ -23,7 +23,7 @@ class GoogleCalendarService
         
         $this->client->setClientId(env('GOOGLE_CLIENT_ID'));
         $this->client->setClientSecret(env('GOOGLE_CLIENT_SECRET'));
-        $this->client->setRedirectUri('http://localhost:8000/google/callback');
+        $this->client->setRedirectUri(route('google.callback'));
 
         // Look for the user OAuth token, not the service account JSON
         $tokenPath = storage_path('app/google-calendar/oauth_token.json');
