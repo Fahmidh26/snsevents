@@ -15,6 +15,31 @@ class ManagementSessionController extends Controller
      */
     public function index()
     {
+        // Check if the user returned from an abandoned checkout
+        if (session()->has('pending_management_booking_id')) {
+            $bookingId = session()->pull('pending_management_booking_id');
+            $pendingBooking = ManagementSessionBooking::with('slot')->where('id', $bookingId)->where('payment_status', 'unpaid')->first();
+            
+            if ($pendingBooking) {
+                // Optionally expire the Stripe Checkout Session
+                if ($pendingBooking->stripe_session_id) {
+                    try {
+                        $stripe = new \Stripe\StripeClient(config('services.stripe.secret'));
+                        $stripe->checkout->sessions->expire($pendingBooking->stripe_session_id, []);
+                    } catch (\Exception $e) {
+                        // It may already be expired or paid
+                    }
+                }
+                
+                // Free the slot
+                if ($pendingBooking->slot) {
+                    $pendingBooking->slot->update(['is_booked' => false]);
+                }
+                
+                $pendingBooking->delete();
+            }
+        }
+
         $settings = ManagementSessionSettings::getSettings();
         
         if (!$settings->is_active) {

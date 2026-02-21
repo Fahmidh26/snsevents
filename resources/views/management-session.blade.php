@@ -496,5 +496,12 @@
     document.addEventListener('DOMContentLoaded', function() {
         renderCalendar();
     });
+
+    // Handle browser back button (BFCache) to ensure slots are released
+    window.addEventListener('pageshow', function (event) {
+        if (event.persisted) {
+            window.location.reload();
+        }
+    });
 </script>
 @endsection

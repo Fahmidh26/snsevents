@@ -93,6 +93,7 @@ class StripeController extends Controller
                         'enabled' => true,
                     ],
                     'customer_email'   => $booking->email,
+                    'expires_at'       => time() + 1800, // Expire in 30 mins (minimum allowed by Stripe) if user abandons
                     'success_url'      => route('counseling.payment.success', ['code' => $booking->confirmation_code]) . '?session_id={CHECKOUT_SESSION_ID}',
                     'cancel_url'       => route('counseling.payment.cancel', ['code' => $booking->confirmation_code]),
                     'metadata'         => [
@@ -103,6 +104,9 @@ class StripeController extends Controller
                 ]);
 
                 $booking->update(['stripe_session_id' => $checkoutSession->id]);
+
+                // Store in session so we can clean it up if they abandon it and go back
+                session()->put('pending_counseling_booking_id', $booking->id);
 
                 return redirect($checkoutSession->url);
 
@@ -155,8 +159,10 @@ class StripeController extends Controller
         $booking = CounselingBooking::where('confirmation_code', $code)->first();
 
         if ($booking && $booking->payment_status === 'unpaid') {
-            $booking->slot->update(['is_booked' => false]);
-            $booking->update(['status' => 'cancelled', 'payment_status' => 'failed']);
+            if ($booking->slot) {
+                $booking->slot->update(['is_booked' => false]);
+            }
+            $booking->delete(); // Delete the booking completely so it's not kept pending
         }
 
         return redirect()->route('counseling')->with('error', 'Payment was cancelled. Please try again.');
@@ -224,6 +230,7 @@ class StripeController extends Controller
                         'enabled' => true,
                     ],
                     'customer_email'   => $booking->email,
+                    'expires_at'       => time() + 1800, // Expire in 30 mins (minimum allowed by Stripe) if user abandons
                     'success_url'      => route('management-session.payment.success', ['code' => $booking->confirmation_code]) . '?session_id={CHECKOUT_SESSION_ID}',
                     'cancel_url'       => route('management-session.payment.cancel', ['code' => $booking->confirmation_code]),
                     'metadata'         => [
@@ -234,6 +241,9 @@ class StripeController extends Controller
                 ]);
 
                 $booking->update(['stripe_session_id' => $checkoutSession->id]);
+
+                // Store in session so we can clean it up if they abandon it and go back
+                session()->put('pending_management_booking_id', $booking->id);
 
                 return redirect($checkoutSession->url);
 
@@ -277,8 +287,10 @@ class StripeController extends Controller
         $booking = ManagementSessionBooking::where('confirmation_code', $code)->first();
 
         if ($booking && $booking->payment_status === 'unpaid') {
-            $booking->slot->update(['is_booked' => false]);
-            $booking->update(['status' => 'cancelled', 'payment_status' => 'failed']);
+            if ($booking->slot) {
+                $booking->slot->update(['is_booked' => false]);
+            }
+            $booking->delete(); // Delete the booking completely
         }
 
         return redirect()->route('management-session')->with('error', 'Payment was cancelled. Please try again.');
@@ -341,14 +353,18 @@ class StripeController extends Controller
             if ($type === 'counseling') {
                 $booking = CounselingBooking::where('confirmation_code', $code)->first();
                 if ($booking && $booking->payment_status === 'unpaid') {
-                    $booking->slot->update(['is_booked' => false]);
-                    $booking->update(['status' => 'cancelled', 'payment_status' => 'failed']);
+                    if ($booking->slot) {
+                        $booking->slot->update(['is_booked' => false]);
+                    }
+                    $booking->delete();
                 }
             } elseif ($type === 'management') {
                 $booking = ManagementSessionBooking::where('confirmation_code', $code)->first();
                 if ($booking && $booking->payment_status === 'unpaid') {
-                    $booking->slot->update(['is_booked' => false]);
-                    $booking->update(['status' => 'cancelled', 'payment_status' => 'failed']);
+                    if ($booking->slot) {
+                        $booking->slot->update(['is_booked' => false]);
+                    }
+                    $booking->delete();
                 }
             }
         }
