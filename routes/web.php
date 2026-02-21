@@ -154,6 +154,7 @@ Route::get('/counseling/payment/success/{code}', [StripeController::class, 'succ
 Route::get('/counseling/payment/cancel/{code}', [StripeController::class, 'cancelCounseling'])->name('counseling.payment.cancel');
 Route::get('/counseling/reschedule/{code}', [\App\Http\Controllers\RescheduleController::class, 'showCounseling'])->name('counseling.reschedule');
 Route::post('/counseling/reschedule/{code}', [\App\Http\Controllers\RescheduleController::class, 'submitCounseling'])->name('counseling.reschedule.submit');
+Route::get('/counseling/reschedule-requested/{code}', [\App\Http\Controllers\RescheduleController::class, 'requestedCounseling'])->name('counseling.reschedule.requested');
 
 // Management Session Frontend Routes
 Route::get('/management-session', [ManagementSessionController::class, 'index'])->name('management-session');
@@ -164,6 +165,7 @@ Route::get('/management-session/payment/success/{code}', [StripeController::clas
 Route::get('/management-session/payment/cancel/{code}', [StripeController::class, 'cancelManagement'])->name('management-session.payment.cancel');
 Route::get('/management-session/reschedule/{code}', [\App\Http\Controllers\RescheduleController::class, 'showManagement'])->name('management-session.reschedule');
 Route::post('/management-session/reschedule/{code}', [\App\Http\Controllers\RescheduleController::class, 'submitManagement'])->name('management-session.reschedule.submit');
+Route::get('/management-session/reschedule-requested/{code}', [\App\Http\Controllers\RescheduleController::class, 'requestedManagement'])->name('management-session.reschedule.requested');
 
 // Stripe Webhook (CSRF excluded via VerifyCsrfToken middleware)
 Route::post('/stripe/webhook', [StripeController::class, 'webhook'])->name('stripe.webhook');

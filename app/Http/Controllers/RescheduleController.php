@@ -107,8 +107,29 @@ class RescheduleController extends Controller
             Log::error('Reschedule request admin email error: ' . $e->getMessage());
         }
 
-        return redirect()->route('counseling.confirmation', ['code' => $code])
-            ->with('success', 'Your reschedule request has been submitted! We\'ll review it and get back to you soon.');
+        return redirect()->route('counseling.reschedule.requested', ['code' => $code])
+            ->with('requested_slot_id', $slot->id)
+            ->with('reason', $validated['reason'] ?? null);
+    }
+
+    public function requestedCounseling($code)
+    {
+        $booking = CounselingBooking::with('slot')
+            ->where('confirmation_code', $code)
+            ->firstOrFail();
+
+        $requestedSlotId = session('requested_slot_id')
+            ?? optional($booking->rescheduleRequests()->where('status', 'pending')->latest()->first())->requested_slot_id;
+
+        $requestedSlot = $requestedSlotId ? CounselingSlot::find($requestedSlotId) : null;
+        $reason = session('reason');
+
+        return view('reschedule-requested', [
+            'booking'       => $booking,
+            'requestedSlot' => $requestedSlot ?? $booking->slot,
+            'reason'        => $reason,
+            'type'          => 'counseling',
+        ]);
     }
 
     // ---------------------------------------------------------------
@@ -197,7 +218,28 @@ class RescheduleController extends Controller
             Log::error('Reschedule request admin email error: ' . $e->getMessage());
         }
 
-        return redirect()->route('management-session.confirmation', ['code' => $code])
-            ->with('success', 'Your reschedule request has been submitted! We\'ll review it and get back to you soon.');
+        return redirect()->route('management-session.reschedule.requested', ['code' => $code])
+            ->with('requested_slot_id', $slot->id)
+            ->with('reason', $validated['reason'] ?? null);
+    }
+
+    public function requestedManagement($code)
+    {
+        $booking = ManagementSessionBooking::with('slot')
+            ->where('confirmation_code', $code)
+            ->firstOrFail();
+
+        $requestedSlotId = session('requested_slot_id')
+            ?? optional($booking->rescheduleRequests()->where('status', 'pending')->latest()->first())->requested_slot_id;
+
+        $requestedSlot = $requestedSlotId ? ManagementSessionSlot::find($requestedSlotId) : null;
+        $reason = session('reason');
+
+        return view('reschedule-requested', [
+            'booking'       => $booking,
+            'requestedSlot' => $requestedSlot ?? $booking->slot,
+            'reason'        => $reason,
+            'type'          => 'management',
+        ]);
     }
 }
