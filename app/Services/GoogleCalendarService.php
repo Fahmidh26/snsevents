@@ -125,4 +125,27 @@ class GoogleCalendarService
             ];
         }
     }
+
+    /**
+     * Delete a Google Calendar Event by its event ID.
+     *
+     * @param string $eventId The Google Calendar Event ID to delete
+     * @param string $calendarId Defaults to 'primary'
+     * @return bool True on success, false on failure
+     */
+    public function deleteEvent($eventId, $calendarId = 'primary')
+    {
+        if (empty($eventId)) {
+            return false;
+        }
+
+        try {
+            $this->service->events->delete($calendarId, $eventId);
+            Log::info('Google Calendar event deleted: ' . $eventId);
+            return true;
+        } catch (\Exception $e) {
+            Log::error('Google Calendar deleteEvent error: ' . $e->getMessage());
+            return false;
+        }
+    }
 }

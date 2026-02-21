@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Services\GoogleCalendarService;
+use Carbon\Carbon;
 use App\Http\Controllers\Controller;
 use App\Mail\RescheduleApprovedMail;
 use App\Mail\RescheduleRejectedMail;
@@ -61,6 +63,10 @@ class RescheduleRequestController extends Controller
                 $newSlot->update(['is_booked' => true]);
                 $booking->update(['slot_id' => $newSlot->id]);
 
+                // Update Google Calendar
+                $this->updateGoogleCalendarEvent($booking->fresh(), $newSlot, 'Coaching Session: ' . $booking->name,
+                    "Client Name: {$booking->name}\nEmail: {$booking->email}\nPhone: {$booking->phone}\nNotes: {$booking->message}");
+
             } else {
                 $booking = ManagementSessionBooking::with('slot')->findOrFail($rescheduleRequest->booking_id);
                 $newSlot = ManagementSessionSlot::lockForUpdate()->findOrFail($rescheduleRequest->requested_slot_id);
@@ -72,6 +78,10 @@ class RescheduleRequestController extends Controller
                 $booking->slot->update(['is_booked' => false]);
                 $newSlot->update(['is_booked' => true]);
                 $booking->update(['slot_id' => $newSlot->id]);
+
+                // Update Google Calendar
+                $this->updateGoogleCalendarEvent($booking->fresh(), $newSlot, 'Management Session: ' . $booking->name . ' - ' . $booking->event_type,
+                    "Client Name: {$booking->name}\nEmail: {$booking->email}\nPhone: {$booking->phone}\nEvent Type: {$booking->event_type}\nNotes: {$booking->message}");
             }
 
             $rescheduleRequest->update([
@@ -116,5 +126,42 @@ class RescheduleRequestController extends Controller
         }
 
         return back()->with('success', 'Reschedule request rejected and client notified.');
+    }
+
+    /**
+     * Delete the old Google Calendar event and create a fresh one with new time & Meet link.
+     */
+    private function updateGoogleCalendarEvent($booking, $newSlot, $summary, $description)
+    {
+        try {
+            $calendarService = new GoogleCalendarService();
+
+            // 1) Delete old event if one existed
+            if (!empty($booking->google_event_id)) {
+                $calendarService->deleteEvent($booking->google_event_id);
+            }
+
+            // 2) Create new event with the new slot time
+            $startDateTime = Carbon::parse($newSlot->date->format('Y-m-d') . ' ' . $newSlot->start_time);
+            $endDateTime   = Carbon::parse($newSlot->date->format('Y-m-d') . ' ' . $newSlot->end_time);
+
+            $meeting = $calendarService->createEventWithMeetLink(
+                $summary,
+                $description,
+                $startDateTime,
+                $endDateTime,
+                $booking->email
+            );
+
+            // 3) Save new meet link and event ID on the booking
+            if (!empty($meeting['meet_link'])) {
+                $booking->meet_link       = $meeting['meet_link'];
+                $booking->google_event_id = $meeting['event_id'];
+                $booking->save();
+                Log::info('Google Calendar event rescheduled. New meet link: ' . $meeting['meet_link']);
+            }
+        } catch (\Exception $e) {
+            Log::error('Google Calendar reschedule update error: ' . $e->getMessage());
+        }
     }
 }
