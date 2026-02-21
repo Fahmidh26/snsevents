@@ -55,8 +55,24 @@ class StripeController extends Controller
                 return back()->with('error', 'Sorry, this slot is no longer available. Please select another time.');
             }
 
+            // If the slot is free ($0), skip Stripe entirely and confirm immediately
             if (!$slot->price || $slot->price <= 0) {
-                return back()->with('error', 'This slot does not have a valid price. Please contact us.');
+                $slot->update(['is_booked' => true]);
+                $booking = CounselingBooking::create([
+                    'slot_id'        => $slot->id,
+                    'name'           => $validated['name'],
+                    'email'          => $validated['email'],
+                    'phone'          => $validated['phone'],
+                    'message'        => $validated['message'] ?? null,
+                    'status'         => 'pending',
+                    'payment_status' => 'paid', // Mark as paid since it's free
+                    'amount_paid'    => 0,
+                ]);
+
+                // Call the confirmation helper (generates Meet link & emails)
+                $this->confirmCounselingBooking($booking, 'free_session', 0);
+                
+                return redirect()->route('counseling.confirmation', ['code' => $booking->confirmation_code]);
             }
 
             // Lock the slot immediately
@@ -193,8 +209,26 @@ class StripeController extends Controller
                 return back()->with('error', 'Sorry, this slot is no longer available. Please select another time.');
             }
 
+            // If the slot is free ($0), skip Stripe entirely and confirm immediately
             if (!$slot->price || $slot->price <= 0) {
-                return back()->with('error', 'This slot does not have a valid price. Please contact us.');
+                $slot->update(['is_booked' => true]);
+                $booking = ManagementSessionBooking::create([
+                    'slot_id'        => $slot->id,
+                    'name'           => $validated['name'],
+                    'email'          => $validated['email'],
+                    'phone'          => $validated['phone'],
+                    'event_type'     => $validated['event_type'],
+                    'event_date'     => $validated['event_date'],
+                    'message'        => $validated['message'] ?? null,
+                    'status'         => 'pending',
+                    'payment_status' => 'paid', // Mark as paid since it's free
+                    'amount_paid'    => 0,
+                ]);
+
+                // Call the confirmation helper (generates Meet link & emails)
+                $this->confirmManagementBooking($booking, 'free_session', 0);
+                
+                return redirect()->route('management-session.confirmation', ['code' => $booking->confirmation_code]);
             }
 
             // Lock the slot immediately
