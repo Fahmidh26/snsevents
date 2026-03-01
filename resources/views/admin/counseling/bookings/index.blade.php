@@ -25,6 +25,7 @@
                         <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-gray-500">Reference</th>
                         <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-gray-500">Client</th>
                         <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-gray-500">Session</th>
+                        <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-gray-500">Meet Link</th>
                         <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-gray-500">Status</th>
                         <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-gray-500">Payment</th>
                         <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-gray-500 text-right">Actions</th>
@@ -53,6 +54,15 @@
                                 </div>
                             @else
                                 <span class="text-xs text-red-400 italic">Slot Deleted</span>
+                            @endif
+                        </td>
+                        <td class="px-6 py-4">
+                            @if($booking->meet_link)
+                                <a href="{{ $booking->meet_link }}" target="_blank" class="text-xs font-semibold text-primary hover:underline flex items-center gap-1 break-all" title="Join Meeting">
+                                    <i class="fas fa-video"></i> {{ Str::limit(str_replace(['https://', 'http://'], '', $booking->meet_link), 25) }}
+                                </a>
+                            @else
+                                <span class="text-xs text-gray-400 italic">Not available</span>
                             @endif
                         </td>
                         <td class="px-6 py-4">
@@ -181,6 +191,23 @@
                                                                         <p class="font-bold text-secondary">{{ $booking->slot->duration }} Minutes</p>
                                                                     </div>
                                                                 </div>
+                                                                <div class="flex items-center gap-3">
+                                                                    <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                                                                        <i class="fas fa-video"></i>
+                                                                    </div>
+                                                                    <div>
+                                                                        <p class="text-[10px] text-gray-500 uppercase">Meet Link</p>
+                                                                        @if($booking->meet_link)
+                                                                            <div class="font-bold">
+                                                                                <a href="{{ $booking->meet_link }}" target="_blank" class="text-primary hover:underline text-sm break-all">
+                                                                                    {{ $booking->meet_link }}
+                                                                                </a>
+                                                                            </div>
+                                                                        @else
+                                                                            <p class="font-bold text-gray-400 italic text-sm">Not generated</p>
+                                                                        @endif
+                                                                    </div>
+                                                                </div>
                                                                 @else
                                                                 <div class="p-4 bg-red-50 text-red-600 rounded-lg text-sm italic">
                                                                     The associated time slot has been deleted.
@@ -256,7 +283,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="5" class="px-6 py-12 text-center text-gray-500">
+                        <td colspan="7" class="px-6 py-12 text-center text-gray-500">
                             <i class="fas fa-inbox text-4xl mb-4 block opacity-20"></i>
                             No counseling bookings found.
                         </td>
