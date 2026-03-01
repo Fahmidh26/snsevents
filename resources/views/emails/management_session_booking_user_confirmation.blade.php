@@ -44,6 +44,19 @@
         </tr>
     </table>
 
+    @if(!empty($receiptUrl))
+    <div style="text-align: center; margin: 28px 0;">
+        <a href="{{ $receiptUrl }}"
+           style="display: inline-block; background-color: #6772e5; color: #ffffff; text-decoration: none;
+                  padding: 13px 30px; border-radius: 6px; font-size: 15px; font-weight: 600; letter-spacing: 0.3px;">
+            🧾 View Payment Receipt
+        </a>
+        <p style="margin: 8px 0 0; font-size: 12px; color: #888;">
+            Powered by Stripe &mdash; opens your official payment receipt in your browser
+        </p>
+    </div>
+    @endif
+
     <p>If you have any questions or need to reschedule, please contact us at <a href="mailto:{{ \App\Models\SiteSetting::current()->admin_email }}">{{ \App\Models\SiteSetting::current()->admin_email }}</a> quoting your booking code.</p>
 
     <p style="margin-top: 30px; font-size: 14px; color: #666;">

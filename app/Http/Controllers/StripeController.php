@@ -21,6 +21,7 @@ use Stripe\Checkout\Session as StripeSession;
 use Stripe\Webhook;
 use Stripe\Exception\SignatureVerificationException;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 
 class StripeController extends Controller
 {
@@ -110,6 +111,9 @@ class StripeController extends Controller
                     'adaptive_pricing' => [
                         'enabled' => true,
                     ],
+                    'invoice_creation' => [
+                        'enabled' => true,
+                    ],
                     'customer_email'   => $booking->email,
                     'expires_at'       => time() + 1800, // Expire in 30 mins (minimum allowed by Stripe) if user abandons
                     'success_url'      => route('counseling.payment.success', ['code' => $booking->confirmation_code]) . '?session_id={CHECKOUT_SESSION_ID}',
@@ -159,7 +163,8 @@ class StripeController extends Controller
                 $stripeSession = StripeSession::retrieve($sessionId);
 
                 if ($stripeSession->payment_status === 'paid') {
-                    $this->confirmCounselingBooking($booking, $stripeSession->payment_intent, $stripeSession->amount_total);
+                    $receiptUrl = $this->getStripeReceiptUrl($stripeSession->payment_intent);
+                    $this->confirmCounselingBooking($booking, $stripeSession->payment_intent, $stripeSession->amount_total, $receiptUrl);
                 }
             }
         } catch (\Exception $e) {
@@ -265,6 +270,9 @@ class StripeController extends Controller
                     'adaptive_pricing' => [
                         'enabled' => true,
                     ],
+                    'invoice_creation' => [
+                        'enabled' => true,
+                    ],
                     'customer_email'   => $booking->email,
                     'expires_at'       => time() + 1800, // Expire in 30 mins (minimum allowed by Stripe) if user abandons
                     'success_url'      => route('management-session.payment.success', ['code' => $booking->confirmation_code]) . '?session_id={CHECKOUT_SESSION_ID}',
@@ -308,7 +316,8 @@ class StripeController extends Controller
                 $stripeSession = StripeSession::retrieve($sessionId);
 
                 if ($stripeSession->payment_status === 'paid') {
-                    $this->confirmManagementBooking($booking, $stripeSession->payment_intent, $stripeSession->amount_total);
+                    $receiptUrl = $this->getStripeReceiptUrl($stripeSession->payment_intent);
+                    $this->confirmManagementBooking($booking, $stripeSession->payment_intent, $stripeSession->amount_total, $receiptUrl);
                 }
             }
         } catch (\Exception $e) {
@@ -369,12 +378,14 @@ class StripeController extends Controller
             if ($type === 'counseling') {
                 $booking = CounselingBooking::where('confirmation_code', $code)->first();
                 if ($booking && $booking->payment_status !== 'paid') {
-                    $this->confirmCounselingBooking($booking, $stripeSession->payment_intent, $stripeSession->amount_total);
+                    $receiptUrl = $this->getStripeReceiptUrl($stripeSession->payment_intent);
+                    $this->confirmCounselingBooking($booking, $stripeSession->payment_intent, $stripeSession->amount_total, $receiptUrl);
                 }
             } elseif ($type === 'management') {
                 $booking = ManagementSessionBooking::where('confirmation_code', $code)->first();
                 if ($booking && $booking->payment_status !== 'paid') {
-                    $this->confirmManagementBooking($booking, $stripeSession->payment_intent, $stripeSession->amount_total);
+                    $receiptUrl = $this->getStripeReceiptUrl($stripeSession->payment_intent);
+                    $this->confirmManagementBooking($booking, $stripeSession->payment_intent, $stripeSession->amount_total, $receiptUrl);
                 }
             }
         }
@@ -412,7 +423,7 @@ class StripeController extends Controller
     // PRIVATE HELPERS
     // ---------------------------------------------------------------
 
-    private function confirmCounselingBooking(CounselingBooking $booking, $paymentIntentId, $amountTotal)
+    private function confirmCounselingBooking(CounselingBooking $booking, $paymentIntentId, $amountTotal, ?string $receiptUrl = null)
     {
         // 1) Generate Google Meet Link First
         try {
@@ -452,14 +463,14 @@ class StripeController extends Controller
                 Mail::to($adminEmail)->send(new CoachingBookingMail($booking));
             }
             if ($booking->email) {
-                Mail::to($booking->email)->send(new CoachingBookingUserConfirmation($booking));
+                Mail::to($booking->email)->send(new CoachingBookingUserConfirmation($booking, $receiptUrl));
             }
         } catch (\Exception $e) {
             Log::error('Counseling confirmation email error: ' . $e->getMessage());
         }
     }
 
-    private function confirmManagementBooking(ManagementSessionBooking $booking, $paymentIntentId, $amountTotal)
+    private function confirmManagementBooking(ManagementSessionBooking $booking, $paymentIntentId, $amountTotal, ?string $receiptUrl = null)
     {
         // 1) Generate Google Meet Link First
         try {
@@ -499,10 +510,30 @@ class StripeController extends Controller
                 Mail::to($adminEmail)->send(new ManagementSessionBookingMail($booking));
             }
             if ($booking->email) {
-                Mail::to($booking->email)->send(new ManagementSessionBookingUserConfirmation($booking));
+                Mail::to($booking->email)->send(new ManagementSessionBookingUserConfirmation($booking, $receiptUrl));
             }
         } catch (\Exception $e) {
             Log::error('Management confirmation email error: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Fetch the Stripe charge receipt URL for a given Payment Intent ID.
+     * The receipt URL always shows the payment as PAID — it's Stripe's
+     * hosted receipt page, not an invoice.
+     */
+    private function getStripeReceiptUrl(string $paymentIntentId): ?string
+    {
+        try {
+            $intent = \Stripe\PaymentIntent::retrieve([
+                'id'     => $paymentIntentId,
+                'expand' => ['latest_charge'],
+            ]);
+
+            return $intent->latest_charge?->receipt_url ?? null;
+        } catch (\Exception $e) {
+            Log::warning('Could not fetch Stripe receipt URL: ' . $e->getMessage());
+            return null;
         }
     }
 }

@@ -15,13 +15,15 @@ class CoachingBookingUserConfirmation extends Mailable
     use Queueable, SerializesModels;
 
     public $booking;
+    public ?string $receiptUrl;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(CounselingBooking $booking)
+    public function __construct(CounselingBooking $booking, ?string $receiptUrl = null)
     {
-        $this->booking = $booking;
+        $this->booking    = $booking;
+        $this->receiptUrl = $receiptUrl;
     }
 
     /**
