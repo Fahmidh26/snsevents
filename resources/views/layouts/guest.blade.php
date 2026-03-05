@@ -14,40 +14,47 @@
         @include('layouts.partials.schema')
 
         <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans text-white antialiased">
+    <body class="font-sans antialiased text-gray-900 bg-[#FCFBF8] selection:bg-[#c9a227] selection:text-white" style="font-family: 'Inter', sans-serif;">
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 relative overflow-hidden">
             
-            <!-- Background Image & Overlay -->
-            <div class="absolute inset-0 z-0">
-                <img src="https://images.unsplash.com/photo-1519167758481-83f29da8c8f0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="Background" class="w-full h-full object-cover" />
-                <div class="absolute inset-0 bg-black/70 mix-blend-multiply"></div>
-                <!-- Gradient to match frontend -->
-                <div class="absolute inset-0 bg-gradient-to-br from-[#0f0f0f]/80 via-black/50 to-transparent"></div>
+            <!-- Elegant Background Accents -->
+            <div class="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none">
+                <div class="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-gradient-to-br from-[#c9a227] to-transparent opacity-[0.05] blur-3xl"></div>
+                <div class="absolute top-[60%] -right-[10%] w-[60%] h-[60%] rounded-full bg-gradient-to-tl from-[#c9a227] to-transparent opacity-[0.05] blur-3xl"></div>
+                <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-30"></div>
             </div>
 
-            <div class="relative z-10 w-full flex flex-col items-center">
-                <div class="mb-4">
-                    <a href="/">
+            <div class="relative z-10 w-full flex flex-col items-center px-4">
+                <div class="mb-10 text-center">
+                    <a href="/" class="inline-block">
                         @if(isset($siteSettings) && $siteSettings->logo_path)
-                            <img src="{{ Storage::url($siteSettings->logo_path) }}" alt="Logo" class="w-32 h-auto hover:scale-105 transition-transform duration-300 drop-shadow-[0_0_15px_rgba(201,162,39,0.3)]" />
+                            <img src="{{ Storage::url($siteSettings->logo_path) }}" alt="Logo" class="w-48 sm:w-56 h-auto hover:scale-105 transition-transform duration-500 ease-out" />
                         @else
-                            <h1 class="text-4xl font-bold font-serif text-[#c9a227] tracking-wider uppercase drop-shadow-lg" style="font-family: 'Playfair Display', serif;">SNS Events</h1>
+                            <h1 class="text-4xl md:text-5xl font-bold font-serif text-[#c9a227] tracking-widest uppercase" style="font-family: 'Playfair Display', serif;">SNS Events</h1>
+                            <p class="mt-2 text-xs text-gray-400 tracking-[0.2em] uppercase font-light">Where Dreams Meet Reality</p>
                         @endif
                     </a>
                 </div>
 
-                <div class="w-full sm:max-w-md mt-6 px-8 py-8 bg-[#0f0f0f]/60 backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] sm:rounded-2xl relative">
-                    <!-- Subtle top highlight for glass card -->
-                    <div class="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#c9a227]/50 to-transparent"></div>
+                <div class="w-full sm:max-w-md bg-white border border-gray-100 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] rounded-2xl relative overflow-hidden">
+                    <!-- Top accent line -->
+                    <div class="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-transparent via-[#c9a227] to-transparent opacity-80"></div>
                     
-                    {{ $slot }}
+                    <div class="px-8 py-10 sm:px-10 sm:py-12">
+                        {{ $slot }}
+                    </div>
                 </div>
+            </div>
+            
+            <div class="relative z-10 mt-12 mb-8 text-center text-xs tracking-wider text-gray-400 font-medium uppercase">
+                &copy; {{ date('Y') }} SNS Events. All rights reserved.
             </div>
         </div>
     </body>
