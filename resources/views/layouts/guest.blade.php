@@ -20,40 +20,44 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        
+        <style>
+            .brand-color { color: #c9a227; }
+            .brand-bg { background-color: #c9a227; }
+            .brand-bg:hover { background-color: #d4af37; }
+            .brand-border { border-color: #c9a227; }
+            .brand-focus:focus { 
+                border-color: #c9a227; 
+                --tw-ring-color: rgba(201, 162, 39, 0.5);
+            }
+        </style>
     </head>
-    <body class="font-sans antialiased text-gray-900 bg-[#FCFBF8] selection:bg-[#c9a227] selection:text-white" style="font-family: 'Inter', sans-serif;">
+    <body class="font-sans antialiased text-gray-900 bg-gray-50" style="font-family: 'Inter', sans-serif;">
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 relative overflow-hidden">
             
-            <!-- Elegant Background Accents -->
-            <div class="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none">
-                <div class="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-gradient-to-br from-[#c9a227] to-transparent opacity-[0.05] blur-3xl"></div>
-                <div class="absolute top-[60%] -right-[10%] w-[60%] h-[60%] rounded-full bg-gradient-to-tl from-[#c9a227] to-transparent opacity-[0.05] blur-3xl"></div>
-                <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-30"></div>
-            </div>
-
-            <div class="relative z-10 w-full flex flex-col items-center px-4">
-                <div class="mb-10 text-center">
+            <div class="relative z-10 w-full flex flex-col items-center px-4 mt-8 sm:mt-0">
+                <div class="mb-8 text-center">
                     <a href="/" class="inline-block">
                         @if(isset($siteSettings) && $siteSettings->logo_path)
-                            <img src="{{ Storage::url($siteSettings->logo_path) }}" alt="Logo" class="w-48 sm:w-56 h-auto hover:scale-105 transition-transform duration-500 ease-out" />
+                            <img src="{{ Storage::url($siteSettings->logo_path) }}" alt="Logo" class="w-48 sm:w-56 h-auto" />
                         @else
-                            <h1 class="text-4xl md:text-5xl font-bold font-serif text-[#c9a227] tracking-widest uppercase" style="font-family: 'Playfair Display', serif;">SNS Events</h1>
-                            <p class="mt-2 text-xs text-gray-400 tracking-[0.2em] uppercase font-light">Where Dreams Meet Reality</p>
+                            <h1 class="text-4xl md:text-5xl font-bold font-serif brand-color tracking-widest uppercase" style="font-family: 'Playfair Display', serif;">SNS Events</h1>
+                            <p class="mt-2 text-xs text-gray-400 tracking-widest uppercase font-light">Where Dreams Meet Reality</p>
                         @endif
                     </a>
                 </div>
 
-                <div class="w-full sm:max-w-md bg-white border border-gray-100 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] rounded-2xl relative overflow-hidden">
+                <div class="w-full sm:max-w-md bg-white border border-gray-200 shadow-lg rounded-xl relative overflow-hidden">
                     <!-- Top accent line -->
-                    <div class="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-transparent via-[#c9a227] to-transparent opacity-80"></div>
+                    <div class="absolute top-0 left-0 right-0 h-1 brand-bg"></div>
                     
-                    <div class="px-8 py-10 sm:px-10 sm:py-12">
+                    <div class="px-6 py-8 sm:px-10 sm:py-10">
                         {{ $slot }}
                     </div>
                 </div>
             </div>
             
-            <div class="relative z-10 mt-12 mb-8 text-center text-xs tracking-wider text-gray-400 font-medium uppercase">
+            <div class="relative z-10 mt-10 mb-8 text-center text-xs tracking-wider text-gray-400 font-medium uppercase">
                 &copy; {{ date('Y') }} SNS Events. All rights reserved.
             </div>
         </div>
