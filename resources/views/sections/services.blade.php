@@ -58,11 +58,35 @@
       </div>
       @endif
 
+      <!-- Custom Package Card -->
+      <div
+        class="col-md-6 col-lg-3 mb-4"
+        data-aos="fade-up"
+        data-aos-delay="200"
+        data-aos-duration="600"
+      >
+        <div class="service-card" onclick="window.location.href='{{ route('custom-package') }}'">
+          <div class="service-image">
+            <img
+              src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+              alt="Custom Package"
+            />
+          </div>
+          <div class="service-overlay">
+             <div class="service-content-overlay">
+                <h3>Custom Package</h3>
+                <p>Your vision, our expertise. We create completely custom packages tailored to your unique requirements.</p>
+                <span class="service-link-btn">Build Yours <i class="fas fa-arrow-right"></i></span>
+             </div>
+          </div>
+        </div>
+      </div>
+
       @foreach($eventTypes->where('show_on_home', true)->take(6) as $type)
       <div
         class="col-md-6 col-lg-3 mb-4"
         data-aos="fade-up"
-        data-aos-delay="{{ ($loop->index + 2) * 100 }}"
+        data-aos-delay="{{ ($loop->index + 3) * 100 }}"
         data-aos-duration="600"
       >
         <div class="service-card" onclick="window.location.href='{{ route('services.show', $type->slug) }}'">
