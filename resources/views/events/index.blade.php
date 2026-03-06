@@ -402,7 +402,16 @@
                     'slug' => 'management-session',
                     'price' => null,
                     'url' => route('management-session')
-                ] : null
+                ] : null,
+                [
+                    'name' => 'Custom Package',
+                    'category' => 'Custom',
+                    'description' => 'Your vision, our expertise. We can create a completely custom package tailored to your unique vision and requirements.',
+                    'image' => 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+                    'slug' => 'custom-package',
+                    'price' => null,
+                    'url' => route('custom-package')
+                ]
             ]))->concat($eventTypes->map(function($item) {
                 return [
                     'name' => $item->name,
@@ -415,6 +424,7 @@
                 ];
             }))->toJson() !!},
             originalCategories: {!! collect(array_filter([
+                'Custom',
                 ($counselingSettings->show_on_services_page ?? true) ? ($counselingSettings->card_category ?? 'Counseling') : null,
                 ($managementSessionSettings->show_on_services_page ?? true) ? ($managementSessionSettings->card_category ?? 'Counseling') : null
             ]))->concat($categories)->unique()->sort()->values()->toJson() !!},

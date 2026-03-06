@@ -14,7 +14,56 @@
     </div>
 </section>
 
-<section class="py-5">
+<section class="py-5 bg-light">
+    <div class="container py-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="bg-white rounded-4 shadow-sm overflow-hidden" data-aos="fade-up">
+                    <div class="row g-0">
+                        <div class="col-md-6">
+                            <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Custom Event Decoration" class="img-fluid h-100 object-fit-cover">
+                        </div>
+                        <div class="col-md-6 d-flex align-items-center">
+                            <div class="p-5">
+                                <span class="d-inline-block px-3 py-1 bg-primary text-white rounded-pill small fw-bold mb-3">Custom Experience</span>
+                                <h2 class="font-serif mb-4 pb-2 border-bottom">Why Choose a Custom Package?</h2>
+                                <p class="text-muted mb-4 text-justify">
+                                    Every celebration is unique, and sometimes our pre-defined packages might not encompass everything you have in mind. Whether you're blending multiple cultural traditions, have a specific theme that hasn't been done before, or simply want to pick and choose elements to fit a specific budget—our custom package option is perfect for you.
+                                </p>
+                                
+                                <ul class="list-unstyled mb-0">
+                                    <li class="mb-3 d-flex align-items-start gap-3">
+                                        <div class="text-primary mt-1"><i class="fas fa-palette fs-5"></i></div>
+                                        <div>
+                                            <h5 class="mb-1">Complete Creative Control</h5>
+                                            <p class="text-muted small mb-0">Choose your exact color palettes, floral arrangements, and structural pieces.</p>
+                                        </div>
+                                    </li>
+                                    <li class="mb-3 d-flex align-items-start gap-3">
+                                        <div class="text-primary mt-1"><i class="fas fa-hand-holding-dollar fs-5"></i></div>
+                                        <div>
+                                            <h5 class="mb-1">Flexible Budgeting</h5>
+                                            <p class="text-muted small mb-0">Tell us what you want to spend, and we will maximize the impact without exceeding your limits.</p>
+                                        </div>
+                                    </li>
+                                    <li class="mb-3 d-flex align-items-start gap-3">
+                                        <div class="text-primary mt-1"><i class="fas fa-calendar-check fs-5"></i></div>
+                                        <div>
+                                            <h5 class="mb-1">Personalized Consultation</h5>
+                                            <p class="text-muted small mb-0">Work directly with our lead designers to map out the blueprint of your dream event.</p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5" id="request-form">
     <div class="container py-5">
         <div class="row justify-content-center">
             <div class="col-lg-8">
