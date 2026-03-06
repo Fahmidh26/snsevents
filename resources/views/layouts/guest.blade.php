@@ -23,31 +23,34 @@
         
         <style>
             .brand-color { color: #c9a227; }
+            .brand-color-hover:hover { color: #d4af37; }
             .brand-bg { background-color: #c9a227; }
             .brand-bg:hover { background-color: #d4af37; }
             .brand-border { border-color: #c9a227; }
             .brand-focus:focus { 
                 border-color: #c9a227; 
                 --tw-ring-color: rgba(201, 162, 39, 0.5);
+                box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.2);
+                outline: none;
             }
         </style>
     </head>
     <body class="font-sans antialiased text-gray-900 bg-gray-50" style="font-family: 'Inter', sans-serif;">
-        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 relative overflow-hidden">
+        <div class="min-h-screen flex flex-col sm:justify-center items-center py-10 sm:pt-0 relative overflow-hidden w-full">
             
             <div class="relative z-10 w-full flex flex-col items-center px-4 mt-8 sm:mt-0">
                 <div class="mb-8 text-center">
-                    <a href="/" class="inline-block">
+                    <a href="/" class="inline-block relative">
                         @if(isset($siteSettings) && $siteSettings->logo_path)
                             <img src="{{ Storage::url($siteSettings->logo_path) }}" alt="Logo" class="w-48 sm:w-56 h-auto" />
                         @else
-                            <h1 class="text-4xl md:text-5xl font-bold font-serif brand-color tracking-widest uppercase" style="font-family: 'Playfair Display', serif;">SNS Events</h1>
-                            <p class="mt-2 text-xs text-gray-400 tracking-widest uppercase font-light">Where Dreams Meet Reality</p>
+                            <h1 class="text-4xl md:text-5xl font-bold font-serif brand-color tracking-widest uppercase relative z-10" style="font-family: 'Playfair Display', serif;">SNS Events</h1>
+                            <p class="mt-2 text-xs text-gray-500 tracking-[0.2em] uppercase font-medium relative z-10">Where Dreams Meet Reality</p>
                         @endif
                     </a>
                 </div>
 
-                <div class="w-full sm:max-w-md bg-white border border-gray-200 shadow-lg rounded-xl relative overflow-hidden">
+                <div class="w-full sm:max-w-md bg-white border border-gray-100 shadow-xl rounded-2xl relative overflow-hidden">
                     <!-- Top accent line -->
                     <div class="absolute top-0 left-0 right-0 h-1 brand-bg"></div>
                     
@@ -57,7 +60,7 @@
                 </div>
             </div>
             
-            <div class="relative z-10 mt-10 mb-8 text-center text-xs tracking-wider text-gray-400 font-medium uppercase">
+            <div class="relative z-10 mt-12 mb-4 text-center text-xs tracking-wider text-gray-400 font-medium uppercase">
                 &copy; {{ date('Y') }} SNS Events. All rights reserved.
             </div>
         </div>
