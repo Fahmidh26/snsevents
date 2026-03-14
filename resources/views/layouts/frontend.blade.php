@@ -9,14 +9,14 @@
         <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
     @endif
     <title>@yield('title', ($siteSettings->site_title ?? 'SNS Events') . ' - Premium Event Planning & Decoration in Texas')</title>
+    <!-- Standard Canonical URL -->
+    <link rel="canonical" href="{{ url()->current() }}" />
+    
     @hasSection('meta')
         @yield('meta')
     @else
         <meta name="description" content="Top-rated event decorators and event management services in Dallas, Fort Worth, and all across Texas. Premium planning for weddings, corporate events, and parties." />
         <meta name="keywords" content="event planning, event decoration, texas events, dallas event planners, dfw event management, wedding decorators texas, corporate event planner" />
-        
-        <!-- Standard Canonical URL -->
-        <link rel="canonical" href="{{ url()->current() }}" />
     @endif
 
     <!-- Bootstrap CSS -->

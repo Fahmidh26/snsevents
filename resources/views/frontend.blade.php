@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="google-site-verification" content="_oq2e_Dd4BVweLR0JFMSW_YmAiy3Sr5PFSpBn0QUbpE" />
     <title>{{ $seo->title ?? ($siteSettings->site_title ?? 'Premium Event Planning & Decoration in Texas | SNS Events') }}</title>
-    
-    @section('meta')
     <meta name="description" content="{{ $seo->meta_description ?? ($siteSettings->site_description ?? 'Top-rated event decorators and event management services in Dallas, Fort Worth, and all across Texas. Premium planning for weddings, corporate events, and parties.') }}" />
     <meta name="keywords" content="{{ $seo->meta_keywords ?? 'event management texas, event decoration dallas, dfw event planners, weddings, corporate events' }}" />
     
@@ -21,7 +19,6 @@
     @if(isset($seo->og_image) && $seo->og_image)
         <meta property="og:image" content="{{ $seo->og_image }}" />
     @endif
-    @endsection
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
