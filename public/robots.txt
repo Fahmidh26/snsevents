@@ -1,3 +1,48 @@
 User-agent: *
-Disallow:
-Sitemap: /sitemap.xml
+
+# --- Block admin & auth pages ---
+Disallow: /admin
+Disallow: /admin/
+Disallow: /dashboard
+Disallow: /login
+Disallow: /register
+Disallow: /forgot-password
+Disallow: /reset-password/
+Disallow: /verify-email
+Disallow: /confirm-password
+Disallow: /password/
+Disallow: /profile
+
+# --- Block backend management routes ---
+Disallow: /hero/
+Disallow: /company-profile/
+Disallow: /about-us/edit
+Disallow: /contact-info/
+Disallow: /google/
+
+# --- Block payment & confirmation flows ---
+Disallow: /counseling/payment/
+Disallow: /counseling/confirmation/
+Disallow: /counseling/reschedule/
+Disallow: /counseling/reschedule-requested/
+Disallow: /management-session/payment/
+Disallow: /management-session/confirmation/
+Disallow: /management-session/reschedule/
+Disallow: /management-session/reschedule-requested/
+Disallow: /stripe/
+
+# --- Block API/slot/internal endpoints ---
+Disallow: /counseling/slots
+Disallow: /management-session/slots
+Disallow: /track-booking
+Disallow: /newsletter/
+Disallow: /contact/
+Disallow: /inquire
+
+# --- Block internal Laravel file-serving route ---
+Disallow: /storage/
+
+Allow: /
+
+Sitemap: https://www.sseventsdhw.com/sitemap.xml
+
