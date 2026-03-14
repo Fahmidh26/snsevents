@@ -12,6 +12,9 @@
     <!-- Standard Canonical URL -->
     <link rel="canonical" href="{{ url()->current() }}" />
     
+    <!-- Schema Markup -->
+    @include('layouts.partials.schema')
+    
     @hasSection('meta')
         @yield('meta')
     @else
