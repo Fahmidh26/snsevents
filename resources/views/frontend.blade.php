@@ -4,27 +4,24 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="google-site-verification" content="_oq2e_Dd4BVweLR0JFMSW_YmAiy3Sr5PFSpBn0QUbpE" />
-    <title>{{ $seo->title ?? ($siteSettings->site_title ?? 'SNS Events - Premium Event Planning') }}</title>
-    <meta name="description" content="{{ $seo->meta_description ?? ($siteSettings->site_description ?? 'SNS Events provides premium event planning and decoration services in Texas.') }}" />
-    <meta name="keywords" content="{{ $seo->meta_keywords ?? 'event planning, decorations, texas, weddings, corporate events' }}" />
+    <title>{{ $seo->title ?? ($siteSettings->site_title ?? 'Premium Event Planning & Decoration in Texas | SNS Events') }}</title>
     
-    <!-- Canonical URL -->
-    <link rel="canonical" href="{{ url()->current() }}" />
-
-    <!-- Favicon -->
-    @if($siteSettings->favicon_path)
-    <link rel="icon" type="image/x-icon" href="{{ asset('storage/' . $siteSettings->favicon_path) }}">
-    <link rel="apple-touch-icon" href="{{ asset('storage/' . $siteSettings->favicon_path) }}">
-    @endif
+    @section('meta')
+    <meta name="description" content="{{ $seo->meta_description ?? ($siteSettings->site_description ?? 'Top-rated event decorators and event management services in Dallas, Fort Worth, and all across Texas. Premium planning for weddings, corporate events, and parties.') }}" />
+    <meta name="keywords" content="{{ $seo->meta_keywords ?? 'event management texas, event decoration dallas, dfw event planners, weddings, corporate events' }}" />
+    
+    <!-- Hardcoded Canonical URL to prevent Duplicate variations -->
+    <link rel="canonical" href="https://www.sseventsdfw.com/" />
     
     <!-- Open Graph / Social Media -->
     <meta property="og:title" content="{{ $seo->og_title ?? ($seo->title ?? ($siteSettings->site_title ?? 'SNS Events')) }}" />
     <meta property="og:description" content="{{ $seo->og_description ?? ($seo->meta_description ?? ($siteSettings->site_description ?? 'Premium Event Planning')) }}" />
-    <meta property="og:url" content="{{ url()->current() }}" />
+    <meta property="og:url" content="https://www.sseventsdfw.com/" />
     <meta property="og:type" content="website" />
     @if(isset($seo->og_image) && $seo->og_image)
         <meta property="og:image" content="{{ $seo->og_image }}" />
     @endif
+    @endsection
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">

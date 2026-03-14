@@ -55,7 +55,12 @@ class EventController extends Controller
             }, 'pricingTiers' => function($q) {
                 $q->where('status', true)->orderBy('display_order');
             }])
-            ->firstOrFail();
+            ->first();
+
+        // 301 Redirect for deleted or missing services to resolve 404s
+        if (!$eventType) {
+            return redirect()->route('services.index', [], 301);
+        }
         
         // Prepare SEO data with fallbacks
         $seo = (object) [

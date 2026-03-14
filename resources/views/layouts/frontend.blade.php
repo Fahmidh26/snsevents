@@ -8,8 +8,16 @@
     @else
         <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
     @endif
-    <title>@yield('title', ($siteSettings->site_title ?? 'SNS Events') . ' - Premium Event Planning')</title>
-    @yield('meta')
+    <title>@yield('title', ($siteSettings->site_title ?? 'SNS Events') . ' - Premium Event Planning & Decoration in Texas')</title>
+    @hasSection('meta')
+        @yield('meta')
+    @else
+        <meta name="description" content="Top-rated event decorators and event management services in Dallas, Fort Worth, and all across Texas. Premium planning for weddings, corporate events, and parties." />
+        <meta name="keywords" content="event planning, event decoration, texas events, dallas event planners, dfw event management, wedding decorators texas, corporate event planner" />
+        
+        <!-- Standard Canonical URL -->
+        <link rel="canonical" href="{{ url()->current() }}" />
+    @endif
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
