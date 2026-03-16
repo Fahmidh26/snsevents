@@ -44,5 +44,5 @@ Disallow: /storage/
 
 Allow: /
 
-Sitemap: https://www.sseventsdhw.com/sitemap.xml
+Sitemap: https://www.sseventsdfw.com/sitemap.xml
 

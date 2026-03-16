@@ -3,6 +3,7 @@
 @section('title', $seo->title)
 
 @section('meta')
+    <link rel="canonical" href="{{ route('services.show', $eventType->slug) }}" />
     <meta name="description" content="{{ $seo->meta_description }}" />
     <meta name="keywords" content="{{ $seo->meta_keywords }}" />
     

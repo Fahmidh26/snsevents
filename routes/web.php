@@ -128,6 +128,18 @@ Route::get('/sitemap.xml', [App\Http\Controllers\SitemapController::class, 'inde
 Route::get('/events', function() {
     return redirect('/services', 301);
 });
+
+// Specific direct redirects to prevent redirect chains
+Route::get('/events/anniversary-decoration', function() {
+    return redirect('/services/anniversary', 301);
+});
+Route::get('/events/gender-reveal-decoration', function() {
+    return redirect('/services/baby-shower', 301);
+});
+Route::get('/events/bar-bat-mitzvah-planning', function() {
+    return redirect('/services', 301);
+});
+
 Route::get('/events/{slug}', function($slug) {
     return redirect('/services/' . $slug, 301);
 });
