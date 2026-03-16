@@ -8,8 +8,9 @@
     <meta name="description" content="{{ $seo->meta_description ?? ($siteSettings->site_description ?? 'Top-rated event decorators and event management services in Dallas, Fort Worth, and all across Texas. Premium planning for weddings, corporate events, and parties.') }}" />
     <meta name="keywords" content="{{ $seo->meta_keywords ?? 'event management texas, event decoration dallas, dfw event planners, weddings, corporate events' }}" />
     
-    <!-- Hardcoded Canonical URL to prevent Duplicate variations -->
-    <link rel="canonical" href="https://www.sseventsdfw.com/" />
+    @section('canonical')
+        <link rel="canonical" href="https://www.sseventsdfw.com/" />
+    @endsection
     
     <!-- Open Graph / Social Media -->
     <meta property="og:title" content="{{ $seo->og_title ?? ($seo->title ?? ($siteSettings->site_title ?? 'SNS Events')) }}" />

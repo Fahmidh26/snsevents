@@ -2,8 +2,11 @@
 
 @section('title', $seo->title ?? 'Our Services - SNS Events')
 
-@section('meta')
+@section('canonical')
     <link rel="canonical" href="{{ route('services.index') }}" />
+@endsection
+
+@section('meta')
     <meta name="description" content="{{ $seo->meta_description ?? '' }}" />
     <meta name="keywords" content="{{ $seo->meta_keywords ?? '' }}" />
     @include('layouts.partials.schema')

@@ -9,8 +9,12 @@
         <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
     @endif
     <title>@yield('title', ($siteSettings->site_title ?? 'SNS Events') . ' - Premium Event Planning & Decoration in Texas')</title>
-    <!-- Standard Canonical URL -->
-    <link rel="canonical" href="{{ url()->current() }}" />
+    <!-- Canonical URL -->
+    @hasSection('canonical')
+        @yield('canonical')
+    @else
+        <link rel="canonical" href="{{ url()->current() }}" />
+    @endif
     
     <!-- Schema Markup -->
     @include('layouts.partials.schema')

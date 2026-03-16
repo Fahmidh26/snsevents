@@ -2,8 +2,11 @@
 
 @section('title', $seo->title)
 
-@section('meta')
+@section('canonical')
     <link rel="canonical" href="{{ route('services.show', $eventType->slug) }}" />
+@endsection
+
+@section('meta')
     <meta name="description" content="{{ $seo->meta_description }}" />
     <meta name="keywords" content="{{ $seo->meta_keywords }}" />
     
